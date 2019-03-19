@@ -145,7 +145,7 @@ async def on_message(message):
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/534809208642732040/556867483638956034/a48d378f3ad741c7.png")
         embed.set_author(name='December15#31998')
-        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='직책', value=':construction_worker: 디자인 운영진', inline=True)
         embed.add_field(name='Grace League', value=':second_place: 제 1회 준우승', inline=False)
         await client.send_message(channel, embed=embed)
 
@@ -317,7 +317,7 @@ async def on_message(message):
                               description="﻿:apple: :yum: :weary:",
                               color=0x5c0bb7)
         embed.set_author(name='사과먹고배탈#3128')
-        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>연필":
