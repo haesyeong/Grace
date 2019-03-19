@@ -1,4 +1,5 @@
 import discord
+import os
 import asyncio
 import random
 import openpyxl
@@ -445,4 +446,5 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
+access_token = os.environ["BOT_TOKEN"]
+client.run(access_token)
