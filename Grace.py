@@ -92,6 +92,27 @@ async def on_message(message):
         embed.add_field(name='Grace Arena', value=':trophy: 제 3회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
+    if message.content == ">>디셈버":
+        embed = discord.Embed(title="트위치 바로가기",
+                              url="https://www.twitch.tv/jihee93",
+                              description="셈버지",
+                              color=0x5c0bb7)
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/534809208642732040/556867483638956034/a48d378f3ad741c7.png")
+        embed.set_author(name='December15#31998')
+        embed.add_field(name='직책', value=':construction_worker: 디자인 운영진', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제 23회 우승', inline=True)
+        embed.add_field(name='Grace League', value=':second_place: 제 1회 준우승', inline=False)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>사먹배":
+        embed = discord.Embed(title="한줄소개",
+                              description="﻿:apple: :yum: :weary:",
+                              color=0x5c0bb7)
+        embed.set_author(name='사과먹고배탈#3128')
+        embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
+        await client.send_message(channel, embed=embed)
+
     if message.content == ">>암고":
         embed = discord.Embed(title="한줄소개",
                               description="﻿절.대.트.레.해",
@@ -111,19 +132,6 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/534809208642732040/556877298721095691/8fe2252165136934.png")
         embed.set_author(name='또라에몽#31590')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        await client.send_message(channel, embed=embed)
-
-    if message.content == ">>디셈버":
-        embed = discord.Embed(title="트위치 바로가기",
-                              url="https://www.twitch.tv/jihee93",
-                              description="셈버지",
-                              color=0x5c0bb7)
-        embed.set_thumbnail(
-            url="https://cdn.discordapp.com/attachments/534809208642732040/556867483638956034/a48d378f3ad741c7.png")
-        embed.set_author(name='December15#31998')
-        embed.add_field(name='직책', value=':construction_worker: 디자인 운영진', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제 23회 우승', inline=True)
-        embed.add_field(name='Grace League', value=':second_place: 제 1회 준우승', inline=False)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>새벽사슴밤":
@@ -169,6 +177,7 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/534809208642732040/556867205447417876/549af7a072af24d5.png")
         embed.set_author(name='청프로그#3376')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제 20회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>해마":
@@ -231,7 +240,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='psycholila#3461')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제 23회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제 18,23회 우승', inline=True)
         embed.add_field(name='Grace League', value=':first_place: 제 1회 우승', inline=False)
         await client.send_message(channel, embed=embed)
 
@@ -280,14 +289,6 @@ async def on_message(message):
         embed.add_field(name='Grace Arena', value=':trophy: 제 3,11회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
-    if message.content == ">>사먹배":
-        embed = discord.Embed(title="한줄소개",
-                              description="﻿:apple: :yum: :weary:",
-                              color=0x5c0bb7)
-        embed.set_author(name='사과먹고배탈#3128')
-        embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
-        await client.send_message(channel, embed=embed)
-
     if message.content == ">>연필":
         embed = discord.Embed(title="한줄소개",
                               description="﻿:pencil2:",
@@ -322,6 +323,34 @@ async def on_message(message):
         embed.set_author(name='옷파랑색사고싶어#3306')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제 23회 우승', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>로즈라떼":
+        embed = discord.Embed(title="한줄소개",
+                              description=":smile:",
+                              color=0x5c0bb7)
+        embed.set_author(name='로즈라떼#31235')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제 19회 우승', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>최성규":
+        embed = discord.Embed(title="한줄소개",
+                              description="같이 오-락 하실분 말걸어주세요",
+                              color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/435618100327481345/558749388747571211/85b7294b373fa8845fc157fe10467ef2b0e745e5.jpg")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/534809208642732040/558750740454047762/759d2122b0e684a8.png")
+        embed.set_author(name='최성규#3160')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>체인스":
+        embed = discord.Embed(title="한줄소개",
+                              description="﻿No pain No gain",
+                              color=0x5c0bb7)
+        embed.set_author(name='CHAINS#21427')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제 21회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content.startswith('>>골라'):
@@ -423,5 +452,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
