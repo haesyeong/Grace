@@ -24,7 +24,6 @@ async def on_message(message):
     channel = message.channel
     print('{} / {}: {}'.format(channel, author, content))
 
-
     if message.content == '>>33':
         if message.channel.id == "510732183099670529":
             if message.author.roles[1].name == "외부인":
@@ -37,7 +36,6 @@ async def on_message(message):
 
     if message.content == '>>리그':
         await client.send_message(message.channel, "https://www.twitch.tv/overwatchleague_kr")
-
 
     if message.content == ">>ddd":
         if message.author.id == "294813518191132672":
@@ -60,7 +58,8 @@ async def on_message(message):
         embed.set_image(url="https://i.imgur.com/3mQ8rgC.jpg")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/556750351940714527/556826617595297822/KakaoTalk_20190309_001111270.png")
-        embed.set_author(name='이수영#3438', icon_url="https://cdn.discordapp.com/attachments/556750351940714527/556826617595297822/KakaoTalk_20190309_001111270.png")
+        embed.set_author(name='이수영#3438',
+                         icon_url="https://cdn.discordapp.com/attachments/556750351940714527/556826617595297822/KakaoTalk_20190309_001111270.png")
         embed.add_field(name='직책', value=':pen_ballpoint: 클랜마스터', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제 3,4,15,16,17회 우승', inline=True)
         await client.send_message(channel, embed=embed)
@@ -302,7 +301,8 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="﻿뀨?",
                               color=0x5c0bb7)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/534809208642732040/557208883374981122/riako.png")
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/534809208642732040/557208883374981122/riako.png")
         embed.set_author(name='Riako#31412')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
@@ -311,7 +311,8 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="﻿뀨뀨?",
                               color=0x5c0bb7)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/534809208642732040/557208877264011294/paduck.png")
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/534809208642732040/557208877264011294/paduck.png")
         embed.set_author(name='PADUCK#31473')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
@@ -338,8 +339,10 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="같이 오-락 하실분 말걸어주세요",
                               color=0x5c0bb7)
-        embed.set_image(url="https://cdn.discordapp.com/attachments/435618100327481345/558749388747571211/85b7294b373fa8845fc157fe10467ef2b0e745e5.jpg")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/534809208642732040/558750740454047762/759d2122b0e684a8.png")
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/435618100327481345/558749388747571211/85b7294b373fa8845fc157fe10467ef2b0e745e5.jpg")
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/534809208642732040/558750740454047762/759d2122b0e684a8.png")
         embed.set_author(name='최성규#3160')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
@@ -351,6 +354,16 @@ async def on_message(message):
         embed.set_author(name='CHAINS#21427')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제 21회 우승', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>미라클":
+        embed = discord.Embed(title="한줄소개",
+                              description="﻿게임은 잘 못하지만 즐기면서 하겠습니다",
+                              color=0x5c0bb7)
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/457565770784833546/559020987954495488/unknown.png")
+        embed.set_author(name='MIRACLE#31776')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content.startswith('>>골라'):
@@ -452,5 +465,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
