@@ -375,6 +375,17 @@ async def on_message(message):
         embed.set_author(name='M4ZE#3992')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
+        
+    if message.content == ">>햇콩":
+        embed = discord.Embed(title="트위치 바로가기",
+                              url="https://twitch.tv/haetkong",
+                              description="﻿:sparkles: 슈퍼 뽀짝 탱커 유저 :sparkles:",
+                              color=0x5c0bb7)
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/attachments/558191378467651594/560111949069811713/1.png")
+        embed.set_author(name='햇콩#31539')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
 
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
@@ -475,5 +486,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
