@@ -292,6 +292,8 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="﻿:pencil2:",
                               color=0x5c0bb7)
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/494458119707951114/560686691543678986/Screenshot_2019-03-28-12-59-081.png")
         embed.set_author(name='연필#31408')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제 20,23회 우승', inline=True)
@@ -381,9 +383,29 @@ async def on_message(message):
                               url="https://twitch.tv/haetkong",
                               description="﻿:sparkles: 슈퍼 뽀짝 탱커 유저 :sparkles:",
                               color=0x5c0bb7)
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/558191378467651594/560701404784623619/d77f2d78d9ffe6f3.png")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/558191378467651594/560111949069811713/1.png")
         embed.set_author(name='햇콩#31539')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>룸나인":
+        embed = discord.Embed(title="한줄소개",
+                              description="﻿한줄 소개 할게없내요",
+                              color=0x5c0bb7)
+        embed.set_author(name='room9philps#3151')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>디렉터":
+        embed = discord.Embed(title="한줄소개",
+                              description="﻿안녕하세요 영화하는 디렉터입니다",
+                              color=0x5c0bb7)
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/457565770784833546/560412028984885249/unknown.png")
+        embed.set_author(name='director#3237')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
@@ -486,5 +508,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
