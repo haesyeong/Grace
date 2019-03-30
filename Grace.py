@@ -445,6 +445,14 @@ async def on_message(message):
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
+    if message.content == ">>페이트":
+        embed = discord.Embed(title="한줄소개",
+                              description="안녕하세요 옵치닉은 fate지만 레랜이라고 불러주세요!",
+                              color=0x5c0bb7)
+        embed.set_author(name='fate#12983')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
         choicenumber = random.randint(1, len(choice) - 1)
@@ -544,5 +552,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
