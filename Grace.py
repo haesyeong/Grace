@@ -409,6 +409,42 @@ async def on_message(message):
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
+    if message.content == ">>나박":
+        embed = discord.Embed(title="한줄소개",
+                              description="안녕하세요 흒붕이 Nabak 입니다",
+                              color=0x5c0bb7)
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/457565770784833546/560790141396975626/unknown.png")
+        embed.set_author(name='Nabak#31315')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>능인스멜":
+        embed = discord.Embed(title="한줄소개",
+                              description="탱커유저",
+                              color=0x5c0bb7)
+        embed.set_author(name='능인스멜#3202')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>킹콩다이브":
+        embed = discord.Embed(title="한줄소개",
+                              description="안녕하세요 대학원생 킹콩입니다. 잘부탁드립니다.",
+                              color=0x5c0bb7)
+        embed.set_image(
+            url="https://cdn.discordapp.com/attachments/457565770784833546/560822611580420096/unknown.png")
+        embed.set_author(name='kingkongdive#3277')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>핑개":
+        embed = discord.Embed(title="한줄소개",
+                              description="무조건 다이아 갑니다",
+                              color=0x5c0bb7)
+        embed.set_author(name='PINGGAE#3626')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
         choicenumber = random.randint(1, len(choice) - 1)
@@ -508,5 +544,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
