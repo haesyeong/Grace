@@ -342,7 +342,7 @@ async def on_message(message):
                               description="﻿:sparkles: 슈퍼 뽀짝 탱커 유저 :sparkles:",
                               color=0x5c0bb7)
         embed.set_image(
-            url="https://cdn.discordapp.com/attachments/558191378467651594/560701404784623619/d77f2d78d9ffe6f3.png")
+            url="https://cdn.discordapp.com/attachments/558191378467651594/564500095765184522/asdsasd.png")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/558191378467651594/560111949069811713/1.png")
         embed.set_author(name='햇콩#31539')
@@ -454,6 +454,15 @@ async def on_message(message):
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
+    if message.content == ">>두부":
+        embed = discord.Embed(title="한줄소개",
+                              description="안녕하세요 그레이스 두부입니다",
+                              color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/457565770784833546/563906500314005505/831024038bc673c2.png")
+        embed.set_author(name='DUBU#21590')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
         choicenumber = random.randint(1, len(choice) - 1)
@@ -553,5 +562,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
