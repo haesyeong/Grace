@@ -553,5 +553,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
