@@ -55,7 +55,7 @@ async def on_message(message):
                               url="https://www.youtube.com/channel/UCIjIggOWB1mogLXcGIsRt-g",
                               description="하와와... 와타시엿던것이에요... 엣큥☆:eye: :tongue: :eye:",
                               color=0x5c0bb7)
-        embed.set_image(url="https://i.imgur.com/3mQ8rgC.jpg")
+        embed.set_image(url="https://cdn.discordapp.com/attachments/528180606165712906/567377736247541761/Elmo-elmo-21675732-500-333.png")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/556750351940714527/556826617595297822/KakaoTalk_20190309_001111270.png")
         embed.set_author(name='이수영#3438',
@@ -70,7 +70,7 @@ async def on_message(message):
                               description="﻿안녕하세요 그레이스 공주님 히주공주입니다",
                               color=0x5c0bb7)
         embed.set_thumbnail(
-            url="https://cdn.discordapp.com/attachments/556750351940714527/556806153552789504/b0f5aaba39555b1d.png")
+            url="https://cdn.discordapp.com/attachments/474961920223346699/567374986939990043/2.png")
         embed.set_author(name='히주공주#3872')
         embed.add_field(name='직책', value=':construction_worker: 인사 운영진', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제3회 우승', inline=True)
@@ -213,8 +213,9 @@ async def on_message(message):
 
     if message.content == ">>싸콜":
         embed = discord.Embed(title="한줄소개",
-                              description="놀아줄사람구함",
+                              description="빌리 팬입니다",
                               color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/528180606165712906/567376011759583250/wp2382523-billie-eilish-wallpapers.jpg")
         embed.set_author(name='psycholila#3461')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제18,23회 우승', inline=True)
@@ -562,5 +563,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
