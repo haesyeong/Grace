@@ -218,7 +218,7 @@ async def on_message(message):
         embed.set_image(url="https://cdn.discordapp.com/attachments/528180606165712906/567376011759583250/wp2382523-billie-eilish-wallpapers.jpg")
         embed.set_author(name='psycholila#3461')
         embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제18,23회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제18,23,26회 우승', inline=True)
         embed.add_field(name='Grace League', value=':first_place: 제1회 우승', inline=False)
         await client.send_message(channel, embed=embed)
 
@@ -246,7 +246,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='Kulo#31693')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제23,24회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제23,24,26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>신비":
@@ -306,7 +306,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='CHAINS#21427')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제21,24,25회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제21,24,25,26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>미라클":
@@ -382,7 +382,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='행복#32146')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제25회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제25,26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>학수콩":
@@ -409,6 +409,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='악마#34650')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>두부":
@@ -445,6 +446,25 @@ async def on_message(message):
         embed.set_image(url="https://cdn.discordapp.com/attachments/457565770784833546/567378838091202576/unknown.png")
         embed.set_author(name='MANTION#3488')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>김청하":
+        embed = discord.Embed(title="한줄소개",
+                              description="관종",
+                              color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/534809208642732040/556866375273152537/1d971ab6518df40c.png")
+        embed.set_author(name='김청하#31888')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제17,19,20회 우승', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>뒤통수갈기기":
+        embed = discord.Embed(title="한줄소개",
+                              description="뒤통수 조심해",
+                              color=0x5c0bb7)
+        embed.set_author(name='뒤통수갈기기#3910')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content.startswith('>>골라'):
@@ -546,5 +566,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
