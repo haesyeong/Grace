@@ -263,7 +263,7 @@ async def on_message(message):
                               description="﻿:pencil2:",
                               color=0x5c0bb7)
         embed.set_image(
-            url="https://cdn.discordapp.com/attachments/494458119707951114/560686691543678986/Screenshot_2019-03-28-12-59-081.png")
+            url="https://cdn.discordapp.com/attachments/494458119707951114/570256628298022923/21313.png")
         embed.set_author(name='연필#31408')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제20,23회 우승', inline=True)
@@ -566,5 +566,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
