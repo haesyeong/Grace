@@ -308,16 +308,6 @@ async def on_message(message):
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제21,24,25,26회 우승', inline=True)
         await client.send_message(channel, embed=embed)
-
-    if message.content == ">>미라클":
-        embed = discord.Embed(title="한줄소개",
-                              description="﻿게임은 잘 못하지만 즐기면서 하겠습니다",
-                              color=0x5c0bb7)
-        embed.set_thumbnail(
-            url="https://cdn.discordapp.com/attachments/457565770784833546/559020987954495488/unknown.png")
-        embed.set_author(name='MIRACLE#31776')
-        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        await client.send_message(channel, embed=embed)
         
     if message.content == ">>햇콩":
         embed = discord.Embed(title="트위치 바로가기",
@@ -475,6 +465,15 @@ async def on_message(message):
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
+    if message.content == ">>꽃이피면너에게":
+        embed = discord.Embed(title="한줄소개",
+                              description="그레이스 최고 꽃미녀",
+                              color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/457565770784833546/570978414765408286/unknown.png")
+        embed.set_author(name='꽃이피면너에게#3470')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
         choicenumber = random.randint(1, len(choice) - 1)
@@ -574,5 +573,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
