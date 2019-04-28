@@ -470,6 +470,7 @@ async def on_message(message):
                               description="그레이스 최고 꽃미녀",
                               color=0x5c0bb7)
         embed.set_image(url="https://cdn.discordapp.com/attachments/457565770784833546/570978414765408286/unknown.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/562967466813423616/571754411852955649/image0.jpg")
         embed.set_author(name='꽃이피면너에게#3470')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
@@ -573,5 +574,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
