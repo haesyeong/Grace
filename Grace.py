@@ -130,8 +130,8 @@ async def on_message(message):
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/534809208642732040/556877298721095691/8fe2252165136934.png")
         embed.set_author(name='또라에몽#31590')
-        embed.add_field(name='Grace Arena', value=':trophy: 제28회 우승', inline=True)
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제28회 우승', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content == ">>새벽사슴밤":
@@ -482,8 +482,24 @@ async def on_message(message):
                               description="1:1?",
                               color=0x5c0bb7)
         embed.set_author(name='옷파랑색사고싶어#3306')
-        embed.add_field(name='직책', value=':boy: 찐따', inline=True)
+        embed.add_field(name='직책', value=':gorilla: 찐따', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제23회 우승', inline=True)
+        await client.send_message(channel, embed=embed)
+        
+    if message.content == ">>진땅이":
+        embed = discord.Embed(title="한줄소개",
+                              description="또라에몽 담당 일찐",
+                              color=0x5c0bb7)
+        embed.set_author(name='진땅이#3539')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await client.send_message(channel, embed=embed)
+
+    if message.content == ">>김동률":
+        embed = discord.Embed(title="한줄소개",
+                              description="위도우는 진땅보다 필수",
+                              color=0x5c0bb7)
+        embed.set_author(name='김동률#31585')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await client.send_message(channel, embed=embed)
 
     if message.content.startswith('>>골라'):
@@ -585,5 +601,4 @@ async def on_member_remove(member):
     await client.send_message(channel, fmt.format(member, member.server))
 
 
-access_token = os.environ["BOT_TOKEN"]
-client.run(access_token)
+client.run('NTUyNzEwNjg3NTEyNTkyMzg2.D2DfqA.NyaRH7sNuQIkF5aLBOViVcrLbgI')
