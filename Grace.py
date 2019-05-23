@@ -207,7 +207,7 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/534809208642732040/556879622919421972/a76ec7c1fd38a3c3.png")
         embed.set_author(name='정자팔이소년#3958')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-                embed.add_field(name='Grace Arena', value=':trophy: 제29회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제29회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == ">>민수":
@@ -325,7 +325,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='능인스멜#3202')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-                embed.add_field(name='Grace Arena', value=':trophy: 제29회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제29회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == ">>페이트":
