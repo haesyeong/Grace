@@ -117,23 +117,23 @@ async def on_message_delete(message):
     author = message.author
     content = message.content
     channel = message.channel
-    delchannel = message.server.get_channel("527859699702562828")
+    delchannel = message.guild.get_channel("527859699702562828")
     await client.send_message(delchannel, '{} / {}: {}'.format(channel, author, content))
 
 @client.event
 async def on_member_join(member):
     fmt = '<@332564579148103691>\n{0.mention}님이 {1.name}에 입장하였습니다.'
-    channel = member.server.get_channel("516122942896078868")
-    await client.send_message(channel, fmt.format(member, member.server))
+    channel = member.guild.get_channel("516122942896078868")
+    await client.send_message(channel, fmt.format(member, member.guild))
     #await client.send_message(member, "디스코드 권한 부여 해 드렸고요")
-    role = discord.utils.get(member.server.roles, name='외부인')
+    role = discord.utils.get(member.guild.roles, name='외부인')
     await client.add_roles(member, role)
 
 @client.event
 async def on_member_remove(member):
-    channel = member.server.get_channel("516122942896078868")
+    channel = member.guild.get_channel("516122942896078868")
     fmt = '{0.mention}\n{0.nick}님이 서버에서 나가셨습니다.'
-    await client.send_message(channel, fmt.format(member, member.server))
+    await client.send_message(channel, fmt.format(member, member.guild))
 
 
 access_token = os.environ["BOT_TOKEN"]
