@@ -437,7 +437,7 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="안녕하세요",
                               color=0x5c0bb7)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/572952824099635210/573532952823201812/I33jUJKLmYL7PQo4rUjP4YN6OX40.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/580798796993396736/581079802551730177/55390147_p0.png")
         embed.set_author(name='sano#31836')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
