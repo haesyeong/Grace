@@ -342,7 +342,7 @@ async def 신청반려(message):
 #도움말
 @client.command()
 async def 도움말(ctx):
-    if TESTING and message.channel.id!=channels['내전신청']:
+    if TESTING and ctx.channel.id!=channels['내전신청']:
         return
     embed = discord.Embed(title="Grace bot", description="그레이스 클랜 봇입니다.", color=0xeee657)
     embed.add_field(name="\u200B",value="\u200B",inline=False)
