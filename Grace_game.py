@@ -24,6 +24,7 @@ channels={
     '활동로그':    513694118472450048,
     '메시지_로그': 527859699702562828,
     '출입_로그':   516122942896078868,
+    '테스트':      486550288686120961,
     }
 
 if BETA:
@@ -342,7 +343,7 @@ async def 신청반려(message):
 #도움말
 @client.command()
 async def 도움말(ctx):
-    if TESTING and ctx.channel.id!=channels['내전신청']:
+    if (ALPHA or BETA) and ctx.channel.id!=channels['테스트']:
         return
     embed = discord.Embed(title="Grace bot", description="그레이스 클랜 봇입니다.", color=0xeee657)
     embed.add_field(name="\u200B",value="\u200B",inline=False)
