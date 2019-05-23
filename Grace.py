@@ -443,7 +443,7 @@ async def on_message(message):
         await channel.send(embed=embed)
         
     if message.content == ">>이븐폴":
-        embed = discord.Embed(title="한줄소개",
+        embed = discord.Embed(title="소개영상",
                               url="https://youtu.be/2ibftiGpots",
                               description="즐거워.. 짜릿해..",
                               color=0x5c0bb7)
