@@ -27,9 +27,9 @@ async def on_message(message):
     if message.content == '>>33':
         if message.channel.id == "510732183099670529":
             if message.author.roles[1].name == "외부인":
-                await client.send_message(message.channel, "dd 씀")
+                await channel.send("dd 씀")
             else:
-                await client.send_message(message.channel, "넌 못 씀")
+                await channel.send("넌 못 씀")
 
     if message.content == ">>이수영":
         embed = discord.Embed(title="유튜브 바로가기",
@@ -484,30 +484,30 @@ async def on_message(message):
         await channel.send(embed=embed)
 
     if message.content == '!안녕':
-        await client.send_message(message.channel, "안녕하세요")
+        await channel.send("안녕하세요")
 
     if message.content == '>>리그':
-        await client.send_message(message.channel, "https://www.twitch.tv/overwatchleague_kr")
+        await channel.send("https://www.twitch.tv/overwatchleague_kr")
 
     if message.content.startswith('>>골라'):
         choice = message.content.split(" ")
         choicenumber = random.randint(1, len(choice) - 1)
         choiceresult = choice[choicenumber]
-        await client.send_message(message.channel, "||" + choiceresult + "||")
+        await channel.send("||" + choiceresult + "||")
 
     if message.content.startswith('>>쟁탈추첨'):
         food = "리장 타워/일리오스/오아시스/부산/네팔"
         foodchoice = food.split("/")
         foodnumber = random.randint(1, len(foodchoice))
         foodresult = foodchoice[foodnumber - 1]
-        await client.send_message(message.channel, foodresult)
+        await channel.send(foodresult)
 
     if message.content.startswith('>>배그맵추첨'):
         pubg = "에란겔/미라마/사녹/비켄디"
         pubgchoice = pubg.split("/")
         pubgnumber = random.randint(1, len(pubgchoice))
         pubgresult = pubgchoice[pubgnumber - 1]
-        await client.send_message(message.channel, pubgresult)
+        await channel.send(pubgresult)
 
     if message.content.startswith('!메모장쓰기'):
         file = open("디스코드봇메모장.txt", "w")
@@ -516,7 +516,7 @@ async def on_message(message):
 
     if message.content.startswith('!메모장읽기'):
         file = open("디스코드봇메모장.txt")
-        await client.send_message(message.channel, file.read())
+        await channel.send(file.read())
         file.close()
 
     if message.content.startswith('!학습'):
@@ -527,7 +527,7 @@ async def on_message(message):
             if sheet["A" + str(i)].value == "-" or sheet["A" + str(i)].value == learn[1]:
                 sheet["A" + str(i)].value = learn[1]
                 sheet["B" + str(i)].value = learn[2]
-                await client.send_message(message.channel, "단어가 학습되었습니다.")
+                await channel.send("단어가 학습되었습니다.")
                 break
         file.save("기억.xlsx")
 
@@ -537,7 +537,7 @@ async def on_message(message):
         memory = message.content.split(" ")
         for i in range(1, 51):
             if sheet["A" + str(i)].value == memory[1]:
-                await client.send_message(message.channel, sheet["B" + str(i)].value)
+                await channel.send(sheet["B" + str(i)].value)
                 break
 
     if message.content.startswith('!기억삭제'):
@@ -548,7 +548,7 @@ async def on_message(message):
             if sheet["A" + str(i)].value == str(memory[1]):
                 sheet["A" + str(i)].value = "-"
                 sheet["B" + str(i)].value = "-"
-                await client.send_message(message.channel, "기억이 삭제되었습니다.")
+                await channel.send("기억이 삭제되었습니다.")
                 file.save("기억.xlsx")
                 break
 
@@ -561,7 +561,7 @@ async def on_message(message):
         teamname = team.split(" ")
         random.shuffle(teamname)
         for i in range(0, len(person)):
-            await client.send_message(message.channel, person[i] + "---->" + teamname[i])
+            await channel.send(person[i] + "---->" + teamname[i])
 
 
 @client.event
