@@ -481,7 +481,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='김동률#31585')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-await client.send_message(channel, embed=embed)
+        await client.send_message(channel, embed=embed)
 
     if message.content == '!안녕':
         await client.send_message(message.channel, "안녕하세요")
