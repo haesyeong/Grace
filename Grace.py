@@ -95,7 +95,7 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="관종",
                               color=0x5c0bb7)
-        embed.set_image(url="https://cdn.discordapp.com/attachments/534809208642732040/556866375273152537/1d971ab6518df40c.png")
+        embed.set_image(url="https://cdn.discordapp.com/attachments/528128842800300033/581284183339433995/image0.jpg")
         embed.set_author(name='김청하#31888')
         embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제17,19,20,27,29회 우승', inline=True)
