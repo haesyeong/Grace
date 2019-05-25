@@ -451,6 +451,15 @@ async def on_message(message):
         embed.set_author(name='Evenfall#31117')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
+        
+    if message.content == ">>찌끼":
+        embed = discord.Embed(title="한줄소개",
+                              description="안녕하세요 찌끼입니다!",
+                              color=0x5c0bb7)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/580978251858444288/581710282297180170/5dd855494ca5ddd6.jpg")
+        embed.set_author(name='찌끼#31665')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await channel.send(embed=embed)
 
     if message.content == '!안녕':
         await channel.send("안녕하세요")
