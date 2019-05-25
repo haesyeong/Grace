@@ -157,6 +157,7 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="﻿워누갓 그 자체",
                               color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/539733173802631168/581385188450369537/image0.jpg")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/534809208642732040/556867185742577694/bb42302ca8f12479.png")
         embed.set_author(name='WorNoo#1545')
