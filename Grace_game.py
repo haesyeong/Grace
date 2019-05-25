@@ -223,14 +223,19 @@ async def 목록(message):
         await message.channel.send("신청중인 내전이 없습니다.")
         return
 
-    log="{} 내전 참가자 목록\n\n개최자: {}\n".format(str(current_game.time)[:-3], current_game.opener.nick.split('/')[0])
-    cnt=1
-    for user in current_game.players:
-        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
-        cnt+=1
-    log+='\n\n내전 신청자 총 {}명'.format(cnt-1)
-    await message.channel.send(log)
+    embed=discord.Embed(title="내전 참가자 목록")
+    embed.add_field(name="일시",value=str(current_game.time)[:-3], inline=True)
+    embed.add_field(name="개최자",value=current_game.opener.nick.split('/')[0], inline=False)
 
+    log=""
+    cnt=0
+    for user in current_game.players:
+        cnt+=1
+        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+    log+='\n\n내전 신청자 총 {}명'.format(cnt)
+
+    embed.add_field(name="신청자",value=log)
+    await message.channel.send(embed=embed)
 @client.command()
 async def 추가신청허용(message):
     global current_game
