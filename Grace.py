@@ -460,6 +460,15 @@ async def on_message(message):
         embed.set_author(name='찌끼#31665')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
+        
+    if message.content == ">>체리링":
+        embed = discord.Embed(title="한줄소개",
+                              description="뿌슝빠슝삐슝:dizzy:",
+                              color=0x5c0bb7)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/470291159290478602/582074927952429086/74417057_1_1523204526_w640.png")
+        embed.set_author(name='CherryRing#3574')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await channel.send(embed=embed)
 
     if message.content == '!안녕':
         await channel.send("안녕하세요")
