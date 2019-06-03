@@ -477,8 +477,9 @@ async def on_message(message):
         
     if message.content == ">>멋게잘":
         embed = discord.Embed(title="한줄소개",
-                              description="ㅁㄱㅈㅁㄱㅈ",
+                              description="[난 최고야]",
                               color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/578091772014493696/584985130913890315/1558938194627.jpg")
         embed.set_author(name='멋진데게임도잘해#3830')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제30회 우승', inline=True)
