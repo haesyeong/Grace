@@ -143,7 +143,7 @@ async def on_message(message):
 
     if message.content == ">>또라에몽":
         embed = discord.Embed(title="한줄소개",
-                              description="또라또라",
+                              description="찐땅보단또몽",
                               color=0x5c0bb7)
         embed.set_image(url="https://cdn.discordapp.com/attachments/505406881544667160/556867639046176788/3.jpg")
         embed.set_thumbnail(
@@ -408,7 +408,8 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="오늘 당직은 메르시 입니다",
                               color=0x5c0bb7)
-        embed.set_author(name='메르시#31643')
+        embed.set_image(url="https://cdn.discordapp.com/attachments/568426103706746890/584681245821239296/1558416851170.jpg")
+        embed.set_author(name='mercy#16558')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
 
@@ -468,6 +469,7 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="뿌슝빠슝삐슝:dizzy:",
                               color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/577470460166668325/584782400563970049/image0.jpg")
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/470291159290478602/582074927952429086/74417057_1_1523204526_w640.png")
         embed.set_author(name='CherryRing#3574')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
@@ -493,19 +495,22 @@ async def on_message(message):
         
     if message.content == ">>감자탕":
         embed = discord.Embed(title="한줄소개",
-                              description="감제홍:triumph:",
+                              description="감자탕은 역시 참이맛 감자탕",
                               color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/540500524034818098/584782222926675970/1c7d09c0706730fe.jpg")
         embed.set_author(name='감자탕#31292')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         embed.add_field(name='Grace Arena', value=':trophy: 제22,30회 우승', inline=True)
         await channel.send(embed=embed)
         
-    if message.content == ">>국정원":
-        embed = discord.Embed(title="한줄소개",
+    if message.content == ">>배찌":
+        embed = discord.Embed(title="트위치 바로가기",
+                              url="https://www.twitch.tv/ctu_bazzi",
                               description="¡La oscuridad te espera!",
                               color=0x5c0bb7)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/583448362662101009/583980966545063947/-1.png")
-        embed.set_author(name='국정원#31364')
+        embed.set_image(url="https://cdn.discordapp.com/attachments/582583534338703395/584981822601953307/unknown.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/582583534338703395/584977054664097792/image0.jpg")
+        embed.set_author(name='Bazzi#11793')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
         
@@ -515,6 +520,16 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_image(url="https://cdn.discordapp.com/attachments/470291159290478602/584613297744117761/MG_1143_copy.png")
         embed.set_author(name='야옹#31806')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await channel.send(embed=embed)
+        
+    if message.content == ">>타보타":
+        embed = discord.Embed(title="트위치 바로가기",
+                              url="http://www.twitch.tv/taromasta",
+                              description="타보타보타",
+                              color=0x5c0bb7)
+        embed.set_image(url="https://cdn.discordapp.com/attachments/561224397386547211/584680686334771200/unknown.png")
+        embed.set_author(name='타로보는타마#3543')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
 
