@@ -506,7 +506,7 @@ async def on_message(message):
     if message.content == ">>배찌":
         embed = discord.Embed(title="트위치 바로가기",
                               url="https://www.twitch.tv/ctu_bazzi",
-                              description="¡La oscuridad te espera!",
+                              description="프본",
                               color=0x5c0bb7)
         embed.set_image(url="https://cdn.discordapp.com/attachments/582583534338703395/584981822601953307/unknown.png")
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/582583534338703395/584977054664097792/image0.jpg")
