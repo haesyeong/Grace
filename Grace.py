@@ -554,7 +554,7 @@ async def on_message(message):
 @client.event
 async def on_message_delete(message):
     author = message.author
-    content = message.content
+    content = message.clean_content
     channel = message.channel
     delchannel = message.guild.get_channel(527859699702562828)
     await delchannel.send('{} / {}: {}'.format(channel, author, content))
