@@ -98,7 +98,7 @@ async def on_message(message):
         embed.set_image(url="https://cdn.discordapp.com/attachments/528128842800300033/581284183339433995/image0.jpg")
         embed.set_author(name='김청하#31888')
         embed.add_field(name='직책', value=':construction_worker: 내전/스크림 운영진', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제17,19,20,27,29회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제17,19,20,27,29,32회 우승', inline=True)
         await channel.send(embed=embed)
         
     if message.content == ">>화이트피피":
@@ -195,7 +195,7 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/534809208642732040/556878683852505088/cajang.png")
         embed.set_author(name='CaJang#3497')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제13,20,25회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제13,20,25,32회 우승', inline=True)
         embed.add_field(name='Grace League', value=':second_place: 제1회 준우승', inline=False)
         await channel.send(embed=embed)
 
@@ -208,7 +208,7 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/534809208642732040/556879622919421972/a76ec7c1fd38a3c3.png")
         embed.set_author(name='정자팔이소년#3958')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제29,30회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제29,30,32회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == ">>민수":
@@ -401,7 +401,7 @@ async def on_message(message):
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/562967466813423616/571754411852955649/image0.jpg")
         embed.set_author(name='꽃이피면너에게#3470')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제27,29,30,31회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제27,29,30,31,32회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == ">>메르시":
@@ -429,7 +429,7 @@ async def on_message(message):
                               color=0x5c0bb7)
         embed.set_author(name='진땅이#3539')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제31회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제31,32회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == ">>김동률":
@@ -475,7 +475,7 @@ async def on_message(message):
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/470291159290478602/582074927952429086/74417057_1_1523204526_w640.png")
         embed.set_author(name='CherryRing#3574')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
-        embed.add_field(name='Grace Arena', value=':trophy: 제31회 우승', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제31,32회 우승', inline=True)
         await channel.send(embed=embed)
         
     if message.content == ">>멋게잘":
