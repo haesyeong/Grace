@@ -122,7 +122,7 @@ async def on_message(message):
         embed = discord.Embed(title="한줄소개",
                               description="﻿:apple: :yum: :weary:",
                               color=0x5c0bb7)
-        embed.set_author(name='사과먹고배탈#3128')
+        embed.set_author(name='사과먹고배탈#3771')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
         await channel.send(embed=embed)
 
@@ -535,6 +535,25 @@ async def on_message(message):
         embed.set_image(url="https://cdn.discordapp.com/attachments/561224397386547211/584680686334771200/unknown.png")
         embed.set_author(name='타로보는타마#3543')
         embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        await channel.send(embed=embed)
+        
+    if message.content == ">>옷파":
+        embed = discord.Embed(title="유튜브 바로가기",
+                              url="https://www.youtube.com/user/hi000523",
+                              description=":shirt: :jeans:",
+                              color=0x5c0bb7)
+        embed.set_author(name='옷파랑색사고싶어#3306')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제23회 우승', inline=True)
+        await channel.send(embed=embed)
+        
+    if message.content == ">>순수한사랑":
+        embed = discord.Embed(title="한줄소개",
+                              description="미친변태새끼",
+                              color=0x5c0bb7)
+        embed.set_author(name='순수한사랑#31979')
+        embed.add_field(name='직책', value=':boy: 클랜원', inline=True)
+        embed.add_field(name='Grace Arena', value=':trophy: 제22회 우승', inline=True)
         await channel.send(embed=embed)
 
     if message.content == '!안녕':
