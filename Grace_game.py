@@ -60,6 +60,36 @@ async def 쟁탈추첨(message):
     await message.channel.send(random.choice(maps))
 
 ############################################################
+#그룹찾기 - 빠른대전
+@client.command()
+async def 빠대(message):
+    if TESTING and message.channel.id!=channels['그룹찾기']: return
+    member=author(message)
+    role=member.guild.get_role(roles['빠대'])
+    if not has_role(member, '빠대'):
+        await member.add_roles(role)
+        await message.channel.send('{} 빠대 역할이 부여되었습니다.'.format(member.mention))
+    else:
+        await member.remove_roles(role)
+        await message.channel.send('{} 빠대 역할이 제거되었습니다.'.format(member.mention))
+
+@client.command()
+async def 빠대목록(message):
+    if TESTING and message.channel.id!=channels['그룹찾기']: return
+    member=author(message)
+    role=member.guild.get_role(roles['빠대'])
+    waiting=role.members
+
+    embed=discord.Embed(title="빠대 대기자 목록")
+
+    log=""
+    for user in waiting:
+        log+='\n{}'.format(user.nick.split('/')[0])
+
+    embed.add_field(name="대기자",value=log[1:])
+    await message.channel.send(embed=embed)
+
+############################################################
 #내전 커맨드
 class Internal():
     def __init__(self,opener,time):
