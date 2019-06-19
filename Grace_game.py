@@ -25,10 +25,12 @@ channels={
     '메시지_로그': 527859699702562828,
     '출입_로그':   516122942896078868,
     '테스트':      486550288686120961,
+    '그룹찾기':    420843334614122516,
     }
 
 roles={
     '외부인':      510731224654938112,
+    '빠대':        527842187862605834,
 }
 
 if BETA:
@@ -418,6 +420,11 @@ async def 도움말(ctx):
         embed.add_field(name="!목록\n",value="선착순으로, 신청자 목록을 확인합니다.\n",inline=False)
         embed.add_field(name="!신청\n",value="본인이 개최된 내전에 신청합니다.\n",inline=False)
         embed.add_field(name="!취소\n",value="본인의 내전 신청을 취소합니다.\n",inline=False)
+    if ctx.channel.id==channels['그룹찾기']:
+        embed.add_field(name="\u200B",value="\u200B",inline=False)
+        embed.add_field(name="그룹찾기",value="\u200B",inline=False)
+        embed.add_field(name="!빠대\n",value="빠대 역할이 없다면 역할을 부여하고, 있다면 제거합니다. '@빠대'로 멘션이 가능합니다.\n",inline=False)
+        embed.add_field(name="!빠대목록\n",value="빠대 역할을 부여받은 모든 사람의 목록을 순서에 상관 없이 출력합니다.\n",inline=False)
     await ctx.send(embed=embed)
 
 
