@@ -44,6 +44,9 @@ if ALPHA:
 def is_moderator(member):
     return "운영진" in map(lambda x:x.name, member.roles)
 
+def has_role(member, role):
+    return role in map(lambda x:x.name, member.roles)
+
 ############################################################
 #일반 커맨드
 @client.command()
