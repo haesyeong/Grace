@@ -40,6 +40,8 @@ async def on_message(message):
             spreadsheet.find(author)
         except gspread.exceptions.CellNotFound:
             return
+        except gspread.exceptions.APIError:
+            return
         cell = spreadsheet.find(author)
         row = cell.row
 
