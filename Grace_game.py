@@ -443,37 +443,10 @@ async def 도움말(ctx):
 #자동 기록(이벤트)
 @client.event
 async def on_ready():
-    print("login")
+    print("login: Grace Game")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
-    await client.change_presence(activity=discord.Game(name='!', type=1))
-
-@client.event
-async def on_message_delete(message):
-    if TESTING: return
-    author = message.author
-    content = message.content
-    channel = message.channel
-    delchannel = message.guild.get_channel(channels['메시지_로그'])
-    await delchannel.send('{} / {}: {}'.format(channel, author, content))
-
-@client.event
-async def on_member_join(member):
-    if TESTING: return
-    fmt = '<@332564579148103691>\n{0.mention}님이 {1.name}에 입장하였습니다.'
-    channel = member.guild.get_channel(channels['출입_로그'])
-    role = member.guild.get_role(roles['외부인'])
-    await member.add_roles(role)
-    await channel.send(fmt.format(member, member.guild))
-
-@client.event
-async def on_member_remove(member):
-    if TESTING: return
-    channel = member.guild.get_channel(channels['출입_로그'])
-    fmt = '{0.mention}\n{0.nick}님이 서버에서 나가셨습니다.'
-    await channel.send(fmt.format(member, member.guild))
-
 
 ############################################################
 #실행
