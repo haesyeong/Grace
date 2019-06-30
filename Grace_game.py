@@ -26,6 +26,7 @@ channels={
     '출입_로그':   516122942896078868,
     '테스트':      486550288686120961,
     '그룹찾기':    420843334614122516,
+    '카지노':      594927387158904842,
     }
 
 roles={
@@ -401,9 +402,10 @@ async def 신청반려(message):
 
 ############################################################
 #도움말
+invalid_channels=(channels['테스트'],channels['카지노'])
 @client.command()
 async def 도움말(ctx):
-    if (ALPHA or BETA) and ctx.channel.id!=channels['테스트']:
+    if (ALPHA or BETA) and ctx.channel.id not in invalid_channels:
         return
     embed = discord.Embed(title="Grace bot", description="그레이스 클랜 봇입니다.", color=0xeee657)
     embed.add_field(name="\u200B",value="\u200B",inline=False)
