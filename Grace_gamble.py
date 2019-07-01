@@ -160,6 +160,10 @@ async def 동전(message):
         return
     
     bet=int(bet)
+    if bet==0:
+        await message.channel.send("{} 베팅 금액은 양수여야 합니다.".format(user.mention))
+        return
+    
     money=await get_money(ws,user)
     if bet>money:
         await message.channel.send("{} 베팅 금액은 소지 금액을 넘어설 수 없습니다. 현재 소지 금액: {}".format(user.mention, money))
