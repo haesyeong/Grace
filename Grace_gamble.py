@@ -88,7 +88,7 @@ def update_money(money, user=None, mention=None, checkin=False):
 
 @client.event
 async def on_ready():
-    print("login: Grace Gamble Beta")
+    print("login: Grace Gamble")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
