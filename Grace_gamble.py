@@ -10,7 +10,7 @@ import openpyxl
 import datetime
 from time import sleep
 
-daily=200
+daily=2000
 
 gamble_channel=594927387158904842
 ws_name='Main'
