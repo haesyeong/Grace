@@ -156,16 +156,16 @@ async def 동전(message):
         return
     
     if not bet.isnumeric():
-        await message.channel.send("{} 베팅 금액은 정수여야 합니다.".format(user.mention))
+        await message.channel.send("{} 베팅 금액은 자연수여야 합니다.".format(user.mention))
         return
     
     bet=int(bet)
     if bet==0:
-        await message.channel.send("{} 베팅 금액은 양수여야 합니다.".format(user.mention))
+        await message.channel.send("{} 베팅 금액은 자연수여야 합니다.".format(user.mention))
         return
     
     money=await get_money(ws,user)
-    if bet>money:
+    if (bet,money)!=(1,0) and bet>money:
         await message.channel.send("{} 베팅 금액은 소지 금액을 넘어설 수 없습니다. 현재 소지 금액: {}".format(user.mention, money))
         return
 
@@ -179,6 +179,8 @@ async def 동전(message):
         money+=bet
     else:
         msg+=':x: 실패...\n'
+        if money==0:
+            money=1
         money-=bet
 
     await update_money(ws,money, user)
