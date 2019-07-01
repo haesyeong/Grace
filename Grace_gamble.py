@@ -50,8 +50,10 @@ async def get_spreadsheet():
 async def get_row(ws,user=None,mention=None):
     if user!=None:
         mention=user.mention
-    if not (mention.startswith('<@!') and mention.endswith('>')):
+    if not (mention.startswith('<@') and mention.endswith('>')):
         return -1
+    if mention[2]!='!':
+        mention=mention[:2]+'!'+mention[2:]
     try: 
         return ws.find(mention).row
     except gspread.exceptions.CellNotFound:
@@ -133,7 +135,8 @@ async def 송금(message):
         await message.channel.send("{} 송금 금액은 소지 금액을 넘어설 수 없습니다. 현재 소지 금액: {}".format(sender.mention, money))
         return
 
-    if not (rcv.startswith('<@!') and rcv.endswith('>') and rcv[3:-1].isnumeric() and grace.get_member(int(rcv[3:-1]))!=None):
+    if not ((rcv.startswith('<@!') and rcv.endswith('>') and rcv[3:-1].isnumeric() and grace.get_member(int(rcv[3:-1]))!=None) or
+            (rcv.startswith('<@') and rcv.endswith('>') and rcv[2:-1].isnumeric() and grace.get_member(int(rcv[2:-1]))!=None)):
         await message.channel.send("{} 멘션이 잘못되었습니다.".format(sender.mention))
         return
 
@@ -238,10 +241,10 @@ async def 랭킹(message):
 async def 도움말(message):
     if message.channel.id!=gamble_channel: return
     embed = discord.Embed(title="Grace gamble bot", description="그레이스 클랜 도박 봇입니다.", color=0xeee657)
-    embed.add_field(name=">출석\n",value="200G를 받습니다. 24시간에 한 번만 사용할 수 있습니다.\n",inline=False)
+    embed.add_field(name=">출석\n",value="2000G를 받습니다. 24시간에 한 번만 사용할 수 있습니다.\n",inline=False)
     embed.add_field(name=">확인\n",value="자신의 소지 G를 확인합니다.\n",inline=False)
     embed.add_field(name=">송금 (멘션) (금액)\n",value="멘션한 사람에게 언급된 금액을 송금합니다.\n",inline=False)
-    embed.add_field(name=">동전 [앞/뒤] (금액)\n",value="G를 걸고, 동전을 던집니다. 맞추면 두 배로 돌려받고, 틀리면 돌려받지 못합니다.\n",inline=False)
+    embed.add_field(name=">동전 [앞/뒤] (금액)\n",value="G를 걸고, 동전을 던집니다. 맞추면 두 배로 돌려받고, 틀리면 돌려받지 못합니다.\n0G를 소지중이라면 1G를 걸어 성공시 1G를 받을 수 있습니다.",inline=False)
     embed.add_field(name=">순위\n",value="자신의 순위와 동순위인 사람 수를 알려줍니다.\n",inline=False)
     embed.add_field(name=">랭킹 {순위}\n",value="순위까지의 랭킹을 표시합니다. {순위}값을 주지 않거나 숫자가 아니라면 10위까지 표시합니다.\n",inline=False)
     embed.add_field(name="버그바운티\n",value="유의미한 버그를 제보주신 분들께는 인게임에서 사용하실 수 있는 G를 버그 수준에 따라 드립니다.\n",inline=False)
