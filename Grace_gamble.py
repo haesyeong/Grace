@@ -220,7 +220,7 @@ async def 랭킹(message):
                 par_cnt+=1
             else:
                 cnt+=par_cnt
-                if cnt>maxrank:
+                if cnt>maxrank or int(d[1])==0:
                     break
                 par_cnt=1
                 prev_money=int(d[1])
@@ -266,7 +266,7 @@ async def periodic_ranking():
                     par_cnt+=1
                 else:
                     cnt+=par_cnt
-                    if cnt>maxrank:
+                    if cnt>maxrank or int(d[1])==0:
                         break
                     par_cnt=0
                     prev_money=int(d[1])
