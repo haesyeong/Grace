@@ -13,7 +13,7 @@ from time import sleep
 daily=200
 
 gamble_channel=594927387158904842
-ws_name='Grace Casnio'
+ws_name='Main'
 
 content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
