@@ -15,7 +15,7 @@ ws_name='Grace2'
 
 @client.event
 async def on_ready():
-    print("login: Grace Main Beta")
+    print("login")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
@@ -76,7 +76,7 @@ async def on_message(message):
             embed = discord.Embed(title=":fire: 운영진 목록\n", description=log, color=0x5c0bb7)
             await channel.send(embed=embed)
             return
-
+        
         try:
             spreadsheet.find(author)
         except gspread.exceptions.CellNotFound:
@@ -98,7 +98,7 @@ async def on_message(message):
 
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
-        elif "운영진" in role:
+        elif role == "운영진":
             roleimage = ":construction_worker:"
         elif role == "클랜원":
             roleimage = ":boy:"
