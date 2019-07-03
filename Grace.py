@@ -99,6 +99,8 @@ async def on_message(message):
 
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
+        elif "운영진" in role:
+            roleimage = ""
         elif role == "클랜원":
             roleimage = ":boy:"
         elif role == "신입클랜원":
