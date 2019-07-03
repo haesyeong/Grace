@@ -49,9 +49,6 @@ async def on_message(message):
         author = author.split(">>")
         author = author[1]
 
-        creds = ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
-        auth = gspread.authorize(creds)
-
         spreadsheet = await get_spreadsheet()
         roles = spreadsheet.col_values(6)
         cnt = 1
