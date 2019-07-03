@@ -15,7 +15,7 @@ ws_name = 'Grace2'
 
 @client.event
 async def on_ready():
-    print("login: Grace Main")
+    print("login: Grace Main Beta")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
@@ -97,12 +97,8 @@ async def on_message(message):
         league_first = spreadsheet.cell(row, 10).value
         league_second = spreadsheet.cell(row, 11).value
 
-        print("============="+role)
-
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
-        elif "운영진" in role:
-            roleimage = ":construction_worker:"
         elif role == "클랜원":
             roleimage = ":boy:"
         elif role == "신입클랜원":
