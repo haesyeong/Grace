@@ -207,6 +207,9 @@ class Internal():
         rows=ws.row_count
         for _ in range(4,rows+1):
             ws.delete_row(4)
+        ws.update_cell(1,1,'')
+        ws.update_cell(2,1,'')
+        ws.update_cell(3,1,'')
 
 current_game=None
 
