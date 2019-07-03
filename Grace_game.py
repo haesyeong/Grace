@@ -1,16 +1,19 @@
 import discord
 from discord.ext.commands import Bot
 import random
-from datetime import datetime, timedelta
+import datetime
 import os
+import json
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import asyncio
 
-client=Bot(command_prefix=('!',))
+client=Bot(command_prefix=('~',))
 
 content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
 channel=lambda ctx:ctx.message.channel.id
-current_time=lambda:datetime.utcnow()+timedelta(hours=9)
-
+current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 ALPHA=False
 ALPHA_TESTLAB=463694274190376981
 
@@ -109,7 +112,7 @@ async def get_worksheet():
 
     sheet=auth.open_by_url(addr)
     try:
-        worksheet=sheet.worksheet('players')
+        worksheet=sheet.worksheet('temp')
     except gspread.exceptions.APIError:
         for gamble_channel in gamble_channels:
             await client.get_channel(gamble_channel).send("API 호출 횟수에 제한이 걸렸습니다. 잠시후 다시 시도해주세요.")
@@ -148,7 +151,6 @@ class Internal():
             return True
         except:
             return False
-
 
     async def get_opener(self):
         ws=await get_worksheet()
