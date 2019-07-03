@@ -44,7 +44,7 @@ async def on_message(message):
     
     if message.content.startswith(">>"):
         author = message.content
-        author = author.split(">>")
+        author = author.split(">>>")
         author = author[1]
         
         spreadsheet=await get_spreadsheet()
