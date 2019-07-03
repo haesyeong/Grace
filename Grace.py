@@ -30,7 +30,7 @@ async def on_message(message):
 
     if message.content.startswith(">>"):
         author = message.content
-        author = author.split(">>")
+        author = author.split(">>>")
         author = author[1]
 
         creds = ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
