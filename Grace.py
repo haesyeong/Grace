@@ -204,6 +204,7 @@ async def on_message(message):
         for i in range(0, len(person)):
             await channel.send(person[i] + "---->" + teamname[i])
 
+
 @client.event
 async def on_message_delete(message):
     author = message.author
@@ -212,6 +213,7 @@ async def on_message_delete(message):
     delchannel = message.guild.get_channel(527859699702562828)
     await delchannel.send('{} / {}: {}'.format(channel, author, content))
 
+
 @client.event
 async def on_member_join(member):
     fmt = '<@332564579148103691>\n{0.mention}님이 {1.name}에 입장하였습니다.'
@@ -219,6 +221,7 @@ async def on_member_join(member):
     role = member.guild.get_role(510731224654938112)
     await member.add_roles(role)
     await channel.send(fmt.format(member, member.guild))
+
 
 @client.event
 async def on_member_remove(member):
