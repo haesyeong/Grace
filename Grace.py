@@ -76,8 +76,6 @@ async def on_message(message):
             await channel.send(embed=embed)
             return
 
-        spreadsheet = auth.open("Grace2").sheet1
-
         try:
             spreadsheet.find(author)
         except gspread.exceptions.CellNotFound:
