@@ -8,7 +8,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
-client=Bot(command_prefix=('~',))
+client=Bot(command_prefix=('!',))
 
 content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
