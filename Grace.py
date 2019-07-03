@@ -42,7 +42,6 @@ async def on_message(message):
     content = message.content
     channel = message.channel
 
-    if channel.id != 486550288686120961: return
 
     print('{} / {}: {}'.format(channel, author, content))
 
@@ -53,7 +52,6 @@ async def on_message(message):
 
         spreadsheet = await get_spreadsheet()
         roles = spreadsheet.col_values(6)
-        battletags = spreadsheet.col_values(2)
         cnt = 1
         clanmaster = ":pen_ballpoint: 클랜마스터\n"
         peoplemanager = ":construction_worker: 인사 운영진\n"
@@ -115,7 +113,7 @@ async def on_message(message):
         embed.set_image(url=imagelink)
         embed.set_thumbnail(url=thumbnaillink)
         embed.set_author(name=battletag)
-        embed.add_field(name="직책", value=role, inline=True)
+        embed.add_field(name="직책", value=roleimage + role, inline=True)
         embed.add_field(name="Grace Arena", value=":trophy: 제 " + arena + "회 우승", inline=True)
         embed.add_field(name="Grace League", value=":first_place: 제 " + league_first + "회 우승, :second_place:제 " +
                                                    league_second + "회 준우승", inline=True)
