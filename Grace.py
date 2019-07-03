@@ -7,7 +7,6 @@ import os
 import random
 import openpyxl
 
-
 client = discord.Client()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
@@ -21,6 +20,7 @@ async def on_ready():
     print(client.user.id)
     print("---------------")
     await client.change_presence(activity=discord.Game(name='>>', type=1))
+
 
 async def get_spreadsheet():
     creds = ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
