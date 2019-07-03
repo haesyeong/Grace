@@ -84,7 +84,7 @@ async def redeemable(ws, user=None, mention=None):
     ct=ws.cell(row,3).value
     if ct:
         time=eval(ct)
-        return current_time()-time>=datetime.timedelta(days=1)
+        return current_time()-time>=datetime.timedelta(days=1, minutes=-5)
     else:
         return True
 
@@ -243,7 +243,7 @@ async def 랭킹(message):
 async def 도움말(message):
     if message.channel.id not in gamble_channels: return
     embed = discord.Embed(title="Grace gamble bot", description="그레이스 클랜 도박 봇입니다.", color=0xeee657)
-    embed.add_field(name=">출석\n",value="2000G를 받습니다. 24시간에 한 번만 사용할 수 있습니다.\n",inline=False)
+    embed.add_field(name=">출석\n",value="2000G를 받습니다. 23시간 55분에 한 번만 사용할 수 있습니다.\n",inline=False)
     embed.add_field(name=">확인\n",value="자신의 소지 G를 확인합니다.\n",inline=False)
     embed.add_field(name=">송금 (멘션) (금액)\n",value="멘션한 사람에게 언급된 금액을 송금합니다.\n",inline=False)
     embed.add_field(name=">동전 [앞/뒤] (금액)\n",value="G를 걸고, 동전을 던집니다. 맞추면 두 배로 돌려받고, 틀리면 돌려받지 못합니다.\n0G를 소지중이라면 1G를 걸어 성공시 1G를 받을 수 있습니다.",inline=False)
@@ -266,7 +266,8 @@ async def periodic_ranking():
         data.sort(key=lambda x:int(x[1]), reverse=True)
 
         maxrank=10
-        log="현재 랭킹"
+        c=current_time()
+        log="{}년 {}월 {}일 일일 랭킹".format(c.year, c.month, c.day)
         cnt=0
         par_cnt=1
         prev_money=-1
