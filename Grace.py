@@ -40,8 +40,6 @@ async def on_message(message):
     content = message.content
     channel = message.channel
 
-    if channel.id != 486550288686120961: return
-
     print('{} / {}: {}'.format(channel, author, content))
     
     if message.content.startswith(">>"):
@@ -76,7 +74,7 @@ async def on_message(message):
             embed = discord.Embed(title=":fire: 운영진 목록\n", description=log, color=0x5c0bb7)
             await channel.send(embed=embed)
             return
-        
+
         try:
             spreadsheet.find(author)
         except gspread.exceptions.CellNotFound:
