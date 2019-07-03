@@ -53,6 +53,7 @@ async def on_message(message):
 
         spreadsheet = await get_spreadsheet()
         roles = spreadsheet.col_values(6)
+        battletags = spreadsheet.col_values(2)
         cnt = 1
         clanmaster = ":pen_ballpoint: 클랜마스터\n"
         peoplemanager = ":construction_worker: 인사 운영진\n"
@@ -87,7 +88,6 @@ async def on_message(message):
         cell = spreadsheet.find(author)
         row = cell.row
 
-        roleimage=""
         battletag = spreadsheet.cell(row, 2).value
         link = spreadsheet.cell(row, 4).value
         description = spreadsheet.cell(row, 5).value
@@ -100,12 +100,12 @@ async def on_message(message):
 
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
+        elif "운영진" in role:
+            roleimage = ":construction_worker:"
         elif role == "클랜원":
             roleimage = ":boy:"
         elif role == "신입클랜원":
             roleimage = ""
-        else:
-            roleimage = ":construction_worker:"
 
         if link is "X":
             embed = discord.Embed(title="한줄소개", description=description, color=0x5c0bb7)
@@ -115,10 +115,10 @@ async def on_message(message):
         embed.set_image(url=imagelink)
         embed.set_thumbnail(url=thumbnaillink)
         embed.set_author(name=battletag)
-        embed.add_field(name="직책", value=roleimage+role, inline=True)
-        embed.add_field(name="Grace Arena", value=":trophy: 제 "+arena + "회 우승", inline=True)
-        embed.add_field(name="Grace League", value=":first_place: 제 "+league_first + "회 우승, :second_place:제 " +
-                                                   league_second+"회 준우승", inline=True)
+        embed.add_field(name="직책", value=roleimage + role, inline=True)
+        embed.add_field(name="Grace Arena", value=":trophy: 제 " + arena + "회 우승", inline=True)
+        embed.add_field(name="Grace League", value=":first_place: 제 " + league_first + "회 우승, :second_place:제 " +
+                                                   league_second + "회 준우승", inline=True)
 
         await channel.send(embed=embed)
 
