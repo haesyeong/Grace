@@ -99,12 +99,12 @@ async def on_message(message):
 
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
-        elif "운영진" in role:
-            roleimage = ""
         elif role == "클랜원":
             roleimage = ":boy:"
         elif role == "신입클랜원":
             roleimage = ""
+        else:
+            roleimage = ":construction_worker:"
 
         if link is "X":
             embed = discord.Embed(title="한줄소개", description=description, color=0x5c0bb7)
