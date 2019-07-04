@@ -76,18 +76,20 @@ async def get_money(ws,user=None,mention=None):
     return int(ws.cell(row,2).value)
 
 async def redeemable(ws, user=None, mention=None):
+    checkin_timedelta=datetime.timedelta(days=1, minutes=-5)
     if user!=None:
         row=await get_row(ws,user)
     else:
         row=await get_row(ws,mention=mention)
     if row==-1:
-        return False
+        return False, checkin_timedelta
     ct=ws.cell(row,3).value
     if ct:
         time=eval(ct)
-        return current_time()-time>=datetime.timedelta(days=1, minutes=-5)
+        td=current_time()-time
+        return td>=checkin_timedelta, checkin_timedelta-td
     else:
-        return True
+        return True, datetime.timedelta()
 
 async def update_money(ws, money, user=None, mention=None, checkin=False):
     if user!=None:
@@ -134,12 +136,13 @@ async def 출석(message):
         await message.channel.send("진정하시라고요.")
         return
     user=author(message)
-    if await redeemable(ws,user):
+    redeem, time_remain=await redeemable(ws,user)
+    if redeem:
         money=await get_money(ws,user)
         if await update_money(ws,money+daily, user, checkin=True):
             await message.channel.send("{}\n출석체크 완료!\n현재 잔고:{}G".format(user.mention, money+daily))
             return
-    await message.channel.send("{} 출석체크는 24시간에 한번만 가능합니다.".format(user.mention))
+    await message.channel.send("{} 출석체크는 24시간에 한번만 가능합니다.\n남은 시간:약 {}시간 {}분".format(user.mention, time_remain.seconds//3600, time_remain.seconds%3600//60))
 
 @client.command()
 async def 확인(message):
