@@ -240,6 +240,7 @@ async def 내전개최(message):
     if len(time)==1:
         hour=21
         minute=0
+        hour24=True
     else:
         time=time[1].split(':')
         hour=int(time[0])
@@ -277,6 +278,7 @@ async def 시간변경(message):
     if len(time)==1:
         hour=21
         minute=0
+        hour24=True
     else:
         time=time[1].split(':')
         hour=int(time[0])
@@ -311,7 +313,7 @@ async def 내전확인(message):
         await message.channel.send("내전이 예정되어 있지 않습니다.")
 
     else:
-        msg="{}\n{} 내전 신청이 열려 있습니다.\n개최자: {}".format(author(message).mention, str(await current_game.get_time())[:-3], (await current_game.get_opener()).mention)
+        msg="{}\n{} 내전 신청이 열려 있습니다.\n개최자: {}".format(author(message).mention, str(await current_game.get_time())[:-3], (await current_game.get_opener()).nick.split('/')[0])
         await message.channel.send(msg)
 
 @client.command()
