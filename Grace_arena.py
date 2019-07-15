@@ -29,8 +29,8 @@ current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 BETA=False
 BETA_TESTLAB=486550288686120961
 
-sheet_name='temp_arena'
-record_name='temp_record'
+sheet_name='arena'
+record_name='record'
 
 channels={
     '내전신청':    469109911016570890,
