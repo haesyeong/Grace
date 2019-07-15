@@ -14,13 +14,9 @@ content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
 channel=lambda ctx:ctx.message.channel.id
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
-ALPHA=False
-ALPHA_TESTLAB=463694274190376981
 
 BETA=False
 BETA_TESTLAB=486550288686120961
-
-TESTING=ALPHA or BETA
 
 sheet_name='players'
 
@@ -32,6 +28,7 @@ channels={
     '테스트':      486550288686120961,
     '그룹찾기':    420843334614122516,
     '카지노':      594927387158904842,
+    'Arena':       469109888077791242,
     }
 
 roles={
@@ -42,10 +39,6 @@ roles={
 if BETA:
     for _ in channels:
         channels[_]=BETA_TESTLAB
-
-if ALPHA:
-    for _ in channels:
-        channels[_]=ALPHA_TESTLAB
 
 def is_moderator(member):
     return "운영진" in map(lambda x:x.name, member.roles)
@@ -216,7 +209,7 @@ current_game=None
 @client.command()
 async def 업데이트(message):
     global current_game
-    if Internal.check_integrity():
+    if await Internal.check_integrity():
         current_game=Internal()
         msg="내전 설정이 업데이트되었습니다."
     else:
@@ -549,6 +542,23 @@ async def 도움말(ctx):
         embed.add_field(name="그룹찾기",value="\u200B",inline=False)
         embed.add_field(name="!빠대\n",value="빠대 역할이 없다면 역할을 부여하고, 있다면 제거합니다. '@빠대'로 멘션이 가능합니다.\n",inline=False)
         embed.add_field(name="!빠대목록\n",value="빠대 역할을 부여받은 모든 사람의 목록을 순서에 상관 없이 출력합니다.\n",inline=False)
+    if ctx.channel.id==channels['Arena']:
+        embed.add_field(name="\u200B",value="\u200B",inline=False)
+        embed.add_field(name="Arena",value="\u200B",inline=False)
+        embed.add_field(name="\u200B",value="\u200B",inline=False)
+        embed.add_field(name="아레나 개최",value="아레나는 개최일의 정오부터 8시 정각까지 자동으로 신청을 받습니다.",inline=False)
+        embed.add_field(name="!업데이트",value="내전 중 봇의 오류가 났다면 업데이트를 통해 내전 설정을 업데이트 할 수 있습니다.\n",inline=False)
+        embed.add_field(name="\u200B",value="\u200B",inline=False)
+        embed.add_field(name="운영진만 사용 가능한 명령어",value="\u200B",inline=False)
+        embed.add_field(name="!임의신청 @사용자1 @사용자2 ...\n",value="멘션한 사용자들을 이 순서대로 신청한 것으로 처리합니다.\n",inline=False)
+        embed.add_field(name="!신청반려 @사용자1 @사용자2 ...\n",value="멘션한 사용자들의 신청을 반려합니다.\n",inline=False)
+        embed.add_field(name="!종료\n",value="아레나를 종료하고, 로그를 기록합니다.\n",inline=False)
+        embed.add_field(name="\u200B",value="\u200B",inline=False)
+        embed.add_field(name="모든 사람이 사용 가능한 명령어",value="\u200B",inline=False)
+        embed.add_field(name="!확인\n",value="현재 아레나의 상태를 확인합니다.",inline=False)
+        embed.add_field(name="!목록\n",value="선착순으로, 신청자 목록을 확인합니다.\n",inline=False)
+        embed.add_field(name="!신청\n",value="본인이 해당 아레나에 신청합니다. 지난 7일간 내전에 1회 이상 참여했어야 합니다.\n",inline=False)
+        embed.add_field(name="!취소\n",value="본인의 신청을 취소합니다.\n",inline=False)
     await ctx.send(embed=embed)
 
 
