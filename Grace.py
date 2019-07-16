@@ -7,34 +7,32 @@ import os
 import random
 import openpyxl
 
+
 client = discord.Client()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
-ws_name = 'Grace2'
-
+ws_name='Grace2'
 
 @client.event
 async def on_ready():
-    print("login: Grace Main Beta")
+    print("login: Grace Main")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
     await client.change_presence(activity=discord.Game(name='>>', type=1))
 
-
 async def get_spreadsheet():
-    creds = ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
-    auth = gspread.authorize(creds)
+    creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
+    auth=gspread.authorize(creds)
 
     if creds.access_token_expired:
         auth.login()
-
+    
     try:
-        worksheet = auth.open("Grace2").sheet1
+        worksheet=auth.open("Grace2").sheet1
     except gspread.exceptions.APIError:
         return
     return worksheet
-
 
 @client.event
 async def on_message(message):
@@ -42,60 +40,65 @@ async def on_message(message):
     content = message.content
     channel = message.channel
 
+    if channel.id != 486550288686120961: return
 
     print('{} / {}: {}'.format(channel, author, content))
-
+    
     if message.content.startswith(">>"):
         author = message.content
         author = author.split(">>")
         author = author[1]
-
-        spreadsheet = await get_spreadsheet()
-        roles = spreadsheet.col_values(6)
+        
+        spreadsheet=await get_spreadsheet()
+        roles=spreadsheet.col_values(6)
+        battletags=spreadsheet.col_values(2)
         cnt = 1
         clanmaster = ":pen_ballpoint: 클랜마스터\n"
         peoplemanager = ":construction_worker: 인사 운영진\n"
         gamemanager = ":construction_worker: 게임 운영진\n"
         designmanager = ":construction_worker: 디자인 운영진\n"
         developmentmanager = ":construction_worker: 개발 운영진\n"
-
-        if author == "운영진":
+        
+        if author=="운영진":
             for role in roles:
                 if "클랜마스터" in role:
-                    clanmaster += spreadsheet.cell(cnt, 2).value + "\n"
+                    clanmaster+=spreadsheet.cell(cnt, 2).value+"\n"
                 elif "인사운영진" in role:
-                    peoplemanager += spreadsheet.cell(cnt, 2).value + "\n"
+                    peoplemanager+=spreadsheet.cell(cnt, 2).value+"\n"
                 elif "게임운영진" in role:
-                    gamemanager += spreadsheet.cell(cnt, 2).value + "\n"
+                    gamemanager+=spreadsheet.cell(cnt, 2).value+"\n"
                 elif "디자인운영진" in role:
-                    designmanager += spreadsheet.cell(cnt, 2).value + "\n"
+                    designmanager+=spreadsheet.cell(cnt, 2).value+"\n"
                 elif "개발운영진" in role:
-                    developmentmanager += spreadsheet.cell(cnt, 2).value + "\n"
-                cnt = cnt + 1
-            log = clanmaster + "\n" + peoplemanager + "\n" + gamemanager + "\n" + designmanager + "\n" + developmentmanager
+                    developmentmanager+=spreadsheet.cell(cnt, 2).value+"\n"
+                cnt=cnt+1
+            log = clanmaster+"\n"+peoplemanager+"\n"+gamemanager+"\n"+designmanager+"\n"+developmentmanager
             embed = discord.Embed(title=":fire: 운영진 목록\n", description=log, color=0x5c0bb7)
             await channel.send(embed=embed)
             return
 
+        nickname = spreadsheet.col_values(3)
+        
         try:
-            spreadsheet.find(author)
+            index = nickname.index(author) + 1
+            print(index)
         except gspread.exceptions.CellNotFound:
             return
         except gspread.exceptions.APIError:
             return
-        cell = spreadsheet.find(author)
-        row = cell.row
+        
+        battletag = spreadsheet.cell(index, 2).value
+        link = spreadsheet.cell(index, 4).value
+        description = spreadsheet.cell(index, 5).value
+        role = spreadsheet.cell(index, 6).value
+        imagelink = spreadsheet.cell(index, 7).value
+        thumbnaillink = spreadsheet.cell(index, 8).value
+        arena = spreadsheet.cell(index, 9).value
+        league_first = spreadsheet.cell(index, 10).value
+        league_second = spreadsheet.cell(index, 11).value
 
-        battletag = spreadsheet.cell(row, 2).value
-        link = spreadsheet.cell(row, 4).value
-        description = spreadsheet.cell(row, 5).value
-        role = spreadsheet.cell(row, 6).value
-        imagelink = spreadsheet.cell(row, 7).value
-        thumbnaillink = spreadsheet.cell(row, 8).value
-        arena = spreadsheet.cell(row, 9).value
-        league_first = spreadsheet.cell(row, 10).value
-        league_second = spreadsheet.cell(row, 11).value
-
+        print(battletag)
+        print(role)
         if role == "클랜마스터":
             roleimage = ":pen_ballpoint:"
         elif "운영진" in role:
@@ -200,7 +203,6 @@ async def on_message(message):
         for i in range(0, len(person)):
             await channel.send(person[i] + "---->" + teamname[i])
 
-
 @client.event
 async def on_message_delete(message):
     author = message.author
@@ -209,7 +211,6 @@ async def on_message_delete(message):
     delchannel = message.guild.get_channel(527859699702562828)
     await delchannel.send('{} / {}: {}'.format(channel, author, content))
 
-
 @client.event
 async def on_member_join(member):
     fmt = '<@332564579148103691>\n{0.mention}님이 {1.name}에 입장하였습니다.'
@@ -217,7 +218,6 @@ async def on_member_join(member):
     role = member.guild.get_role(510731224654938112)
     await member.add_roles(role)
     await channel.send(fmt.format(member, member.guild))
-
 
 @client.event
 async def on_member_remove(member):
