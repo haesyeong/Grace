@@ -19,18 +19,20 @@ class weekday:
 
 WEEKDAY=weekday.화요일
 
+BETA=True
+BETA_TESTLAB=486550288686120961
+
+sheet_name='arena'
+record_name='record'
+gamble_sheet='Main'
+prize=10000
+
 client=Bot(command_prefix=('!',))
 
 content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
 channel=lambda ctx:ctx.message.channel.id
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
-
-BETA=False
-BETA_TESTLAB=486550288686120961
-
-sheet_name='arena'
-record_name='record'
 
 channels={
     '내전신청':    469109911016570890,
@@ -46,6 +48,8 @@ channels={
 roles={
     '외부인':      510731224654938112,
     '빠대':        527842187862605834,
+    '아레나1':     472362510725414912,
+    '아레나2':     472362739222970368,
 }
 
 if BETA:
@@ -63,7 +67,7 @@ addr='https://docs.google.com/spreadsheets/d/1iT9lW3ENsx0zFeFVKdvqXDF9OJeGMqVF9z
 scope=['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 grace=None
 
-async def get_worksheet(sheet_name=sheet_name):
+async def get_worksheet(sheet_name=sheet_name, addr=addr):
     creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
     auth=gspread.authorize(creds)
     if creds.access_token_expired:
@@ -78,8 +82,60 @@ async def get_worksheet(sheet_name=sheet_name):
         return -1
     return worksheet
 
+##################################################################
+#상금지급 관련
+
+async def get_row(ws,user=None,mention=None):
+    if user!=None:
+        mention=user.mention
+    if not (mention.startswith('<@') and mention.endswith('>')):
+        return -1
+    if mention[2]!='!':
+        mention=mention[:2]+'!'+mention[2:]
+    try: 
+        return ws.find(mention).row
+    except gspread.exceptions.CellNotFound:
+        ws.append_row([mention,'0'])
+        return ws.find(mention).row
+    except gspread.exceptions.APIError:
+        return -1
+
+async def get_money(ws,user=None,mention=None):
+    if user!=None:
+        row=await get_row(ws,user)
+    else:
+        row=await get_row(ws,mention=mention)
+    if row==-1:
+        return 0
+    return int(ws.cell(row,2).value)
+
+async def update_money(ws, money, user=None, mention=None, checkin=False):
+    if user!=None:
+        row=await get_row(ws,user)
+    else:
+        row=await get_row(ws,mention=mention)
+    if row==-1:
+        return False
+    ws.update_cell(row, 2, str(money))
+    if checkin:
+        ws.update_cell(row, 3, repr(current_time()))
+    return 1
+
+async def give_prize_money(team):
+    ws=await get_worksheet(sheet_name=gamble_sheet,addr="https://docs.google.com/spreadsheets/d/1y1XnmgggAxVVJ3jJrVBocGTjpBR7b8_L9sf47GKBNok/edit#gid=0")
+    arenachannel=grace.get_channel(channels['Arena'])
+    for user in team:
+        money=await get_money(ws, user)
+        if await update_money(ws, money+prize, user):
+            continue
+        else:
+            await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
+
+
 async def get_all_players(ws):
     return [*map(lambda x:x[0],ws.get_all_values()[1:])]
+
+##################################################################
 
 def get_member_from_mention(mention):
     if not (mention.startswith('<@') and mention.endswith('>')):
@@ -116,6 +172,10 @@ class Internal():
         ws=await get_worksheet(sheet_name)
         val=await get_all_players(ws)
         return [*map(get_member_from_mention,val)]
+
+    async def set_time(self, time):
+        ws=await get_worksheet()
+        ws.update_cell(1,1,repr(time))
 
     async def check_availability(self,player):
         ws=await get_worksheet(record_name)
@@ -157,6 +217,8 @@ class Internal():
 @client.command()
 async def 업데이트(message):
     global current_game
+    if message.channel.id!=channels['Arena']:
+        return
     if await Internal.check_integrity():
         current_game=Internal()
         msg="아레나 설정이 업데이트되었습니다."
@@ -183,37 +245,6 @@ async def 확인(message):
         else:
             msg+="진행중입니다."
         await message.channel.send(msg)
-
-@client.command()#TODO
-async def 종료(message):
-    global current_game
-
-    if message.channel.id!=channels['Arena']:
-        return
-    if current_game is None:
-        await message.channel.send("신청중인 아레나가 없습니다.")
-        return
-
-    closer=author(message)
-    if not is_moderator(closer):
-        await message.channel.send("운영진만 아레나를 종료할 수 있습니다.")
-        return
-    
-    logchannel=message.message.guild.get_channel(channels['활동로그'])
-
-    log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
-    cnt=1
-    for user in (await current_game.get_players()):
-        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
-        if cnt==12:
-            break
-        cnt+=1
-
-    await current_game.close()
-    current_game=None
-
-    await logchannel.send(log)
-    await message.channel.send("아레나가 종료되었습니다.")
 
 @client.command()
 async def 목록(message):
@@ -340,6 +371,89 @@ async def 신청반려(message):
         else:
             await message.channel.send("{}님은 신청되지 않은 플레이어입니다.".format(player.mention))
 
+@client.command()
+async def 아레나(message):
+    if message.channel.id!=channels['Arena']:
+        return
+    if current_game is None:
+        await message.channel.send("신청중인 아레나가 없습니다.")
+        return
+
+    closer=author(message)
+    if not is_moderator(closer):
+        await message.channel.send("운영진만 아레나 역할을 부여할 수 있습니다.")
+        return
+
+    arena1=grace.get_role(roles['아레나1'])
+    arena2=grace.get_role(roles['아레나2'])
+    players=message.message.mentions
+
+    team=content(message).split()[1]
+    if team=='0':
+        for player in players:
+            await player.remove_roles(arena1, arena2, atomic=True)
+        await message.channel.send("역할 제거가 완료되었습니다.")
+    if team=='1':
+        for player in players:
+            await player.add_roles(arena1, atomic=True)
+        await message.channel.send("역할 부여가 완료되었습니다.")
+    if team=='2':
+        for player in players:
+            await player.add_roles(arena2, atomic=True)
+        await message.channel.send("역할 부여가 완료되었습니다.")
+
+@client.command()#TODO
+async def 종료(message):
+    global current_game
+
+    if message.channel.id!=channels['Arena']:
+        return
+    if current_game is None:
+        await message.channel.send("신청중인 아레나가 없습니다.")
+        return
+
+    closer=author(message)
+    if not is_moderator(closer):
+        await message.channel.send("운영진만 아레나를 종료할 수 있습니다.")
+        return
+    
+    logchannel=message.message.guild.get_channel(channels['활동로그'])
+
+    arena1=grace.get_role(roles['아레나1'])
+    team1=arena1.members
+    arena2=grace.get_role(roles['아레나2'])
+    team2=arena2.members
+
+    winner=content(message).split()[1]
+    if winner=='0':
+        pass
+    elif winner=='1':       
+        await give_prize_money(team1)
+    elif winner=='2':
+        await give_prize_money(team2)
+    else:
+        await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
+        return
+
+    for user in team1:
+        await user.remove_roles(arena1)
+    for user in team2:
+        await user.remove_roles(arena2)
+
+    log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
+    cnt=1
+    for user in (await current_game.get_players()):
+        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+        if cnt==12:
+            break
+        cnt+=1
+
+    await current_game.close()
+    current_game=None
+
+    await logchannel.send(log)
+    await message.channel.send("아레나가 종료되었습니다.")
+
 ############################################################
 #자동 개최#TODO
 @client.event
@@ -359,17 +473,17 @@ async def auto_open():
     if daydelta==0:
         daydelta=(cur.hour>=12)*7
 
-    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 12, 0, 0)+datetime.timedelta(days=daydelta)
+    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 12, 0, 0)+datetime.timedelta(days=daydelta)#12, 0, 0
 
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         deadline=next_notify+datetime.timedelta(hours=8, minutes=1)
 
-        ws=await get_spreadsheet()
-        arena=Internal.create(deadline)
+        ws=await get_worksheet()
+        current_game=await Internal.create(deadline)
 
         msg='@everyone\n{} 아레나 신청이 열렸습니다.'.format(str(await current_game.get_time())[:10])
-        await message.channel.send(msg)
+        await arenachannel.send(msg)
 
         next_notify=next_notify+datetime.timedelta(days=7)
 
