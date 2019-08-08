@@ -7,6 +7,7 @@ import os
 import random
 import openpyxl
 
+BETA=False
 
 client = discord.Client()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -39,6 +40,8 @@ async def on_message(message):
     author = message.author
     content = message.content
     channel = message.channel
+
+    if channel.id != 486550288686120961: return
 
     print('{} / {}: {}'.format(channel, author, content))
     
@@ -206,6 +209,8 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
+    if BETA: return
+
     author = message.author
     content = message.clean_content
     channel = message.channel
@@ -214,6 +219,8 @@ async def on_message_delete(message):
 
 @client.event
 async def on_member_join(member):
+    if BETA: return
+
     fmt = '<@332564579148103691>\n{0.mention}님이 {1.name}에 입장하였습니다.'
     channel = member.guild.get_channel(516122942896078868)
     role = member.guild.get_role(510731224654938112)
@@ -222,6 +229,8 @@ async def on_member_join(member):
 
 @client.event
 async def on_member_remove(member):
+    if BETA: return
+
     channel = member.guild.get_channel(516122942896078868)
     fmt = '{0.mention}\n{0.nick}님이 서버에서 나가셨습니다.'
     await channel.send(fmt.format(member, member.guild))
