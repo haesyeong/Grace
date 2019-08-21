@@ -235,9 +235,15 @@ class Internal():
             return False
 
     async def get_players(self):
-        ws=await get_worksheet(sheet_name)
+        ws=await get_worksheet()
         val=await get_all_players(ws)
-        return [*map(get_member_from_mention,val)]
+        users=[]
+        for user in map(get_member_from_mention,val):
+            if user==-1:
+                pass
+            else:
+                users.append(user)
+        return users
 
     async def set_time(self, time):
         ws=await get_worksheet()
@@ -269,16 +275,12 @@ class Internal():
 
     async def close(self):
         ws=await get_worksheet(sheet_name)
-        rows=ws.row_count
-        for _ in range(2,rows+1):
-            ws.delete_row(2)
-        ws.update_cell(1,1,'')
+        ws.clear()
+        ws.resize(rows=1, cols=1)
 
         ws=await get_worksheet(record_name)
-        rows=ws.row_count
-        for _ in range(2,rows+1):
-            ws.delete_row(2)
-        ws.update_cell(1,1,'')
+        ws.clear()
+        ws.resize(rows=1, cols=1)
 
 @client.command()
 async def 업데이트(message):
@@ -507,11 +509,6 @@ async def 종료(message):
         await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
         return
 
-    for user in team1:
-        await user.remove_roles(arena1, leader, atomic=True)
-    for user in team2:
-        await user.remove_roles(arena2, leader, atomic=True)
-
     log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
     cnt=1
     for user in team1+team2:
@@ -519,6 +516,11 @@ async def 종료(message):
         if cnt==12:
             break
         cnt+=1
+
+    for user in team1:
+        await user.remove_roles(arena1, leader, atomic=True)
+    for user in team2:
+        await user.remove_roles(arena2, leader, atomic=True)
 
     await current_game.close()
     current_game=None
@@ -547,6 +549,7 @@ async def 안내(message):
     team2=[*map(lambda x:x.mention,arena2.members)]
     leader=grace.get_role(roles['아레나팀장'])
     leaders=[*map(lambda x:x.mention,leader.members)]
+    print(leaders)
 
     if leaders[0] in team2:
         leaders[0],leaders[1]=leaders[1],leaders[0]

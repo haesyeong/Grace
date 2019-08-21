@@ -158,7 +158,13 @@ class Internal():
     async def get_players(self):
         ws=await get_worksheet()
         val=await get_all_players(ws)
-        return [*map(get_member_from_mention,val)]
+        users=[]
+        for user in map(get_member_from_mention,val):
+            if user==-1:
+                pass
+            else:
+                users.append(user)
+        return users
 
     async def add_player(self,new_player):
         ws=await get_worksheet()
@@ -201,12 +207,8 @@ class Internal():
 
     async def close(self):
         ws=await get_worksheet()
-        rows=ws.row_count
-        for _ in range(4,rows+1):
-            ws.delete_row(4)
-        ws.update_cell(1,1,'')
-        ws.update_cell(2,1,'')
-        ws.update_cell(3,1,'')
+        ws.clear()
+        ws.resize(rows=3, cols=1)
 
     async def leave_record(self):
         ws=await get_worksheet(record_name)
