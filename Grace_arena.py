@@ -25,7 +25,7 @@ BETA_TESTLAB=486550288686120961
 sheet_name='arena'
 record_name='record'
 gamble_sheet='Main'
-win_record='introduction'
+win_record='responses'
 prize=10000
 
 client=Bot(command_prefix=('!',))
@@ -153,7 +153,7 @@ async def get_row_by_nick(ws,user=None,mention=None):
 
 async def get_arena_number(ws=None):
     if ws==None:
-        ws=await get_worksheet(sheet_name=win_record,addr="https://docs.google.com/spreadsheets/d/1XeS_UOZOEqGzHVuUyWbSYiBlV1HMUHFxZ-zEj0xQ4Jc/edit#gid=1799021615")
+        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return int(ws.cell(1,15).value)
     
 async def update_record(ws, record, user=None, mention=None):
@@ -185,7 +185,7 @@ async def get_record(ws,user=None,mention=None):
     return ws.cell(row,9).value
 
 async def update_arena_record(team):
-    ws=await get_worksheet(sheet_name=win_record,addr="https://docs.google.com/spreadsheets/d/1XeS_UOZOEqGzHVuUyWbSYiBlV1HMUHFxZ-zEj0xQ4Jc/edit#gid=1799021615")
+    ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     arenachannel=grace.get_channel(channels['Arena'])
     recent = await get_arena_number(ws)
     for user in team:

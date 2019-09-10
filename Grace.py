@@ -12,17 +12,20 @@ BETA=False
 client = discord.Client()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
-ws_name='Grace2'
+url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
 
 @client.event
 async def on_ready():
+    global grace
+    await client.wait_until_ready()
+    grace=client.get_guild(359714850865414144)
     print("login: Grace Main")
     print(client.user.name)
     print(client.user.id)
     print("---------------")
     await client.change_presence(activity=discord.Game(name='>>', type=1))
 
-async def get_spreadsheet():
+async def get_spreadsheet(ws_name):
     creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
     auth=gspread.authorize(creds)
 
@@ -30,10 +33,21 @@ async def get_spreadsheet():
         auth.login()
     
     try:
-        worksheet=auth.open("Grace2").sheet1
+        worksheet=auth.open_by_url(url).worksheet(ws_name)
     except gspread.exceptions.APIError:
         return
     return worksheet
+
+def has_role(member, role):
+    return role in map(lambda x:x.name, member.roles)
+
+async def get_member_by_battletag(battletag):
+    for member in grace.members:
+        try:
+            if member.nick.startswith(battletag+'/'):
+                return member
+        except:
+            continue
 
 @client.event
 async def on_message(message):
@@ -49,31 +63,18 @@ async def on_message(message):
         author = message.content
         author = author.split(">>")
         author = author[1]
+
+        if author=='':
+            return
         
-        spreadsheet=await get_spreadsheet()
+        spreadsheet=await get_spreadsheet('responses')
         roles=spreadsheet.col_values(6)
         battletags=spreadsheet.col_values(2)
-        cnt = 1
-        clanmaster = ":pen_ballpoint: 클랜마스터\n"
-        peoplemanager = ":construction_worker: 인사 운영진\n"
-        gamemanager = ":construction_worker: 게임 운영진\n"
-        designmanager = ":construction_worker: 디자인 운영진\n"
-        developmentmanager = ":construction_worker: 개발 운영진\n"
         
         if author=="운영진":
-            for role in roles:
-                if "클랜마스터" in role:
-                    clanmaster+=spreadsheet.cell(cnt, 2).value+"\n"
-                elif "인사운영진" in role:
-                    peoplemanager+=spreadsheet.cell(cnt, 2).value+"\n"
-                elif "게임운영진" in role:
-                    gamemanager+=spreadsheet.cell(cnt, 2).value+"\n"
-                elif "디자인운영진" in role:
-                    designmanager+=spreadsheet.cell(cnt, 2).value+"\n"
-                elif "개발운영진" in role:
-                    developmentmanager+=spreadsheet.cell(cnt, 2).value+"\n"
-                cnt=cnt+1
-            log = clanmaster+"\n"+peoplemanager+"\n"+gamemanager+"\n"+designmanager+"\n"+developmentmanager
+            spreadsheet=await get_spreadsheet('staff')
+            data=spreadsheet.get_all_values()
+            log = '\n\n'.join(map(lambda x:'\n'.join([t for t in x if t!='']), data))
             embed = discord.Embed(title=":fire: 운영진 목록\n", description=log, color=0x5c0bb7)
             await channel.send(embed=embed)
             return
@@ -91,121 +92,56 @@ async def on_message(message):
         battletag = spreadsheet.cell(index, 2).value
         link = spreadsheet.cell(index, 4).value
         description = spreadsheet.cell(index, 5).value
-        role = spreadsheet.cell(index, 6).value
-        imagelink = spreadsheet.cell(index, 7).value
-        thumbnaillink = spreadsheet.cell(index, 8).value
-        arena = spreadsheet.cell(index, 9).value
-        league_first = spreadsheet.cell(index, 10).value
-        league_second = spreadsheet.cell(index, 11).value
+        imagelink = spreadsheet.cell(index, 6).value
+        thumbnaillink = spreadsheet.cell(index, 7).value
+        arena = spreadsheet.cell(index, 8).value
+        league_first = spreadsheet.cell(index, 9).value
+        league_second = spreadsheet.cell(index, 10).value
+
+        member=await get_member_by_battletag(battletag)
+        if member==None:
+            return
+        elif has_role(member, '클랜 마스터'):
+            role='클랜 마스터'
+        elif has_role(member, '운영진'):
+            role='운영진'
+        elif has_role(member, '클랜원'):
+            role='클랜원'
+        elif has_role(member, '신입 클랜원'):
+            role='신입 클랜원'
+        else:
+            return
 
         print(battletag)
         print(role)
-        if role == "클랜마스터":
+        if role == "클랜 마스터":
             roleimage = ":pen_ballpoint:"
-        elif "운영진" in role:
+        elif role=="운영진":
             roleimage = ":construction_worker:"
         elif role == "클랜원":
             roleimage = ":boy:"
-        elif role == "신입클랜원":
+        elif role == "신입 클랜원":
             roleimage = ""
 
-        if link is "X":
+        if link in ["X", '']:
             embed = discord.Embed(title="한줄소개", description=description, color=0x5c0bb7)
-        elif link is not None:
+        else:
             embed = discord.Embed(title="바로가기", url=link, description=description, color=0x5c0bb7)
 
-        embed.set_image(url=imagelink)
-        embed.set_thumbnail(url=thumbnaillink)
         embed.set_author(name=battletag)
         embed.add_field(name="직책", value=roleimage + role, inline=True)
-        if arena is not "X":
+        if arena not in ["X", '']:
             embed.add_field(name="Grace Arena", value=":trophy: 제" + arena + "회 우승", inline=True)
-        if league_first is not "X":
+        if league_first not in ["X", '']:
             embed.add_field(name="Grace League", value=":first_place: 제" + league_first + "회 우승", inline=True)
-        if league_second is not "X":
+        if league_second not in ["X", '']:
             embed.add_field(name="Grace League", value=":second_place:제" + league_second + "회 준우승", inline=True)
+        if imagelink not in ['','X']:
+            embed.set_image(url=imagelink)
+        if thumbnaillink not in ['','X']:
+            embed.set_thumbnail(url=thumbnaillink)
 
         await channel.send(embed=embed)
-
-    if message.content == '!안녕':
-        await channel.send("안녕하세요")
-
-    if message.content == '>>리그':
-        await channel.send("https://www.twitch.tv/overwatchleague_kr")
-
-    if message.content.startswith('>>골라'):
-        choice = message.content.split(" ")
-        choicenumber = random.randint(1, len(choice) - 1)
-        choiceresult = choice[choicenumber]
-        await channel.send("||" + choiceresult + "||")
-
-    if message.content.startswith('>>쟁탈추첨'):
-        food = "리장 타워/일리오스/오아시스/부산/네팔"
-        foodchoice = food.split("/")
-        foodnumber = random.randint(1, len(foodchoice))
-        foodresult = foodchoice[foodnumber - 1]
-        await channel.send(foodresult)
-
-    if message.content.startswith('>>배그맵추첨'):
-        pubg = "에란겔/미라마/사녹/비켄디"
-        pubgchoice = pubg.split("/")
-        pubgnumber = random.randint(1, len(pubgchoice))
-        pubgresult = pubgchoice[pubgnumber - 1]
-        await channel.send(pubgresult)
-
-    if message.content.startswith('!메모장쓰기'):
-        file = open("디스코드봇메모장.txt", "w")
-        file.write("안녕하세요")
-        file.close()
-
-    if message.content.startswith('!메모장읽기'):
-        file = open("디스코드봇메모장.txt")
-        await channel.send(file.read())
-        file.close()
-
-    if message.content.startswith('!학습'):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        learn = message.content.split(" ")
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == "-" or sheet["A" + str(i)].value == learn[1]:
-                sheet["A" + str(i)].value = learn[1]
-                sheet["B" + str(i)].value = learn[2]
-                await channel.send("단어가 학습되었습니다.")
-                break
-        file.save("기억.xlsx")
-
-    if message.content.startswith('!기억') and not message.content.startswith('!기억삭제'):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        memory = message.content.split(" ")
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == memory[1]:
-                await channel.send(sheet["B" + str(i)].value)
-                break
-
-    if message.content.startswith('!기억삭제'):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        memory = message.content.split(" ")
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == str(memory[1]):
-                sheet["A" + str(i)].value = "-"
-                sheet["B" + str(i)].value = "-"
-                await channel.send("기억이 삭제되었습니다.")
-                file.save("기억.xlsx")
-                break
-
-    if message.content.startswith('!팀나누기'):
-        team = message.content[6:]
-        peopleteam = team.split("/")
-        people = peopleteam[0]
-        team = peopleteam[1]
-        person = people.split(" ")
-        teamname = team.split(" ")
-        random.shuffle(teamname)
-        for i in range(0, len(person)):
-            await channel.send(person[i] + "---->" + teamname[i])
 
 @client.event
 async def on_message_delete(message):
