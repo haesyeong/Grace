@@ -17,7 +17,7 @@ class weekday:
     토요일=5
     일요일=6
 
-WEEKDAY=weekday.금요일
+WEEKDAY=weekday.화요일
 
 BETA=False
 BETA_TESTLAB=486550288686120961
