@@ -6,6 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 import random
 import openpyxl
+import datetime
 
 BETA=False
 
@@ -13,6 +14,8 @@ client = discord.Client()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
+
+current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
 @client.event
 async def on_ready():
