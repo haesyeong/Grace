@@ -512,8 +512,10 @@ async def 종료(message):
         return
 
     log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
+    cnt=1
     for user in current_game.get_players():
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+        cnt+=1
 
     for user in team1:
         await user.remove_roles(arena1, leader, atomic=True)
