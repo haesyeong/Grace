@@ -203,7 +203,7 @@ async def 내전개최(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
-        hour=21
+        hour=20
         minute=0
         hour24=True
     else:
@@ -241,7 +241,7 @@ async def 시간변경(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
-        hour=21
+        hour=20
         minute=0
         hour24=True
     else:
