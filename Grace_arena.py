@@ -513,7 +513,7 @@ async def 종료(message):
 
     log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
     cnt=1
-    for user in await current_game.get_players():
+    for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
         cnt+=1
 
