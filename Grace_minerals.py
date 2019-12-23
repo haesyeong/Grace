@@ -118,9 +118,10 @@ class Internal():
         ws=await get_worksheet()
         val=await get_all_players(ws)
         users=[]
-        for user in map(get_member_from_mention,val):
-            if user==-1:
-                pass
+        for entry in val:
+            user=get_member_from_mention(entry)
+            if user==-1 and entry.startswith('용병:'):
+                users.append(entry)
             else:
                 users.append(user)
         return users
@@ -133,10 +134,26 @@ class Internal():
             return True
         return False
 
+    async def add_external_player(self, new_player):
+        ws=await get_worksheet()
+        val=ws.findall("용병:"+new_player)
+        if len(val)==0:
+            ws.append_row(["용병:"+new_player])
+            return True
+        return False
+
     async def remove_player(self,new_player):
         ws=await get_worksheet()
         val=ws.findall(get_mention_from_player(new_player))
         if len(val)==2 or (len(val)==1 and val[0].row!=1):
+            ws.delete_row(val[-1].row)
+            return True
+        return False
+
+    async def remove_external_player(self, new_player):
+        ws=await get_worksheet()
+        val=ws.findall("용병:"+new_player)
+        if len(val)!=0:
             ws.delete_row(val[-1].row)
             return True
         return False
@@ -172,7 +189,10 @@ class Internal():
     async def leave_record(self):
         ws=await get_worksheet(record_name)
         for user in await current_game.get_players():
-            ws.append_row([user.mention])
+            try:
+                ws.append_row([user.mention])
+            except:
+                pass
 
 current_game=None
 
@@ -321,8 +341,11 @@ async def 내전종료(message):
     log="{} 미네랄즈 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (await current_game.get_opener()).nick.split('/')[0])
     cnt=1
     for user in (await current_game.get_players()):
-        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
-        cnt+=1
+        try:
+            log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+            cnt+=1
+        except:
+            continue
     log+='\n\n미네랄즈 내전 신청자 총 {}명'.format(cnt-1)
 
     await current_game.leave_record()
@@ -353,8 +376,12 @@ async def 목록(message):
     log=""
     cnt=0
     for user in await current_game.get_players():
+        try:
+            user=user.nick
+        except:
+            pass
         cnt+=1
-        log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+        log+='\n{}. {}'.format(cnt, user.split('/')[0])
     log+='\n\n미네랄즈 내전 신청자 총 {}명'.format(cnt)
 
     embed.add_field(name="신청자",value=log)
@@ -483,7 +510,52 @@ async def 신청반려(message):
         else:
             await message.channel.send("{}님은 신청되지 않은 플레이어입니다.".format(player.mention))
 
+@client.command()
+async def 용병신청(message):
+    global current_game
 
+    if message.channel.id!=channels['미네랄즈']:
+        return
+    if current_game is None:
+        await message.channel.send("신청중인 내전이 없습니다.")
+        return
+
+    opener=author(message)
+    if opener!=await current_game.get_opener() and (not is_moderator(opener)):
+        await message.channel.send("내전 개최자 또는 운영진만 용병 신청이 가능합니다.")
+        return
+
+    players=message.message.content.split()[1:]
+
+    for player in players:
+        if await current_game.add_external_player(player):
+            await message.channel.send("{}님의 용병 신청이 완료되었습니다.".format(player))
+        else:
+            await message.channel.send("{}님은 이미 신청된 용병입니다.".format(player))
+        del player
+
+@client.command()
+async def 용병취소(message):
+    global current_game
+
+    if message.channel.id!=channels['미네랄즈']:
+        return
+    if current_game is None:
+        await message.channel.send("신청중인 내전이 없습니다.")
+        return
+
+    opener=author(message)
+    if opener!=await current_game.get_opener() and (not is_moderator(opener)):
+        await message.channel.send("내전 개최자 또는 운영진만 용병 취소가 가능합니다.")
+        return
+
+    players=message.message.content.split()[1:]
+
+    for player in players:
+        if await current_game.remove_external_player(player):
+            await message.channel.send("{}님의 용병 취소가 완료되었습니다.".format(player))
+        else:
+            await message.channel.send("{}님은 신청되지 않은 용병입니다.".format(player))
 ############################################################
 #자동 기록(이벤트)
 @client.event
