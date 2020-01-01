@@ -40,29 +40,31 @@ def is_moderator(member):
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
-@client.command()
-async def 손님(message):
+@client.event
+async def on_message(message):
     if message.channel.id!=channels['가입상담']:
         return
 
-    enter=author(message)
-    reference=' '.join(content(message).split()[1:])
+    if content(message).startswith(">>손님"):
+        enter=author(message)
+        reference=' '.join(content(message).split()[1:])
+
+        if not has_role(enter, '외부인'):
+            return
+
+        if not reference:
+            return
+
+        outsider=grace.get_role(roles['외부인'])
+        guest=grace.get_role(roles['손님'])
+        logchannel=grace.get_channel(channels['출입로그'])
+        
+        await logchannel.send("{}님이 {}님의 손님으로 들어오셨습니다.".format(enter.mention, reference))
+
+        await enter.add_roles(guest, atomic=True)
+        await enter.remove_roles(outsider, atomic=True)
+
     await message.message.delete()
-
-    if not has_role(enter, '외부인'):
-        return
-
-    if not reference:
-        return
-
-    outsider=grace.get_role(roles['외부인'])
-    guest=grace.get_role(roles['손님'])
-    logchannel=grace.get_channel(channels['출입로그'])
-    
-    await logchannel.send("{}님이 {}님의 손님으로 들어오셨습니다.".format(enter.mention, reference))
-
-    await enter.add_roles(guest, atomic=True)
-    await enter.remove_roles(outsider, atomic=True)
 
 @client.event
 async def on_ready():
