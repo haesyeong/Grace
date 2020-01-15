@@ -50,9 +50,11 @@ async def on_message(message):
         reference=' '.join(content(message).split()[1:])
 
         if not has_role(enter, '외부인'):
+            await message.delete()
             return
 
         if not reference:
+            await message.delete()
             return
 
         outsider=grace.get_role(roles['외부인'])
@@ -64,7 +66,7 @@ async def on_message(message):
         await enter.add_roles(guest, atomic=True)
         await enter.remove_roles(outsider, atomic=True)
 
-    await message.message.delete()
+    await message.delete()
 
 @client.event
 async def on_ready():
