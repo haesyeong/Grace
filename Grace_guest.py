@@ -10,9 +10,9 @@ import asyncio
 
 client=Bot(command_prefix=('>>',))
 
-content=lambda ctx:ctx.message.content
-author=lambda ctx:ctx.message.author
-channel=lambda ctx:ctx.message.channel.id
+content=lambda message:message.content
+author=lambda message:message.author
+channel=lambda message:message.channel.id
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
 grace=None
@@ -42,7 +42,7 @@ def has_role(member, role):
 
 @client.event
 async def on_message(message):
-    if message.channel.id!=channels['가입상담']:
+    if channel(message)!=channels['가입상담']:
         return
 
     if content(message).startswith(">>손님"):
