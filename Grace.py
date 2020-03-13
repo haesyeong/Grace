@@ -100,7 +100,7 @@ async def on_message(message):
         arena = spreadsheet.cell(index, 8).value
         league_first = spreadsheet.cell(index, 9).value
         league_second = spreadsheet.cell(index, 10).value
-        print(battletag, link, description, imagelink, thumbnaillink, arena, league_first, league_second)
+        print(index, battletag, link, description, imagelink, thumbnaillink, arena, league_first, league_second)
 
         member=await get_member_by_battletag(battletag)
         if member==None:
