@@ -531,6 +531,7 @@ async def 종료(message):
 @client.command()
 async def 안내(message):
     global current_game
+    grace=client.get_guild(359714850865414144)
 
     if message.channel.id!=channels['Arena']:
         return
