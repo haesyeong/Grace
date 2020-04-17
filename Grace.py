@@ -45,7 +45,7 @@ def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
 async def get_member_by_battletag(battletag):
-	global grace
+    global grace
     grace=client.get_guild(359714850865414144)
 
     for member in grace.members:
