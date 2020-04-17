@@ -42,6 +42,9 @@ def has_role(member, role):
 
 @client.event
 async def on_message(message):
+    global grace
+    grace=client.get_guild(359714850865414144)
+
     if channel(message)!=channels['가입상담']:
         return
 

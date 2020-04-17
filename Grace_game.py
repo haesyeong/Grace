@@ -123,6 +123,8 @@ async def get_all_players(ws):
     return [*map(lambda x:x[0],ws.get_all_values()[4:])]
 
 def get_member_from_mention(mention):
+    global grace
+    grace=client.get_guild(359714850865414144)
     if not (mention.startswith('<@') and mention.endswith('>')):
         return -1
     if mention[2]!='!':

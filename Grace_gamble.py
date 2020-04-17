@@ -157,6 +157,9 @@ async def 확인(message):
 
 @client.command()
 async def 송금(message):
+    global grace
+    grace=client.get_guild(359714850865414144)
+
     if message.channel.id not in gamble_channels: return
     ws=await get_spreadsheet()
     if check_maintenance_state(ws):
@@ -251,6 +254,9 @@ async def 순위(message):
 
 @client.command()
 async def 랭킹(message):
+    global grace
+    grace=client.get_guild(359714850865414144)
+    
     if message.channel.id not in gamble_channels: return
     ws=await get_spreadsheet()
     if check_maintenance_state(ws):

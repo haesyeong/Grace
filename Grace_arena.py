@@ -124,6 +124,8 @@ async def update_money(ws, money, user=None, mention=None, checkin=False):
     return 1
 
 async def give_prize_money(team):
+    global grace 
+    grace=client.get_guild(359714850865414144)
     ws=await get_worksheet(sheet_name=gamble_sheet,addr="https://docs.google.com/spreadsheets/d/1y1XnmgggAxVVJ3jJrVBocGTjpBR7b8_L9sf47GKBNok/edit#gid=0")
     arenachannel=grace.get_channel(channels['Arena'])
     for user in team:
@@ -136,6 +138,8 @@ async def give_prize_money(team):
 ##################################################################
 #우승기록 관련    
 def get_member_from_mention(mention):
+    global grace
+    grace=client.get_guild(359714850865414144)
     if not (mention.startswith('<@') and mention.endswith('>')):
         return -1
     if mention[2]!='!':
@@ -196,6 +200,8 @@ async def get_record(ws,user=None,mention=None):
     return ws.cell(row,8).value
 
 async def update_arena_record(team):
+    global grace
+    grace=client.get_guild(359714850865414144)
     ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     arenachannel=grace.get_channel(channels['Arena'])
     recent = await get_arena_number(ws)
@@ -454,6 +460,9 @@ async def 아레나(message):
         await message.channel.send("운영진만 아레나 역할을 부여할 수 있습니다.")
         return
 
+    global grace
+    grace=client.get_guild(359714850865414144)
+
     arena1=grace.get_role(roles['아레나1'])
     arena2=grace.get_role(roles['아레나2'])
     leader=grace.get_role(roles['아레나팀장'])
@@ -489,16 +498,22 @@ async def 종료(message):
     if not is_moderator(closer):
         await message.channel.send("운영진만 아레나를 종료할 수 있습니다.")
         return
+
+    global grace
+    grace=client.get_guild(359714850865414144)
     
     logchannel=message.message.guild.get_channel(channels['활동로그'])
 
     arena1=grace.get_role(roles['아레나1'])
     team1=arena1.members
+    print(team1)
     arena2=grace.get_role(roles['아레나2'])
     team2=arena2.members
+    print(team2)
     leader=grace.get_role(roles['아레나팀장'])
 
     winner=content(message).split()[1]
+    print(winner)
     if winner=='0':
         pass
     elif winner=='1':       
@@ -510,12 +525,14 @@ async def 종료(message):
     else:
         await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
         return
+    print('updates finished')
 
     log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
     cnt=1
     for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
         cnt+=1
+    print('')
 
     for user in team1:
         await user.remove_roles(arena1, leader, atomic=True)
@@ -530,7 +547,7 @@ async def 종료(message):
 
 @client.command()
 async def 안내(message):
-    global current_game
+    global current_game, grace
     grace=client.get_guild(359714850865414144)
 
     if message.channel.id!=channels['Arena']:
