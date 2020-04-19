@@ -155,7 +155,9 @@ async def on_message(message):
 async def on_message_delete(message):
     if BETA: return
 
-    create = str(message.created_at) + ('(최종수정 {})'.format(message.edited_at) if message.hasattr('edited_at'))
+    create = str(message.created_at)
+    if message.hasattr('edited_at'):
+    	create+='(최종수정 {})'.format(message.edited_at)
     author = message.author
     content = message.clean_content
     channel = message.channel
