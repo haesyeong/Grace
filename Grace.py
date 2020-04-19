@@ -162,7 +162,7 @@ async def on_message_delete(message):
     content = message.clean_content
     channel = message.channel
     delchannel = message.guild.get_channel(527859699702562828)
-    await delchannel.send('{} - {} / {}: {}'.format(craete, channel, author, content))
+    await delchannel.send('{} - {} / {}: {}'.format(create, channel, author, content))
 
 @client.event
 async def on_member_join(member):
