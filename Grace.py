@@ -95,6 +95,7 @@ async def on_message(message):
         except gspread.exceptions.APIError:
             return
         
+        mention=spreadsheet.cell(index, 1).value
         battletag = spreadsheet.cell(index, 2).value
         link = spreadsheet.cell(index, 4).value
         description = spreadsheet.cell(index, 5).value
@@ -137,6 +138,7 @@ async def on_message(message):
             embed = discord.Embed(title="바로가기", url=link, description=description, color=0x5c0bb7)
 
         embed.set_author(name=battletag)
+        embed.add_field(name="멘션", value=mention, inline=True)
         embed.add_field(name="직책", value=roleimage + role, inline=True)
         if arena not in banned:
             embed.add_field(name="Grace Arena", value=":trophy: 제" + arena + "회 우승", inline=True)
