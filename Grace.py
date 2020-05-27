@@ -159,7 +159,7 @@ async def on_message_delete(message):
 
     create = str(message.created_at).split('.')[0]
     if message.edited_at:
-    	create+='(최종수정 {})'.format(str(message.edited_at).split('.')[0])
+    	create+='(최종수정 {})'.format(str(message.edited_at+datetime.timedelta(hours=9)).split('.')[0])
     author = message.author
     content = message.clean_content
     channel = message.channel
