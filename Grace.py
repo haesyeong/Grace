@@ -195,6 +195,7 @@ async def periodic_sweep():
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         next_notify+=datetime.timedelta(days=1)
+        print('next sweep:', next_notify)
 
         creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
         auth=gspread.authorize(creds)
@@ -206,7 +207,7 @@ async def periodic_sweep():
         try:
             worksheet=sheet.worksheet('responses')
         except gspread.exceptions.APIError:
-            continue
+            print('spreadsheet error; trying tomorrow.')
 
         res=worksheet.get_all_values()
         nicks={*map(lambda x:x.nick.split('/')[0] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
@@ -217,7 +218,6 @@ async def periodic_sweep():
                 worksheet.update_cell(i+1,3,"")
 
         print('sweep finished')
-        return
 
 access_token = os.environ["BOT_TOKEN"]
 client.loop.create_task(periodic_sweep())
