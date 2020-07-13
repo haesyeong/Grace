@@ -104,7 +104,8 @@ async def on_message(message):
         arena = spreadsheet.cell(index, 8).value
         league_first = spreadsheet.cell(index, 9).value
         league_second = spreadsheet.cell(index, 10).value
-        print(index, battletag, link, description, imagelink, thumbnaillink, arena, league_first, league_second)
+        friends = spreadsheet.cell(index, 11).value
+        print(index, battletag, link, description, imagelink, thumbnaillink, arena, league_first, league_second, friends)
 
         member=await get_member_by_battletag(battletag)
         if member==None:
@@ -146,6 +147,8 @@ async def on_message(message):
             embed.add_field(name="Grace League", value=":first_place: 제" + league_first + "회 우승", inline=False)
         if league_second not in banned:
             embed.add_field(name="Grace League", value=":second_place:제" + league_second + "회 준우승", inline=False)
+        if friends not in banned:
+            embed.add_field(name="우친바", value=friends, inline=False)
         if imagelink not in banned:
             embed.set_image(url=imagelink)
         if thumbnaillink not in banned:
@@ -189,17 +192,16 @@ async def periodic_sweep():
 
     global grace
     await client.wait_until_ready()
-    grace=client.get_guild(359714850865414144)
     cur=current_time()
     next_notify=datetime.datetime(cur.year, cur.month, cur.day, 1, 0, 0)+datetime.timedelta(days=1)
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         next_notify+=datetime.timedelta(days=1)
         print('next sweep:', next_notify)
-
+        
         creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
         auth=gspread.authorize(creds)
-
+        
         if creds.access_token_expired:
             auth.login()
 
@@ -208,7 +210,8 @@ async def periodic_sweep():
             worksheet=sheet.worksheet('responses')
         except gspread.exceptions.APIError:
             print('spreadsheet error; trying tomorrow.')
-
+        
+        grace=client.get_guild(359714850865414144)
         res=worksheet.get_all_values()
         nicks={*map(lambda x:x.nick.split('/')[0] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
 
