@@ -221,6 +221,7 @@ async def periodic_sweep():
             if (res[i][1] not in nicks) and res[i][2]!="":
                 worksheet.update_cell(i+1,3,"")
 
+        '''
         print("Record sweep")
         to_be_deleted=[]
         for i in range(1,len(res)):
@@ -230,6 +231,7 @@ async def periodic_sweep():
 
         for i in reversed(to_be_deleted):
             worksheet.delete_row(i)
+        '''
 
         print('sweep finished')
 
