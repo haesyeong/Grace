@@ -193,7 +193,7 @@ async def periodic_sweep():
     global grace
     await client.wait_until_ready()
     cur=current_time()
-    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 2, 10, 0)+datetime.timedelta(days=1)
+    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 2, 13, 0)+datetime.timedelta(days=1)
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         next_notify+=datetime.timedelta(days=1)
@@ -230,7 +230,7 @@ async def periodic_sweep():
 
         print(to_be_deleted)
         for i in reversed(sorted(to_be_deleted)):
-            worksheet.delete_row(i)
+            worksheet.delete_row(i+1)
 
         print('sweep finished')
 
