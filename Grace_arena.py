@@ -169,7 +169,7 @@ async def get_row_by_nick(ws,user=None,mention=None):
 async def get_arena_number(ws=None):
     if ws==None:
         ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
-    return int(ws.cell(1,15).value)
+    return int(ws.cell(1,1).value)
     
 async def update_record(ws, record, user=None, mention=None):
     recent = await get_arena_number(ws)
@@ -181,8 +181,8 @@ async def update_record(ws, record, user=None, mention=None):
     if row==-1:
         return False
 
-    if(record == "X"):
-        ws.update_cell(row, 8, "")
+    if(record == ""):
+        #ws.update_cell(row, 8, "")
         ws.update_cell(row, 8, recent)
     else:
         ws.update_cell(row, 8, record+","+str(recent))
@@ -212,7 +212,7 @@ async def update_arena_record(team):
             continue
         else:
             await arenachannel.send("{} 우승기록 수동 기입이 필요합니다".format(user.mention))
-    ws.update_cell(1, 15, recent+1)
+    ws.update_cell(1, 1, recent+1)
             
      
 async def get_all_players(ws):
