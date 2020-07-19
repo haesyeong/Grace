@@ -215,10 +215,21 @@ async def periodic_sweep():
         res=worksheet.get_all_values()
         nicks={*map(lambda x:x.nick.split('/')[0] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
 
+        print("Command sweep")
         for i in range(1,len(res)):
             print(res[i][1], (res[i][1] not in nicks) and res[i][2]!="")
             if (res[i][1] not in nicks) and res[i][2]!="":
                 worksheet.update_cell(i+1,3,"")
+
+        print("Record sweep")
+        to_be_deleted=[]
+        for i in range(1,len(res)):
+            print(res[i][1], (res[i][1] not in nicks), (res[i][7]+res[i][8]+res[i][9]+res[i][10]).strip()=="")
+            if (res[i][1] not in nicks) and (res[i][7]+res[i][8]+res[i][9]+res[i][10]).strip()=="":
+                to_be_deleted.append(i)
+
+        for i in reversed(to_be_deleted):
+            worksheet.delete_row(i)
 
         print('sweep finished')
 
