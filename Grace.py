@@ -193,7 +193,7 @@ async def periodic_sweep():
     global grace
     await client.wait_until_ready()
     cur=current_time()
-    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 1, 10, 0)+datetime.timedelta(days=1)
+    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 1, 20, 0)+datetime.timedelta(days=1)
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         next_notify+=datetime.timedelta(days=1)
@@ -216,8 +216,8 @@ async def periodic_sweep():
         nicks={*map(lambda x:x.nick.split('/')[0] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
 
         for i in range(1,len(res)):
-            print(res[i][1], (res[i][1] not in nicks) and res[i][3]!="")
-            if (res[i][1] not in nicks) and res[i][3]!="":
+            print(res[i][1], (res[i][1] not in nicks) and res[i][2]!="")
+            if (res[i][1] not in nicks) and res[i][2]!="":
                 worksheet.update_cell(i+1,3,"")
 
         print('sweep finished')
