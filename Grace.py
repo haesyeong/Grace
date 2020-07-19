@@ -193,7 +193,7 @@ async def periodic_sweep():
     global grace
     await client.wait_until_ready()
     cur=current_time()
-    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 1, 37, 0)+datetime.timedelta(days=1)
+    next_notify=datetime.datetime(cur.year, cur.month, cur.day, 2, 10, 0)+datetime.timedelta(days=1)
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
         next_notify+=datetime.timedelta(days=1)
@@ -221,7 +221,6 @@ async def periodic_sweep():
             if (res[i][1] not in nicks) and res[i][2]!="":
                 worksheet.update_cell(i+1,3,"")
 
-        '''
         print("Record sweep")
         to_be_deleted=[]
         for i in range(1,len(res)):
@@ -229,9 +228,9 @@ async def periodic_sweep():
             if (res[i][1] not in nicks) and (res[i][7]+res[i][8]+res[i][9]+res[i][10]).strip()=="":
                 to_be_deleted.append(i)
 
-        for i in reversed(to_be_deleted):
+        print(to_be_deleted)
+        for i in reversed(sorted(to_be_deleted)):
             worksheet.delete_row(i)
-        '''
 
         print('sweep finished')
 
