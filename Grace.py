@@ -119,13 +119,13 @@ async def on_message(message):
         else:
             return
 
-        if role == "클랜 마스터":
+        if data['role'] == "클랜 마스터":
             data['roleimage'] = ":pen_ballpoint:"
-        elif role=="운영진":
+        elif data['role'] == "운영진":
             data['roleimage'] = ":construction_worker:"
-        elif role == "클랜원":
+        elif data['role'] == "클랜원":
             data['roleimage'] = ":boy:"
-        elif role == "신입 클랜원":
+        elif data['role'] == "신입 클랜원":
             data['roleimage'] = ":baby:"
 
         print(data)
