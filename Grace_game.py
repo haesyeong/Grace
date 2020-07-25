@@ -227,7 +227,7 @@ class Internal():
 
     async def get_game(self):
         ws=await get_worksheet()
-        ws.update_cell(2,1,game)
+        return ws.cell(2,1).value
 
     async def get_time(self):
         ws=await get_worksheet()
