@@ -241,7 +241,7 @@ class Internal():
         ws=await get_worksheet()
         return ws.cell(5,1).value=='1'
 
-        async def open_additional(self):
+    async def open_additional(self):
         ws=await get_worksheet()
         if ws.cell(5,1).value=='0':
             ws.update_cell(5,1,'1')
