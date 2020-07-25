@@ -105,6 +105,10 @@ async def on_message(message):
         data = dict(zip(indices, values))
 
         maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
+        if maintag==data['overwatch']:
+            data['maintag']='오버워치'
+        elif maintag==data['valorant']:
+            data['maintag']='발로란트'
 
         if member==None:
             return
@@ -136,9 +140,15 @@ async def on_message(message):
         else:
             embed = discord.Embed(title="바로가기", url=data['link'], description=data['description'], color=0x5c0bb7)
 
-        embed.set_author(name=maintag)
+        embed.set_author(name='{}({})'.format(maintag, data['maintag']))
         embed.add_field(name="멘션", value=data['mention'], inline=True)
         embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
+
+        if data['maintag']=='오버워치' and data['valorant'] not in banned:
+            embed.add_field(name='발로란트', value = data['valorant'], inline=False)
+        if data['maintag']=='발로란트' and data['overwatch'] not in banned:
+            embed.add_field(name='오버워치', value = data['overwatch'], inline=False)
+
         if data['arena'] not in banned:
             embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'] + "회 우승", inline=False)
         if data['league_first'] not in banned:
