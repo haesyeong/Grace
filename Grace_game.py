@@ -308,6 +308,10 @@ async def 내전개최(message):
     time=datetime.datetime(year=current.year, month=current.month, day=current.day, hour=0, minute=0)\
          +datetime.timedelta(hours=hour, minutes=minute)
 
+    if game not in ['오버워치', '발로란트']:
+        await message.channel.send("진행될 게임은 오버워치 또는 발로란트만 가능합니다.")
+        return
+
     while time<current_time():
         if hour24:
             time+=datetime.timedelta(hours=24)
@@ -448,7 +452,7 @@ async def 내전종료(message):
 
     if current_game.get_game()=='오버워치':
         await current_game.leave_record()
-    
+
     await current_game.close()
     current_game=None
 
