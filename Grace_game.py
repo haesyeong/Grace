@@ -141,9 +141,10 @@ def get_mention_from_player(member):
 
 class Internal():
     @classmethod
-    async def create(cls, opener, time):
+    async def create(cls, opener, game, time):
         self=Internal()
         await self.set_opener(opener)
+        await self.set_game(game)
         await self.set_time(time)
         ws=await get_worksheet()
         ws.update_cell(4,1,'0')
@@ -208,41 +209,49 @@ class Internal():
             return True
         return False
 
-    async def open_additional(self):
+    async def set_game(self, game):
         ws=await get_worksheet()
-        if ws.cell(4,1).value=='0':
-            ws.update_cell(4,1,'1')
-            return True
-        return False
+        ws.update_cell(2,1,game)
 
     async def set_time(self, time):
         ws=await get_worksheet()
-        ws.update_cell(2,1,repr(time))
+        ws.update_cell(3,1,repr(time))
+
+    async def set_delta(self, delta):
+        ws=await get_worksheet()
+        ws.update_cell(4,1,str(delta))
 
     async def set_opener(self, opener):
         ws=await get_worksheet()
         ws.update_cell(1,1,opener.mention)
 
-    async def get_time(self):
+    async def get_game(self, game):
         ws=await get_worksheet()
-        return eval(ws.cell(2,1).value)
+        ws.update_cell(2,1,game)
 
-    async def get_delta(self):
+    async def get_time(self):
         ws=await get_worksheet()
         return eval(ws.cell(3,1).value)
 
-    async def set_delta(self, delta):
+    async def get_delta(self):
         ws=await get_worksheet()
-        ws.update_cell(3,1,str(delta))
+        return eval(ws.cell(4,1).value)
 
     async def is_additional_opened(self):
         ws=await get_worksheet()
-        return ws.cell(4,1).value=='1'
+        return ws.cell(5,1).value=='1'
+
+        async def open_additional(self):
+        ws=await get_worksheet()
+        if ws.cell(5,1).value=='0':
+            ws.update_cell(5,1,'1')
+            return True
+        return False    
 
     async def close(self):
         ws=await get_worksheet()
         ws.clear()
-        ws.resize(rows=4, cols=1)
+        ws.resize(rows=5, cols=1)
 
     async def leave_record(self):
         ws=await get_worksheet(record_name)
@@ -281,11 +290,16 @@ async def 내전개최(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
+        await message.channel.send("진행될 게임을 입력해주세요.")
+        return
+    elif len(time)==2:
+        game=time[1]
         hour=21
         minute=0
         hour24=True
     else:
-        time=time[1].split(':')
+        game=time[1]
+        time=time[2].split(':')
         hour=int(time[0])
         minute=int(time[1])
         hour24=False
@@ -299,10 +313,10 @@ async def 내전개최(message):
             time+=datetime.timedelta(hours=24)
         else:
             time+=datetime.timedelta(hours=12)
-    current_game=await Internal.create(opener, time)
+    current_game=await Internal.create(opener, game, time)
     await current_game.set_delta(30)
 
-    msg="@everyone\n{} 내전 신청이 열렸습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], (await current_game.get_opener()).mention)
+    msg="@everyone\n{} {} 내전 신청이 열렸습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], (await current_game.get_game()) (await current_game.get_opener()).mention)
     await message.channel.send(msg)
 
 @client.command()
@@ -469,7 +483,7 @@ async def 목록(message):
     else:
         condition='전체'
 
-    embed=discord.Embed(title="내전 참가자 목록({})".format(condition))
+    embed=discord.Embed(title="{} 내전 참가자 목록({})".format((await current_game.get_game()), condition))
     embed.add_field(name="일시",value=str(await current_game.get_time())[:-3], inline=True)
     embed.add_field(name="개최자",value=(await current_game.get_opener()).nick.split('/')[0], inline=False)
 

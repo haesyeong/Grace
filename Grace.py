@@ -224,19 +224,19 @@ async def periodic_sweep():
         
         grace=client.get_guild(359714850865414144)
         res=worksheet.get_all_values()
-        nicks={*map(lambda x:x.nick.split('/')[0] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
+        nicks={*map(lambda x:x.nick.split('/')[0:1] if (x.nick!=None and '/' in x.nick) else '', grace.members)}
 
         print("Command sweep")
         for i in range(1,len(res)):
-            print(res[i][1], (res[i][1] not in nicks) and res[i][2]!="")
-            if (res[i][1] not in nicks) and res[i][2]!="":
-                worksheet.update_cell(i+1,3,"")
+            print(res[i][2], res[i][3], (((res[i][2],'O') not in nicks) or ((res[i][3],'V') not in nicks)), res[i][1]!="")
+            if (((res[i][2],'O') not in nicks) or ((res[i][3],'V') not in nicks)) and res[i][1]!="":
+                worksheet.update_cell(i+1,2,"")
 
         print("Record sweep")
         to_be_deleted=[]
         for i in range(1,len(res)):
-            print(res[i][1], (res[i][1] not in nicks), (res[i][7]+res[i][8]+res[i][9]+res[i][10]).strip()=="")
-            if (res[i][1] not in nicks) and (res[i][7]+res[i][8]+res[i][9]+res[i][10]).strip()=="":
+            print(res[i][2], res[i][3], (((res[i][2],'O') not in nicks) or ((res[i][3],'V') not in nicks)), ''.join((res[i][8:])).strip()=="")
+            if (((res[i][2],'O') not in nicks) or ((res[i][3],'V') not in nicks)) and ''.join((res[i][8:])).strip()=="":
                 to_be_deleted.append(i)
 
         print(to_be_deleted)
