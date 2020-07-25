@@ -102,6 +102,9 @@ async def on_message(message):
 
         values = spreadsheet.row_values(index)
 
+        while len(values)<len(indices):
+            values.append('')
+
         data = dict(zip(indices, values))
 
         maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
