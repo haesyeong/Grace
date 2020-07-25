@@ -446,7 +446,9 @@ async def 내전종료(message):
             continue
     log+='\n\n내전 신청자 총 {}명'.format(cnt-1)
 
-    await current_game.leave_record()
+    if current_game.get_game()=='오버워치':
+        await current_game.leave_record()
+    
     await current_game.close()
     current_game=None
 
