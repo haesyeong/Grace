@@ -147,9 +147,9 @@ async def on_message(message):
             embed.add_field(name="Grace League", value=":second_place:제" + data['league_second'] + "회 준우승", inline=False)
         if data['friends'] not in banned:
             embed.add_field(name="우친바", value=data['friends'], inline=False)
-        if data['imagelink'] not in banned:
+        if data['image'] not in banned:
             embed.set_image(url=data['image'])
-        if data['thumbnaillink'] not in banned:
+        if data['thumbnail'] not in banned:
             embed.set_thumbnail(url=data['thumbnail'])
 
         await channel.send(embed=embed)
