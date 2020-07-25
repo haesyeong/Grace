@@ -50,9 +50,9 @@ async def get_member_by_gametag(overwatch, valorant):
 
     for member in grace.members:
         try:
-            if (overwatch!=None and member.nick.startswith(overwatch+'/')):#O/
+            if (overwatch!=None and member.nick.startswith(overwatch+'/')):#OW/
                 return overwatch, member
-            if (valorant!=None and member.nick.startswith(valorant+'/V/')):
+            if (valorant!=None and member.nick.startswith(valorant+'/VR/')):
                 return valorant, memeber
 
         except:
