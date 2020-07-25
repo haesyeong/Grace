@@ -44,14 +44,17 @@ async def get_spreadsheet(ws_name):
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
-async def get_member_by_battletag(battletag):
+async def get_member_by_gametag(overwatch, valorant):
     global grace
     grace=client.get_guild(359714850865414144)
 
     for member in grace.members:
         try:
-            if member.nick.startswith(battletag+'/'):
-                return member
+            if (overwatch!=None and member.nick.startswith(overwatch+'/')):#O/
+                return overwatch, member
+            if (valorant!=None and member.nick.startswith(valorant+'/V/')):
+                return valorant, memeber
+
         except:
             continue
 
@@ -85,7 +88,7 @@ async def on_message(message):
             await channel.send(embed=embed)
             return
 
-        nickname = spreadsheet.col_values(3)
+        nickname = spreadsheet.col_values(2)
         
         try:
             index = nickname.index(author) + 1
@@ -95,64 +98,59 @@ async def on_message(message):
         except gspread.exceptions.APIError:
             return
         
-        mention=spreadsheet.cell(index, 1).value
-        battletag = spreadsheet.cell(index, 2).value
-        link = spreadsheet.cell(index, 4).value
-        description = spreadsheet.cell(index, 5).value
-        imagelink = spreadsheet.cell(index, 6).value
-        thumbnaillink = spreadsheet.cell(index, 7).value
-        arena = spreadsheet.cell(index, 8).value
-        league_first = spreadsheet.cell(index, 9).value
-        league_second = spreadsheet.cell(index, 10).value
-        friends = spreadsheet.cell(index, 11).value
-        print(index, battletag, link, description, imagelink, thumbnaillink, arena, league_first, league_second, friends)
+        indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'league1', 'league2', 'friends']
 
-        member=await get_member_by_battletag(battletag)
+        values = spreadsheet.row_values(index)
+
+        data = dict(zip(indices, values))
+
+        maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
+
         if member==None:
             return
         elif has_role(member, '클랜 마스터'):
-            role='클랜 마스터'
+            data['role']='클랜 마스터'
         elif has_role(member, '운영진'):
-            role='운영진'
+            data['role']='운영진'
         elif has_role(member, '클랜원'):
-            role='클랜원'
+            data['role']='클랜원'
         elif has_role(member, '신입 클랜원'):
-            role='신입 클랜원'
+            data['role']='신입 클랜원'
         else:
             return
 
-        print(battletag)
-        print(role)
         if role == "클랜 마스터":
-            roleimage = ":pen_ballpoint:"
+            data['roleimage'] = ":pen_ballpoint:"
         elif role=="운영진":
-            roleimage = ":construction_worker:"
+            data['roleimage'] = ":construction_worker:"
         elif role == "클랜원":
-            roleimage = ":boy:"
+            data['roleimage'] = ":boy:"
         elif role == "신입 클랜원":
-            roleimage = ":baby:"
+            data['roleimage'] = ":baby:"
 
-        banned=["X", '', 'x']
-        if link in banned:
-            embed = discord.Embed(title="한줄소개", description=description, color=0x5c0bb7)
+        print(data)
+
+        banned=["X", '', 'x', None]
+        if data['link'] in banned:
+            embed = discord.Embed(title="한줄소개", description=data['description'], color=0x5c0bb7)
         else:
-            embed = discord.Embed(title="바로가기", url=link, description=description, color=0x5c0bb7)
+            embed = discord.Embed(title="바로가기", url=data['link'], description=data['description'], color=0x5c0bb7)
 
-        embed.set_author(name=battletag)
-        embed.add_field(name="멘션", value=mention, inline=True)
-        embed.add_field(name="직책", value=roleimage + role, inline=True)
-        if arena not in banned:
-            embed.add_field(name="Grace Arena", value=":trophy: 제" + arena + "회 우승", inline=False)
-        if league_first not in banned:
-            embed.add_field(name="Grace League", value=":first_place: 제" + league_first + "회 우승", inline=False)
-        if league_second not in banned:
-            embed.add_field(name="Grace League", value=":second_place:제" + league_second + "회 준우승", inline=False)
-        if friends not in banned:
-            embed.add_field(name="우친바", value=friends, inline=False)
-        if imagelink not in banned:
-            embed.set_image(url=imagelink)
-        if thumbnaillink not in banned:
-            embed.set_thumbnail(url=thumbnaillink)
+        embed.set_author(name=maintag)
+        embed.add_field(name="멘션", value=data['mention'], inline=True)
+        embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
+        if data['arena'] not in banned:
+            embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'] + "회 우승", inline=False)
+        if data['league_first'] not in banned:
+            embed.add_field(name="Grace League", value=":first_place: 제" + data['league_first'] + "회 우승", inline=False)
+        if data['league_second'] not in banned:
+            embed.add_field(name="Grace League", value=":second_place:제" + data['league_second'] + "회 준우승", inline=False)
+        if data['friends'] not in banned:
+            embed.add_field(name="우친바", value=data['friends'], inline=False)
+        if data['imagelink'] not in banned:
+            embed.set_image(url=data['imagelink'])
+        if data['thumbnaillink'] not in banned:
+            embed.set_thumbnail(url=data['thumbnaillink'])
 
         await channel.send(embed=embed)
 
@@ -235,5 +233,5 @@ async def periodic_sweep():
         print('sweep finished')
 
 access_token = os.environ["BOT_TOKEN"]
-client.loop.create_task(periodic_sweep())
+#client.loop.create_task(periodic_sweep())
 client.run(access_token)
