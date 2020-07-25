@@ -225,7 +225,7 @@ class Internal():
         ws=await get_worksheet()
         ws.update_cell(1,1,opener.mention)
 
-    async def get_game(self, game):
+    async def get_game(self):
         ws=await get_worksheet()
         ws.update_cell(2,1,game)
 
