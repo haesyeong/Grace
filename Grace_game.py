@@ -381,7 +381,6 @@ async def 시간변경(message):
             time+=datetime.timedelta(hours=24)
         else:
             time+=datetime.timedelta(hours=12)
-    current_game=await Internal.create(opener, time)
     
     prev_time=await current_game.get_time()
     await current_game.set_time(time)
