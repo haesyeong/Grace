@@ -320,7 +320,7 @@ async def 내전개최(message):
     current_game=await Internal.create(opener, game, time)
     await current_game.set_delta(30)
 
-    msg="@everyone\n{} {} 내전 신청이 열렸습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], (await current_game.get_game()) (await current_game.get_opener()).mention)
+    msg="@everyone\n{} {} 내전 신청이 열렸습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], (await current_game.get_game()), (await current_game.get_opener()).mention)
     await message.channel.send(msg)
 
 @client.command()
