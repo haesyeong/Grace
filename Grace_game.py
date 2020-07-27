@@ -147,7 +147,7 @@ class Internal():
         await self.set_game(game)
         await self.set_time(time)
         ws=await get_worksheet()
-        ws.update_cell(4,1,'0')
+        ws.update_cell(5,1,'0')
         return self
 
     @classmethod
