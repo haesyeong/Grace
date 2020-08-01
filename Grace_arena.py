@@ -182,10 +182,10 @@ async def update_record(ws, record, user=None, mention=None):
         return False
 
     if(record == ""):
-        #ws.update_cell(row, 8, "")
-        ws.update_cell(row, 8, recent)
+        #ws.update_cell(row, 9, "")
+        ws.update_cell(row, 9, recent)
     else:
-        ws.update_cell(row, 8, record+","+str(recent))
+        ws.update_cell(row, 9, record+","+str(recent))
     return 1
 
 async def get_record(ws,user=None,mention=None):
@@ -197,7 +197,7 @@ async def get_record(ws,user=None,mention=None):
         print(row)
     if row==-1:
         return 0
-    return ws.cell(row,8).value
+    return ws.cell(row,9).value
 
 async def update_arena_record(team):
     global grace
