@@ -54,7 +54,7 @@ async def get_member_by_gametag(overwatch, valorant):
                 return overwatch, member
             if (valorant!=None and member.nick.startswith(valorant+'/VR/')):
                 return valorant, memeber
-
+            return None, None
         except:
             continue
 
