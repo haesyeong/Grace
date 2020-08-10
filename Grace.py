@@ -108,6 +108,7 @@ async def on_message(message):
         data = dict(zip(indices, values))
 
         maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
+        print(maintag, member)
         if maintag==data['overwatch']:
             data['maintag']='오버워치'
         elif maintag==data['valorant']:
