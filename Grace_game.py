@@ -326,6 +326,7 @@ async def 내전개최(message):
 @client.command()
 async def 신청변경(message):
     global current_game
+    opener_log=(await current_game.get_opener())
 
     if message.channel.id!=channels['내전신청']:
         return
@@ -334,20 +335,21 @@ async def 신청변경(message):
         return
 
     opener=author(message)
-    if opener!=(await current_game.get_opener()) and (not is_moderator(opener)):
+    if opener!=opener_log and (not is_moderator(opener)):
         await message.channel.send("내전 개최자 또는 운영진만 신청 시간을 변경할 수 있습니다.")
         return
 
     delta=content(message).split()[1]
     await current_game.set_delta(int(delta))
 
-    msg="@everyone\n{} 내전이 이제 {}분 전까지 신청할 수 있습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], str(await current_game.get_delta()), (await current_game.get_opener()).mention)
+    msg="@everyone\n{} 내전이 이제 {}분 전까지 신청할 수 있습니다.\n개최자: {}".format(str(await current_game.get_time())[:-3], str(await current_game.get_delta()), opener_log.mention)
     await message.channel.send(msg)
 
 
 @client.command()
 async def 시간변경(message):
     global current_game
+    opener_log=(await current_game.get_opener())
 
     if message.channel.id!=channels['내전신청']:
         return
@@ -356,7 +358,7 @@ async def 시간변경(message):
         return
 
     opener=author(message)
-    if opener!=(await current_game.get_opener()) and (not is_moderator(opener)):
+    if opener!=opener_log and (not is_moderator(opener)):
         await message.channel.send("내전 개최자 또는 운영진만 시간을 변경할 수 있습니다.")
         return
 
@@ -385,7 +387,7 @@ async def 시간변경(message):
     prev_time=await current_game.get_time()
     await current_game.set_time(time)
 
-    msg="@everyone\n{} 내전이 {}로 변경되었습니다.\n개최자: {}".format(str(prev_time)[:-3], str(await current_game.get_time())[:-3], (await current_game.get_opener()).mention)
+    msg="@everyone\n{} 내전이 {}로 변경되었습니다.\n개최자: {}".format(str(prev_time)[:-3], str(await current_game.get_time())[:-3], opener_log.mention)
     await message.channel.send(msg)
 
 @client.command()
@@ -405,6 +407,7 @@ async def 내전확인(message):
 @client.command()
 async def 개최자변경(message):
     global current_game
+    opener_log=(await current_game.get_opener())
 
     if message.channel.id!=channels['내전신청']:
         return
@@ -413,18 +416,19 @@ async def 개최자변경(message):
         return
 
     prev_opener=author(message)
-    if prev_opener!=(await current_game.get_opener()) and (not is_moderator(prev_opener)):
+    if prev_opener!=opener_log and (not is_moderator(prev_opener)):
         await message.channel.send("내전 개최자 또는 운영진만 개최자를 변경할 수 있습니다.")
         return
 
     new_opener=message.message.mentions[0]
     await current_game.set_opener(new_opener)
-    msg="@everyone\n{} 내전 개최자가 {}로 변경되었습니다.".format(str(await current_game.get_time())[:-3], (await current_game.get_opener()).mention)
+    msg="@everyone\n{} 내전 개최자가 {}로 변경되었습니다.".format(str(await current_game.get_time())[:-3], opener_log.mention)
     await message.channel.send(msg)
 
 @client.command()
 async def 내전종료(message):
     global current_game
+    opener_log=(await current_game.get_opener())
 
     if message.channel.id!=channels['내전신청']:
         return
@@ -433,17 +437,17 @@ async def 내전종료(message):
         return
 
     closer=author(message)
-    if closer!=(await current_game.get_opener()) and (not is_moderator(closer)):
+    if closer!=opener_log and (not is_moderator(closer)):
         await message.channel.send("내전 개최자 또는 운영진만 내전을 종료할 수 있습니다.")
         return
     
     logchannel=message.message.guild.get_channel(channels['활동로그'])
 
-    log="{} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (await current_game.get_opener()).nick.split('/')[0])
+    log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (await current_game.get_game()), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
     cnt=1
     for user in (await current_game.get_players()):
         try:
-            log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
+            log+='\n{}. {}'.format(cnt, user.nick.split('/')[0]+'/'+user.nick.split('/')[1])
             cnt+=1
         except:
             continue
@@ -503,12 +507,12 @@ async def 목록(message):
             pass
         cnt+=1
         if (condition in ['홀수', '전체'] and cnt%2==1) or (condition in ['짝수', '전체'] and cnt%2==0):
-            log+='\n{}. {}'.format(cnt, user.split('/')[0])
+            log+='\n{}. {}'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
         if condition in '홀짝'.split():
             if cnt%2==0:
-                log+='\n__{}. {}__'.format(cnt, user.split('/')[0])
+                log+='\n__{}. {}__'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
             else:
-                log+='\n{}. {}'.format(cnt, user.split('/')[0])
+                log+='\n{}. {}'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
     log+='\n\n내전 신청자 총 {}명'.format(cnt)
 
     embed.add_field(name="신청자",value=log)
