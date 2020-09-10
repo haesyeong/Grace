@@ -501,19 +501,18 @@ async def 목록(message):
     log=""
     cnt=0
     for user in await current_game.get_players():
-        print(user)
         try:
-            user=user.nick
+            user=user.nick.split('/')[0]+'/'+user.nick.split('/')[1]
         except:
             pass
         cnt+=1
         if (condition in ['홀수', '전체'] and cnt%2==1) or (condition in ['짝수', '전체'] and cnt%2==0):
-            log+='\n{}. {}'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
+            log+='\n{}. {}'.format(cnt, user)
         if condition in '홀짝'.split():
             if cnt%2==0:
-                log+='\n__{}. {}__'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
+                log+='\n__{}. {}__'.format(cnt, user)
             else:
-                log+='\n{}. {}'.format(cnt, user.split('/')[0]+'/'+user.split('/')[1])
+                log+='\n{}. {}'.format(cnt, user)
     log+='\n\n내전 신청자 총 {}명'.format(cnt)
 
     embed.add_field(name="신청자",value=log)
