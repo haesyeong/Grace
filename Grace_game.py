@@ -170,10 +170,10 @@ class Internal():
         val=await get_all_players(ws)
         users=[]
         for entry in val:
-            user=get_member_from_mention(entry)
-            if user==-1 and entry.startswith('용병:'):
+            if entry.startswith('용병:'):
                 users.append(entry)
             else:
+                user=get_member_from_mention(entry)
                 users.append(user)
         return users
 
@@ -501,6 +501,7 @@ async def 목록(message):
     log=""
     cnt=0
     for user in await current_game.get_players():
+        print(user)
         try:
             user=user.nick
         except:
