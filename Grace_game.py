@@ -19,7 +19,7 @@ BETA=False
 BETA_TESTLAB=486550288686120961
 
 sheet_name='players'
-record_name='record'
+record_name={'오버워치':'record_OW', '발로란트':'record_VR'}
 
 channels={
     '내전신청':    469109911016570890,
@@ -66,6 +66,12 @@ async def 랜덤(message):
 async def 쟁탈추첨(message):
     if BETA and message.channel.id!=BETA_TESTLAB: return
     maps=['리장 타워','일리오스','오아시스','부산','네팔',]
+    await message.channel.send(random.choice(maps))
+
+@client.command()
+async def VR추첨(message):
+    if BETA and message.channel.id!=BETA_TESTLAB: return
+    maps='바인드 스플릿 헤이븐 어센트'.split()
     await message.channel.send(random.choice(maps))
 
 ############################################################
@@ -253,8 +259,8 @@ class Internal():
         ws.clear()
         ws.resize(rows=5, cols=1)
 
-    async def leave_record(self):
-        ws=await get_worksheet(record_name)
+    async def leave_record(self, game):
+        ws=await get_worksheet(record_name[game])
         for user in await current_game.get_players():
             try:
                 ws.append_row([user.mention])
@@ -429,6 +435,7 @@ async def 개최자변경(message):
 async def 내전종료(message):
     global current_game
     opener_log=(await current_game.get_opener())
+    now_playing=(await current_game.get_game())
 
     if message.channel.id!=channels['내전신청']:
         return
@@ -443,7 +450,7 @@ async def 내전종료(message):
     
     logchannel=message.message.guild.get_channel(channels['활동로그'])
 
-    log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (await current_game.get_game()), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
+    log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (now_playing), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
     cnt=1
     for user in (await current_game.get_players()):
         try:
@@ -453,11 +460,8 @@ async def 내전종료(message):
             continue
     log+='\n\n내전 신청자 총 {}명'.format(cnt-1)
 
-    print((await current_game.get_game()), (await current_game.get_game())=='오버워치')
-    if (await current_game.get_game())=='오버워치':
-        print("Leaving record...")
-        await current_game.leave_record()
-
+    print("Leaving record...")
+    await current_game.leave_record(now_playing)
     await current_game.close()
     current_game=None
 
@@ -727,7 +731,7 @@ async def 도움말(ctx):
         embed.add_field(name="!빠대목록\n",value="빠대 역할을 부여받은 모든 사람의 목록을 순서에 상관 없이 출력합니다.\n",inline=False)
     elif ctx.channel.id==channels['Arena']:
         embed.add_field(name="Arena",value="\u200B",inline=False)
-        embed.add_field(name="아레나 개최",value="아레나는 개최일의 정오부터 8시 정각까지 자동으로 신청을 받습니다.",inline=False)
+        embed.add_field(name="아레나 개최",value="아레나는 개최일의 정오부터 8시 정각까지 자동으로 신청을 받습니다. 홀수회차에는 발로란트가, 짝수회차에는 오버워치가 개최됩니다.",inline=False)
         embed.add_field(name="!업데이트",value="내전 중 봇의 오류가 났다면 업데이트를 통해 내전 설정을 업데이트 할 수 있습니다.\n",inline=False)
         embed.add_field(name="운영진만 사용 가능한 명령어",value="\u200B",inline=False)
         embed.add_field(name="!아레나 팀 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 아레나 팀 권한을 부여합니다.\n팀은 0, 1, 2 중 하나로, 1, 2는 각각 아레나 1, 2팀 역할을 부여하며 0은 아레나 역할을 제거합니다.")
@@ -745,6 +749,7 @@ async def 도움말(ctx):
         embed.add_field(name="!리그\n",value="한국 오버워치 리그 트위치 링크를 줍니다.\n",inline=False)
         embed.add_field(name="!랜덤 (선택1) (선택2) (선택3) ...\n",value="선택지 중 무작위로 하나를 골라줍니다.\n",inline=False)
         embed.add_field(name="!쟁탈추첨\n",value="쟁탈 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
+        embed.add_field(name="!VR추첨\n",value="발로란트 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
     await ctx.send(embed=embed)
 
 

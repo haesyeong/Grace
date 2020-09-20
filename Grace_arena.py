@@ -23,7 +23,7 @@ BETA=False
 BETA_TESTLAB=486550288686120961
 
 sheet_name='arena'
-record_name='record'
+record_name={'오버워치':'record_OW', '발로란트':'record_VR'}
 gamble_sheet='Main'
 win_record='responses'
 prize=10000
@@ -168,6 +168,10 @@ async def get_arena_number(ws=None):
     if ws==None:
         ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return int(ws.cell(1,1).value)
+
+async def get_arena_game(ws=None):
+    num=get_arena_number(ws)
+    return ['오버워치','발로란트'][num%2]
     
 async def update_record(ws, record, user=None, mention=None):
     recent = await get_arena_number(ws)
@@ -256,7 +260,7 @@ class Internal():
         ws.update_cell(1,1,repr(time))
 
     async def check_availability(self,player):
-        ws=await get_worksheet(record_name)
+        ws=await get_worksheet(record_name[await get_arena_game()])
         return len(ws.findall(get_mention_from_player(player)))!=0
 
     async def add_player(self,new_player):
@@ -284,7 +288,7 @@ class Internal():
         ws.clear()
         ws.resize(rows=1, cols=1)
 
-        ws=await get_worksheet(record_name)
+        ws=await get_worksheet(record_name[await get_arena_game()])
         ws.clear()
         ws.resize(rows=1, cols=1)
 
@@ -311,7 +315,7 @@ async def 확인(message):
         await message.channel.send("아레나가 예정되어 있지 않습니다.")
 
     else:
-        msg="{} 아레나가 ".format(str(await current_game.get_time())[:10])
+        msg="{} {} 아레나가 ".format(str(await current_game.get_time())[:10], await get_arena_game())
         if current_time()<(await current_game.get_time()):
             msg+="신청중입니다."
         elif current_time()<(await current_game.get_time())+datetime.timedelta(hours=1):
@@ -330,7 +334,7 @@ async def 목록(message):
         await message.channel.send("신청중인 아레나가 없습니다.")
         return
 
-    embed=discord.Embed(title="아레나 신청자 목록")
+    embed=discord.Embed(title="{} 아레나 신청자 목록".format(await get_arena_game()))
     embed.add_field(name="날짜",value=str(await current_game.get_time())[:10], inline=True)
 
     log=""
@@ -360,7 +364,7 @@ async def 신청(message):
         return
 
     if not await current_game.check_availability(player):
-        await message.channel.send("{}님은 내전 최소 기준을 충족하지 못해 신청이 불가능합니다.".format(player.mention))
+        await message.channel.send("{}님은 {} 내전 최소 기준을 충족하지 못해 신청이 불가능합니다.".format(await get_arena_game(), player.mention))
         return
 
     if await current_game.add_player(player):
@@ -525,7 +529,7 @@ async def 종료(message):
         return
     print('updates finished')
 
-    log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
+    log="{} {} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10], (await get_arena_game()))
     cnt=1
     for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
@@ -585,7 +589,7 @@ async def 안내(message):
     team2str=leaders[1]+'\n'+'\n'.join(team2)
 
     text='''@everyone
-제{}회 Grace Arena 팀입니다.
+제{}회 {} Grace Arena 팀입니다.
 
 1팀
 팀장: {}
@@ -596,10 +600,11 @@ async def 안내(message):
 각 팀은 클랜 내 전용 팀 채널 ( <#472367189148696577> <#474972380041707521> )이용 가능합니다.
 
 각 팀에서는 팀명을 정하여 경기 시작 전까지 Arena 개최자({})에게 제출하여 주시기 바랍니다.
-'''.format(await get_arena_number(), team1str, team2str, opener.mention)
+'''.format(await get_arena_number(), await get_arena_game(), team1str, team2str, opener.mention)
 
     await message.channel.send(text)
 
+'''
 @client.command()
 async def 개최(message):
     global current_game
@@ -633,9 +638,9 @@ async def 개최(message):
             time+=datetime.timedelta(hours=12)
     current_game=await Internal.create(time)
 
-    msg="@everyone\n{} 제 {}회 그레이스 아레나 신청이 열렸습니다.".format(str(await current_game.get_time())[:-3], await get_arena_number())
+    msg="@everyone\n{} 제 {}회 {} 그레이스 아레나 신청이 열렸습니다.".format(str(await current_game.get_time())[:-3], await get_arena_number(), await get_arena_game())
     await message.channel.send(msg)
-
+'''
 ############################################################
 #자동 개최#TODO
 @client.event
@@ -665,7 +670,7 @@ async def auto_open():
         ws=await get_worksheet()
         current_game=await Internal.create(deadline)
 
-        msg='@everyone\n{} 제 {} 회 그레이스 아레나 신청이 열렸습니다.'.format(str(await current_game.get_time())[:10], await get_arena_number())
+        msg='@everyone\n{} 제 {} 회 {} 그레이스 아레나 신청이 열렸습니다.'.format(str(await current_game.get_time())[:10], await get_arena_number(), await get_arena_game())
         await arenachannel.send(msg)
 
         next_notify=next_notify+datetime.timedelta(days=7)
