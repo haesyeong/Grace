@@ -170,7 +170,7 @@ async def get_arena_number(ws=None):
     return int(ws.cell(1,1).value)
 
 async def get_arena_game(ws=None):
-    num=get_arena_number(ws)
+    num=await get_arena_number(ws)
     return ['오버워치','발로란트'][num%2]
     
 async def update_record(ws, record, user=None, mention=None):
