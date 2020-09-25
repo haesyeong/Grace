@@ -604,7 +604,6 @@ async def 안내(message):
 
     await message.channel.send(text)
 
-'''
 @client.command()
 async def 개최(message):
     global current_game
@@ -640,7 +639,7 @@ async def 개최(message):
 
     msg="@everyone\n{} 제 {}회 {} 그레이스 아레나 신청이 열렸습니다.".format(str(await current_game.get_time())[:-3], await get_arena_number(), await get_arena_game())
     await message.channel.send(msg)
-'''
+
 ############################################################
 #자동 개최#TODO
 @client.event
