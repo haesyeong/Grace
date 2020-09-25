@@ -364,7 +364,7 @@ async def 신청(message):
         return
 
     if not await current_game.check_availability(player):
-        await message.channel.send("{}님은 {} 내전 최소 기준을 충족하지 못해 신청이 불가능합니다.".format(await get_arena_game(), player.mention))
+        await message.channel.send("{}님은 {} 내전 최소 기준을 충족하지 못해 신청이 불가능합니다.".format(player.mention, await get_arena_game()))
         return
 
     if await current_game.add_player(player):
