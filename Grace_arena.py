@@ -170,8 +170,17 @@ async def get_arena_number(ws=None):
     return int(ws.cell(1,1).value)
 
 async def get_arena_game(ws=None):
-    num=await get_arena_number(ws)
-    return ['오버워치','발로란트'][num%2]
+    if ws==None:
+        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    return ws.cell(2,1).value
+
+async def change_arena_game(ws=None):
+    if ws==None:
+        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    this=get_arena_game(ws)
+    game=['오버워치','발로란트']
+    game.remove(this)
+    return ws.update_cell(2,1,game[0])
     
 async def update_record(ws, record, user=None, mention=None):
     recent = await get_arena_number(ws)
@@ -540,6 +549,8 @@ async def 종료(message):
         await user.remove_roles(arena1, leader, atomic=True)
     for user in team2:
         await user.remove_roles(arena2, leader, atomic=True)
+
+    change_arena_game()
 
     await current_game.close()
     current_game=None
