@@ -172,7 +172,7 @@ async def get_arena_number(ws=None):
 async def get_arena_game(ws=None):
     if ws==None:
         ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
-    return ws.cell(2,1).value
+    return ws.cell(1,2).value
 
 async def change_arena_game(ws=None):
     if ws==None:
@@ -180,7 +180,7 @@ async def change_arena_game(ws=None):
     this=get_arena_game(ws)
     game=['오버워치','발로란트']
     game.remove(this)
-    return ws.update_cell(2,1,game[0])
+    return ws.update_cell(1,2,game[0])
     
 async def update_record(ws, record, user=None, mention=None):
     recent = await get_arena_number(ws)
