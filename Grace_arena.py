@@ -550,7 +550,7 @@ async def 종료(message):
     for user in team2:
         await user.remove_roles(arena2, leader, atomic=True)
 
-    change_arena_game()
+    await change_arena_game()
 
     await current_game.close()
     current_game=None
