@@ -177,7 +177,6 @@ async def get_arena_game(ws=None):
 async def change_arena_game(ws=None):
     if ws==None:
         ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
-    this=get_arena_game(ws)
     print(this)
     game=['오버워치','발로란트']
     game.remove(this)
