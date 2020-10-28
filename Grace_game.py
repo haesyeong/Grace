@@ -137,7 +137,9 @@ def get_member_from_mention(mention):
         m=int(mention[2:-1])
     else:
         m=int(mention[3:-1])
-    return grace.get_member(m)
+    member=grace.get_member(m)
+    print(m, member)
+    return member
 
 def get_mention_from_player(member):
     mention=member.mention
