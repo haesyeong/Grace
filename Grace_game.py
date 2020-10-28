@@ -8,7 +8,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
-intents = discord.Intents.all()
+intents = discord.Intents().all()
 
 client=Bot(command_prefix=('!',), intents=intents)
 

@@ -10,7 +10,7 @@ import datetime
 
 BETA=False
 
-intents = discord.Intents.all()
+intents = discord.Intents().all()
 
 client = discord.Client(intents=intents)
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']

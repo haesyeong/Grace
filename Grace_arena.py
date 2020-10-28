@@ -28,7 +28,7 @@ gamble_sheet='Main'
 win_record='responses'
 prize=10000
 
-intents = discord.Intents.all()
+intents = discord.Intents().all()
 
 client=Bot(command_prefix=('!',), intents=intents)
 
