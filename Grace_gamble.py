@@ -21,7 +21,8 @@ author=lambda ctx:ctx.message.author
 channel=lambda ctx:ctx.message.channel.id
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
-client=Bot(command_prefix=('>',))
+intents = discord.Intents.all()
+client=Bot(command_prefix=('>',), intents=intents)
 scope=['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 grace=None
 

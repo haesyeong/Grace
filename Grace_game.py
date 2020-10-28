@@ -8,7 +8,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
-client=Bot(command_prefix=('!',))
+intents = discord.Intents.all()
+
+client=Bot(command_prefix=('!',), intents=intents)
 
 content=lambda ctx:ctx.message.content
 author=lambda ctx:ctx.message.author
