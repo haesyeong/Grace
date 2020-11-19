@@ -300,15 +300,12 @@ async def 내전개최(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
-        await message.channel.send("진행될 게임을 입력해주세요.")
-        return
-    elif len(time)==2:
-        game=time[1]
+        game='오버워치'
         hour=21
         minute=0
         hour24=True
     else:
-        game=time[1]
+        game='오버워치'
         time=time[2].split(':')
         hour=int(time[0])
         minute=int(time[1])
@@ -318,7 +315,7 @@ async def 내전개최(message):
     time=datetime.datetime(year=current.year, month=current.month, day=current.day, hour=0, minute=0)\
          +datetime.timedelta(hours=hour, minutes=minute)
 
-    if game not in ['오버워치', '발로란트']:
+    if game not in ['오버워치']:
         await message.channel.send("진행될 게임은 오버워치 또는 발로란트만 가능합니다.")
         return
 
@@ -712,7 +709,7 @@ async def 도움말(ctx):
     embed = discord.Embed(title="Grace bot", description="그레이스 클랜 봇입니다.", color=0xeee657)
     if ctx.channel.id==channels['내전신청'] or ctx.channel.id==channels['미네랄즈']:
         embed.add_field(name="내전신청방",value="\u200B",inline=False)
-        embed.add_field(name="!내전개최 게임명 hh:mm",value="내전을 주어진 시각에 개최합니다. 시각을 주지 않으면 {}시로 설정됩니다.\n".format(20+(ctx.channel.id==channels['내전신청'])),inline=False)
+        embed.add_field(name="!내전개최 hh:mm",value="내전을 주어진 시각에 개최합니다. 시각을 주지 않으면 {}시로 설정됩니다.\n".format(20+(ctx.channel.id==channels['내전신청'])),inline=False)
         embed.add_field(name="!업데이트",value="내전 중 봇의 오류가 났다면 업데이트를 통해 내전 설정을 업데이트 할 수 있습니다.\n",inline=False)
         embed.add_field(name="내전 개최자 및 운영진만 사용 가능한 명령어",value="\u200B",inline=False)
         embed.add_field(name="!개최자변경 @사용자\n",value="개최자를 멘션한 사용자로 변경합니다.\n",inline=False)

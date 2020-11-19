@@ -152,8 +152,8 @@ async def on_message(message):
 
         if data['maintag']=='오버워치' and data['valorant'] not in banned:
             embed.add_field(name='발로란트', value = data['valorant'], inline=False)
-        if data['maintag']=='발로란트' and data['overwatch'] not in banned:
-            embed.add_field(name='오버워치', value = data['overwatch'], inline=False)
+        #if data['maintag']=='발로란트' and data['overwatch'] not in banned:
+        #    embed.add_field(name='오버워치', value = data['overwatch'], inline=False)
 
         if data['arena'] not in banned:
             embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'] + "회 우승", inline=False)
