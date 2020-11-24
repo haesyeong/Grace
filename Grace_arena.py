@@ -286,7 +286,7 @@ class Internal():
         ws=await get_worksheet()
         val=ws.findall(get_mention_from_player(new_player))
         if len(val)==2 or (len(val)==1 and val[0].row!=1):
-            ws.delete_row(val[-1].row)
+            ws.delete_rows(val[-1].row)
             return True
         return False
 

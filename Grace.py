@@ -244,7 +244,7 @@ async def periodic_sweep():
 
         print(to_be_deleted)
         for i in reversed(sorted(to_be_deleted)):
-            worksheet.delete_row(i+1)
+            worksheet.delete_rows(i+1)
 
         print('sweep finished')
 
