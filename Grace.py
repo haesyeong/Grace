@@ -122,6 +122,8 @@ async def on_message(message):
             data['role']='클랜 마스터'
         elif has_role(member, '운영진'):
             data['role']='운영진'
+        elif has_role(member, '서포터즈'):
+            data['role']='서포터즈'
         elif has_role(member, '클랜원'):
             data['role']='클랜원'
         elif has_role(member, '신입 클랜원'):
@@ -133,6 +135,8 @@ async def on_message(message):
             data['roleimage'] = ":pen_ballpoint:"
         elif data['role'] == "운영진":
             data['roleimage'] = ":construction_worker:"
+        elif data['role'] == "서포터즈":
+            data['roleimage'] = ":woman_fairy:"
         elif data['role'] == "클랜원":
             data['roleimage'] = ":boy:"
         elif data['role'] == "신입 클랜원":
