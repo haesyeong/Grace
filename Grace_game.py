@@ -8,6 +8,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
+default_time=(20,0)
+
 intents = discord.Intents().all()
 
 client=Bot(command_prefix=('!',), intents=intents)
@@ -301,12 +303,12 @@ async def 내전개최(message):
     time=content(message).split()
     if len(time)==1:
         game='오버워치'
-        hour=21
-        minute=0
+        hour=default_time[0]
+        minute=default_time[1]
         hour24=True
     else:
         game='오버워치'
-        time=time[2].split(':')
+        time=time[1].split(':')
         hour=int(time[0])
         minute=int(time[1])
         hour24=False
@@ -372,8 +374,8 @@ async def 시간변경(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
-        hour=21
-        minute=0
+        hour=deafult_time[0]
+        minute=default_time[1]
         hour24=True
     else:
         time=time[1].split(':')
