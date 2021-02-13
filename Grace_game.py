@@ -8,7 +8,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
-default_time=(20,0)
+default_time=(21,0)
 
 intents = discord.Intents().all()
 
