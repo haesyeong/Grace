@@ -188,11 +188,7 @@ async def on_message_delete(message):
     channel = message.channel
     delchannel = message.guild.get_channel(527859699702562828)
 
-    attachments=[]
-    for f in message.attachments:
-        attachments.append(await f.to_file(spoiler=f.is_spoiler()))
-
-    await delchannel.send('{} - {} / {}: {}'.format(create, channel, author, content), files=attachments)
+    await delchannel.send('{} - {} / {}: {}'.format(create, channel, author, content))
 
 @client.event
 async def on_member_join(member):
