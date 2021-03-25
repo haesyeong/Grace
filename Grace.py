@@ -100,7 +100,7 @@ async def on_message(message):
         except gspread.exceptions.APIError:
             return
         
-        indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'league_first', 'league_second', 'friends', 'supporters']
+        indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters']
 
         values = spreadsheet.row_values(index)
 

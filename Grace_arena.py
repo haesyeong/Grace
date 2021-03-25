@@ -226,8 +226,49 @@ async def update_arena_record(team):
         else:
             await arenachannel.send("{} 우승기록 수동 기입이 필요합니다".format(user.mention))
     ws.update_cell(1, 1, recent+1)
-            
-     
+
+async def update_lost_record(ws, record, user=None, mention=None):
+    recent = await get_arena_number(ws)
+    
+    if user!=None:
+        row=await get_row_by_nick(ws,user)
+    else:
+        row=await get_row_by_nick(ws,mention=mention)
+    if row==-1:
+        return False
+
+    if(record == ""):
+        ws.update_cell(row, 10, recent)
+    else:
+        ws.update_cell(row, 10, record+","+str(recent))
+    return 1
+
+async def get_lost_record(ws,user=None,mention=None):
+    if user!=None:
+        row=await get_row_by_nick(ws,user)
+    else:
+        print("2")
+        row=await get_row_by_nick(ws,mention=mention)
+        print(row)
+    if row==-1:
+        return 0
+    return ws.cell(row,10).value
+
+async def update_arena_lost_record(team):
+    global grace
+    grace=client.get_guild(359714850865414144)
+    ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    arenachannel=grace.get_channel(channels['Arena'])
+    recent = await get_arena_number(ws)
+    for user in team:
+        print(user.nick.split('/')[0])
+        record=await get_record(ws, user)
+        if await update_lost_record(ws, record, user):
+            continue
+        else:
+            await arenachannel.send("{} 패배기록 수동 기입이 필요합니다".format(user.mention))
+    ws.update_cell(1, 1, recent+1)
+    
 async def get_all_players(ws):
     return [*map(lambda x:x[0],ws.get_all_values()[1:])]
 
