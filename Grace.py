@@ -100,7 +100,7 @@ async def on_message(message):
         except gspread.exceptions.APIError:
             return
         
-        indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters']
+        indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters', 'joined']
 
         values = spreadsheet.row_values(index)
 
@@ -169,6 +169,8 @@ async def on_message(message):
             embed.add_field(name="우친바", value=data['friends'], inline=False)
         if data['supporters'] not in banned:
             embed.add_field(name="Grace 서포터즈", value=data['supporters'], inline=False)
+        if data['joined'] not in banned:
+            embed.add_field(name="가입일", value=data['joined'], inline=False)
         if data['image'] not in banned:
             embed.set_image(url=data['image'])
         if data['thumbnail'] not in banned:
