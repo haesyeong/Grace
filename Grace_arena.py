@@ -184,9 +184,14 @@ async def change_arena_game(ws=None):
     print(this)
     game=['오버워치']
     return ws.update_cell(1,2,game[(game.index(this)+1)%len(game)])
+
+async def get_col_index(ws):
+    row=ws.row_values(1)
+    return row.index('아레나')+1, row.index('아레나 패배')+1
     
 async def update_record(ws, record, user=None, mention=None):
     recent = await get_arena_number(ws)
+    win, loss = await get_col_index(ws)
     
     if user!=None:
         row=await get_row_by_nick(ws,user)
@@ -196,13 +201,13 @@ async def update_record(ws, record, user=None, mention=None):
         return False
 
     if(record == ""):
-        #ws.update_cell(row, 9, "")
-        ws.update_cell(row, 9, recent)
+        ws.update_cell(row, win, recent)
     else:
-        ws.update_cell(row, 9, record+","+str(recent))
+        ws.update_cell(row, win, record+","+str(recent))
     return 1
 
 async def get_record(ws,user=None,mention=None):
+    win, loss = await get_col_index(ws)
     if user!=None:
         row=await get_row_by_nick(ws,user)
     else:
@@ -211,7 +216,7 @@ async def get_record(ws,user=None,mention=None):
         print(row)
     if row==-1:
         return 0
-    return ws.cell(row,9).value
+    return ws.cell(row,win).value
 
 async def update_arena_record(team):
     global grace
@@ -229,6 +234,7 @@ async def update_arena_record(team):
     ws.update_cell(1, 1, recent+1)
 
 async def update_lost_record(ws, record, user=None, mention=None):
+    win, loss = await get_col_index(ws)
     recent = await get_arena_number(ws)
     
     if user!=None:
@@ -239,12 +245,13 @@ async def update_lost_record(ws, record, user=None, mention=None):
         return False
 
     if(record == ""):
-        ws.update_cell(row, 10, recent)
+        ws.update_cell(row, loss, recent)
     else:
-        ws.update_cell(row, 10, record+","+str(recent))
+        ws.update_cell(row, loss, record+","+str(recent))
     return 1
 
 async def get_lost_record(ws,user=None,mention=None):
+    win, loss = await get_col_index(ws)
     if user!=None:
         row=await get_row_by_nick(ws,user)
     else:
@@ -253,7 +260,7 @@ async def get_lost_record(ws,user=None,mention=None):
         print(row)
     if row==-1:
         return 0
-    return ws.cell(row,10).value
+    return ws.cell(row,loss).value
 
 async def update_arena_lost_record(team):
     global grace
