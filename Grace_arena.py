@@ -25,6 +25,7 @@ BETA_TESTLAB=486550288686120961
 sheet_name='arena'
 record_name={'오버워치':'record_OW', '발로란트':'record_VR'}
 gamble_sheet='Main'
+arena_record='arena_record'
 win_record='responses'
 prize=10000
 
@@ -168,17 +169,17 @@ async def get_row_by_nick(ws,user=None,mention=None):
 
 async def get_arena_number(ws=None):
     if ws==None:
-        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return int(ws.cell(1,1).value)
 
 async def get_arena_game(ws=None):
     if ws==None:
-        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return ws.cell(1,2).value
 
 async def change_arena_game(ws=None):
     if ws==None:
-        ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     this=await get_arena_game(ws)
     print(this)
     game=['오버워치']

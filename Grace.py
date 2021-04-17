@@ -101,13 +101,19 @@ async def on_message(message):
             return
         
         indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters', 'joined']
+        indicates = ['멘션','커맨드','오버워치','발로란트','바로가기','한줄소개','이미지 링크','썸네일 링크','아레나','아레나 패배','리그 우승','리그 준우승','우친바','서포터즈','최초 가입일']
 
+        indicate_to_indice=dict(zip(indicates, indices))
+
+        columns= spreadsheet.row_values(2)
         values = spreadsheet.row_values(index)
 
         while len(values)<len(indices):
             values.append('')
 
-        data = dict(zip(indices, values))
+        data = {}
+        for col, val in zip(columns, values):
+            data[indicate_to_indice[col]]=val
 
         maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
         print(maintag, member)
