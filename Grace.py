@@ -105,7 +105,7 @@ async def on_message(message):
 
         indicate_to_indice=dict(zip(indicates, indices))
 
-        columns= spreadsheet.row_values(2)
+        columns= spreadsheet.row_values(1)
         values = spreadsheet.row_values(index)
 
         while len(values)<len(indices):
