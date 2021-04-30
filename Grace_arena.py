@@ -77,7 +77,6 @@ async def get_worksheet(sheet_name=sheet_name, addr=addr):
     auth=gspread.authorize(creds)
     if creds.access_token_expired:
         auth.login()
-
     sheet=auth.open_by_url(addr)
     try:
         worksheet=sheet.worksheet(sheet_name)
@@ -168,15 +167,15 @@ async def get_row_by_nick(ws,user=None,mention=None):
         return -1
 
 async def get_arena_number(ws=None):
-    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     return int(ws.cell(1,1).value)
 
 async def get_arena_game(ws=None):
-    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     return ws.cell(1,2).value
 
 async def change_arena_game(ws=None):
-    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     this=await get_arena_game(ws)
     print(this)
     game=['오버워치']
