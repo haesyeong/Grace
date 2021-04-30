@@ -227,6 +227,7 @@ async def update_arena_record(team):
             continue
         else:
             await arenachannel.send("{} 우승기록 수동 기입이 필요합니다".format(user.mention))
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     ws.update_cell(1, 1, recent+1)
 
 async def update_lost_record(ws, record, user=None, mention=None):
@@ -266,7 +267,7 @@ async def update_arena_lost_record(team):
     recent = await get_arena_number(ws)
     for user in team:
         print(user.nick.split('/')[0])
-        record=await get_record(ws, user)
+        record=await get_lost_record(ws, user)
         if await update_lost_record(ws, record, user):
             continue
         else:
