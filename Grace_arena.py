@@ -124,12 +124,12 @@ async def update_money(ws, money, user=None, mention=None, checkin=False):
         ws.update_cell(row, 3, repr(current_time()))
     return 1
 
-async def give_prize_money(team):
+async def give_prize_money(win, lose):
     global grace 
     grace=client.get_guild(359714850865414144)
     ws=await get_worksheet(sheet_name=gamble_sheet,addr="https://docs.google.com/spreadsheets/d/1y1XnmgggAxVVJ3jJrVBocGTjpBR7b8_L9sf47GKBNok/edit#gid=0")
     arenachannel=grace.get_channel(channels['Arena'])
-    for user in team:
+    for user in win:
         money=await get_money(ws, user)
         if await update_money(ws, money+prize, user):
             continue
@@ -137,7 +137,7 @@ async def give_prize_money(team):
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
             
 ##################################################################
-#우승기록 관련    
+#우승기록 관련
 def get_member_from_mention(mention):
     global grace
     grace=client.get_guild(359714850865414144)
@@ -168,18 +168,15 @@ async def get_row_by_nick(ws,user=None,mention=None):
         return -1
 
 async def get_arena_number(ws=None):
-    if ws==None:
-        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return int(ws.cell(1,1).value)
 
 async def get_arena_game(ws=None):
-    if ws==None:
-        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     return ws.cell(1,2).value
 
 async def change_arena_game(ws=None):
-    if ws==None:
-        ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
     this=await get_arena_game(ws)
     print(this)
     game=['오버워치']
@@ -580,11 +577,11 @@ async def 종료(message):
         pass
     elif winner=='1':       
         await update_arena_record(team1)
-        await give_prize_money(team1)
+        await give_prize_money(team1,team2)
         await update_arena_lost_record(team2)
     elif winner=='2':
         await update_arena_record(team2)
-        await give_prize_money(team2)
+        await give_prize_money(team2,team1)
         await update_arena_lost_record(team1)
     else:
         await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
