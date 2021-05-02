@@ -18,6 +18,7 @@ class weekday:
     일요일=6
 
 WEEKDAY=weekday.금요일
+GAMETIME=21
 
 BETA=False
 BETA_TESTLAB=486550288686120961
@@ -678,7 +679,7 @@ async def 개최(message):
     current=current_time()
     time=content(message).split()
     if len(time)==1:
-        hour=21
+        hour=GAMETIME
         minute=0
         hour24=True
     else:
@@ -725,7 +726,7 @@ async def auto_open():
     while True:
         delta=(next_notify-current_time())
         await asyncio.sleep(delta.days*24*60*60+delta.seconds)
-        deadline=next_notify+datetime.timedelta(hours=8, minutes=1)
+        deadline=next_notify+datetime.timedelta(hours=GAMETIME-13, minutes=1)
 
         ws=await get_worksheet()
         current_game=await Internal.create(deadline)
