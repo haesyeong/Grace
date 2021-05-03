@@ -168,10 +168,11 @@ async def on_message(message):
 
         if data['arena'].strip() not in banned:
             embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'].strip() + "회 우승", inline=False)
+        if data['arena'].strip() not in banned or data['arena_lost'].strip() not in banned:
             wincnt=len(data['arena'].strip().split(','))
             losscnt=len(data['arena_lost'].strip().split(',')) if data['arena_lost'].strip() else 0
             winrate=round(wincnt/(wincnt+losscnt)*100)
-            embed.add_field(name="Grace Arena 승률", value=f"{winrate}%", inline=False)
+            embed.add_field(name="Grace Arena 전적", value=f"{wincnt+losscnt}전"+(f" {wincnt}승" if wincnt else "")+(f" {losscnt}패" if losscnt else "")+f"(승률 {winrate}%)", inline=False)
         if data['league_first'] not in banned:
             embed.add_field(name="Grace League", value=":first_place: 제" + data['league_first'] + "회 우승", inline=False)
         if data['league_second'] not in banned:
