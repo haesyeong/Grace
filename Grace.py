@@ -166,10 +166,10 @@ async def on_message(message):
         #if data['maintag']!='오버워치' and data['overwatch'] not in banned:
         #    embed.add_field(name='오버워치', value = data['overwatch'], inline=False)
 
-        if data['arena'] not in banned:
-            embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'] + "회 우승", inline=False)
-            wincnt=len(data['arena'].split(','))
-            losscnt=len(data['arena_lost'].split(','))
+        if data['arena'].strip() not in banned:
+            embed.add_field(name="Grace Arena", value=":trophy: 제" + data['arena'].strip() + "회 우승", inline=False)
+            wincnt=len(data['arena'].strip().split(','))
+            losscnt=len(data['arena_lost'].strip().split(',')) if data['arena_lost'].strip() else 0
             winrate=round(wincnt/(wincnt+losscnt)*100)
             embed.add_field(name="Grace Arena 승률", value=f"{winrate}%", inline=False)
         if data['league_first'] not in banned:
