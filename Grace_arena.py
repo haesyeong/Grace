@@ -17,8 +17,8 @@ class weekday:
     토요일=5
     일요일=6
 
-WEEKDAY=weekday.금요일
-GAMETIME=21
+WEEKDAY=weekday.토요일
+GAMETIME=22
 
 BETA=False
 BETA_TESTLAB=486550288686120961
