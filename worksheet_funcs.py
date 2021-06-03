@@ -61,13 +61,13 @@ def get_row(ws, idx, *, cols=None):
 
     return data
 
-def fetch(ws_name, key, val, *, cols=None):
+def fetch(ws, key, val, *, cols=None):
     if cols==None:
         cols=get_col_order(ws)
     idx=search(ws, key, val)
     return get_row(ws, idx, cols=cols)
 
-def give_exp(ws_name, exp, *, key, val, row_idx=None, cols=None, update_date=False):
+def give_exp(ws, exp, *, key, val, row_idx=None, cols=None, update_date=False):
     if cols==None:
         cols=get_col_order(ws)
     if row_idx==None:
