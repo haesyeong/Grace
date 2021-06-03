@@ -13,6 +13,7 @@ import worksheet_funcs as ws_f
 intents = discord.Intents().all()
 
 level_to_exp=[0,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3400,3800,4200,4600,5000,5400,5800,6200,6600,7000,7800,8600,9400,10200,11000,11800,12600,13400,14200,15000,16600,18200,19800,21400,23000,24600,26200,27800,29400,31000,34200,37400,40600,43800,47000,50200,53400,56600,59800,63000,69400,75800,82200,88600,95000,101400,107800,114200,120600,127000]
+checkin_exp=10
 
 client=Bot(command_prefix=('!',), intents=intents)
 
@@ -39,9 +40,10 @@ async def 출석(message):
     row_idx=ws_f.search(ws, 'mention', user.mention, cols=cols)
     row=ws_f.get_row(ws, row_idx, cols=cols)
     if row['checkin']!=current_time().strftime("%Y%m%d"):
-        message.channel.send(f'{user.mention}님의 {current_time().strftime("%Y년 %m월 %d일")} 출석체크가 완료되었습니다.')
+        give_exp(ws_name, checkin_exp, row_idx=row_idx, cols=cols, update_date=True)
+        await message.channel.send(f'{user.mention}님의 {current_time().strftime("%Y년 %m월 %d일")} 출석체크가 완료되었습니다.')
     else:
-        message.channel.send(f'{user.mention}님은 이미 출석체크를 하셨습니다.')
+        await message.channel.send(f'{user.mention}님은 이미 출석체크를 하셨습니다.')
 
 
 ############################################################
