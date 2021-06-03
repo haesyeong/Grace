@@ -62,14 +62,12 @@ def get_row(ws, idx, *, cols=None):
     return data
 
 def fetch(ws_name, key, val, *, cols=None):
-    ws=get_worksheet(ws_name)
     if cols==None:
         cols=get_col_order(ws)
     idx=search(ws, key, val)
     return get_row(ws, idx, cols=cols)
 
 def give_exp(ws_name, exp, *, key, val, row_idx=None, cols=None, update_date=False):
-    ws=get_worksheet(ws_name)
     if cols==None:
         cols=get_col_order(ws)
     if row_idx==None:
