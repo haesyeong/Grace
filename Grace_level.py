@@ -56,5 +56,4 @@ async def on_ready():
 ############################################################
 #실행
 access_token = os.environ["BOT_TOKEN"]
-client.loop.create_task(auto_open())
 client.run(access_token)
