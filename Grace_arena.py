@@ -8,6 +8,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
+import worksheet_funcs as ws_f
+
 class weekday:
     월요일=0
     화요일=1
@@ -28,7 +30,8 @@ record_name={'오버워치':'record_OW', '발로란트':'record_VR'}
 gamble_sheet='Main'
 arena_record='arena_record'
 win_record='responses'
-prize=10000
+win_prize=300
+lose_prize=200
 
 intents = discord.Intents().all()
 
@@ -87,53 +90,23 @@ async def get_worksheet(sheet_name=sheet_name, addr=addr):
 
 ##################################################################
 #상금지급 관련
-
-async def get_row(ws,user=None,mention=None):
-    if user!=None:
-        mention=user.mention
-    if not (mention.startswith('<@') and mention.endswith('>')):
-        return -1
-    if mention[2]!='!':
-        mention=mention[:2]+'!'+mention[2:]
-    try: 
-        return ws.find(mention).row
-    except gspread.exceptions.CellNotFound:
-        ws.append_row([mention,'0'])
-        return ws.find(mention).row
-    except gspread.exceptions.APIError:
-        return -1
-    
-async def get_money(ws,user=None,mention=None):
-    if user!=None:
-        row=await get_row(ws,user)
-    else:
-        row=await get_row(ws,mention=mention)
-    if row==-1:
-        return 0
-    return int(ws.cell(row,2).value)
-
-async def update_money(ws, money, user=None, mention=None, checkin=False):
-    if user!=None:
-        row=await get_row(ws,user)
-    else:
-        row=await get_row(ws,mention=mention)
-    if row==-1:
-        return False
-    ws.update_cell(row, 2, str(money))
-    if checkin:
-        ws.update_cell(row, 3, repr(current_time()))
-    return 1
-
-async def give_prize_money(win, lose):
-    global grace 
+async def give_prize_money(win, lose):#TODO
+    global grace
     grace=client.get_guild(359714850865414144)
-    ws=await get_worksheet(sheet_name=gamble_sheet,addr="https://docs.google.com/spreadsheets/d/1y1XnmgggAxVVJ3jJrVBocGTjpBR7b8_L9sf47GKBNok/edit#gid=0")
+    ws=ws_f.get_worksheet('responses')
+    cols=get_col_order(ws)
     arenachannel=grace.get_channel(channels['Arena'])
     for user in win:
-        money=await get_money(ws, user)
-        if await update_money(ws, money+prize, user):
-            continue
-        else:
+        try:
+            if not ws_f.give_exp('responses', win_prize, key='mention', val=user.mention, cols=cols):
+                raise Exception
+        except:
+            await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
+    for user in lose:
+        try:
+            if not ws_f.give_exp('responses', lose_prize, key='mention', val=user.mention, cols=cols):
+                raise Exception
+        except:
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
             
 ##################################################################

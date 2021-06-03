@@ -30,7 +30,7 @@ async def on_ready():
     print("---------------")
     await client.change_presence(activity=discord.Game(name='>>', type=1))
 
-async def get_spreadsheet(ws_name):
+async def get_worksheet(ws_name):
     creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
     auth=gspread.authorize(creds)
 
@@ -46,16 +46,14 @@ async def get_spreadsheet(ws_name):
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
-async def get_member_by_gametag(overwatch, valorant):
+async def get_member_by_gametag(overwatch):
     global grace
     grace=client.get_guild(359714850865414144)
 
     for member in grace.members:
         try:
-            if (overwatch!=None and member.nick.startswith(overwatch)):#+'/OW/')):
+            if (overwatch!=None and member.nick.startswith(overwatch)):
                 return overwatch, member
-            if (valorant!=None and member.nick.startswith(valorant+'/VR/')):
-                return valorant, member
         except:
             continue
     return None, None
@@ -78,12 +76,12 @@ async def on_message(message):
         if author=='':
             return
         
-        spreadsheet=await get_spreadsheet('responses')
+        spreadsheet=await get_worksheet('responses')
         roles=spreadsheet.col_values(6)
         battletags=spreadsheet.col_values(2)
         
         if author=="운영진":
-            spreadsheet=await get_spreadsheet('staff')
+            spreadsheet=await get_worksheet('staff')
             data=spreadsheet.get_all_values()
             log = '\n\n'.join(map(lambda x:'\n'.join([t for t in x if t!='']), data))
             embed = discord.Embed(title=":fire: 운영진 목록\n", description=log, color=0x5c0bb7)
@@ -115,7 +113,7 @@ async def on_message(message):
         for col, val in zip(columns, values):
             data[indicate_to_indice[col]]=val
 
-        maintag, member=await get_member_by_gametag(data['overwatch'], data['valorant'])
+        maintag, member=await get_member_by_gametag(data['overwatch'])
         print(maintag, member)
         #if maintag==data['overwatch']:
         #data['maintag']='오버워치'

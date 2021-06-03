@@ -8,6 +8,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import asyncio
 
+import worksheet_funcs as ws_f
+
 default_time=(21,0)
 
 intents = discord.Intents().all()
@@ -21,6 +23,10 @@ current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
 BETA=False
 BETA_TESTLAB=486550288686120961
+
+participate_reward=100
+open_reward=200
+
 
 sheet_name='players'
 record_name={'오버워치':'record_OW', '발로란트':'record_VR'}
@@ -55,11 +61,6 @@ def has_role(member, role):
 ############################################################
 #일반 커맨드
 @client.command()
-async def 리그(message):
-    if BETA and message.channel.id!=BETA_TESTLAB: return
-    await message.channel.send("https://www.twitch.tv/overwatchleague_kr")
-
-@client.command()
 async def 랜덤(message):
     if BETA and message.channel.id!=BETA_TESTLAB: return
     selection=content(message)
@@ -70,12 +71,6 @@ async def 랜덤(message):
 async def 쟁탈추첨(message):
     if BETA and message.channel.id!=BETA_TESTLAB: return
     maps=['리장 타워','일리오스','오아시스','부산','네팔',]
-    await message.channel.send(random.choice(maps))
-
-@client.command()
-async def VR추첨(message):
-    if BETA and message.channel.id!=BETA_TESTLAB: return
-    maps='바인드 스플릿 헤이븐 어센트'.split()
     await message.channel.send(random.choice(maps))
 
 ############################################################
@@ -435,7 +430,7 @@ async def 개최자변경(message):
     await message.channel.send(msg)
 
 @client.command()
-async def 내전종료(message):
+async def 내전종료(message):#TODO
     global current_game
     opener_log=(await current_game.get_opener())
     now_playing=(await current_game.get_game())
@@ -453,11 +448,26 @@ async def 내전종료(message):
     
     logchannel=message.message.guild.get_channel(channels['활동로그'])
 
+    ws=ws_f.get_worksheet('responses')
+    cols=ws_f.get_col_order(ws)
+
     log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (now_playing), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
+    if not is_modeator(opener_log):
+        try:
+            if not ws_f.give_exp('responses', open_reward, key='mention', val=opener_log.mention, cols=cols):
+                raise Exception
+        except:
+            await arenachannel.send("{}에게 개최 경험치 수동 지급이 필요합니다.".format(opener_log.mention))
+        
     cnt=1
     for user in (await current_game.get_players()):
         try:
             log+='\n{}. {}'.format(cnt, user.nick.split('/')[0]+'/'+user.nick.split('/')[1])
+            try:
+                if not ws_f.give_exp('responses', participate_reward, key='mention', val=user.mention, cols=cols):
+                    raise Exception
+            except:
+                await arenachannel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))
             cnt+=1
         except:
             continue
@@ -749,10 +759,10 @@ async def 도움말(ctx):
         embed.add_field(name="!취소\n",value="본인의 신청을 취소합니다.\n",inline=False)
     else:
         embed.add_field(name="전체 서버",value="\u200B",inline=False)
-        embed.add_field(name="!리그\n",value="한국 오버워치 리그 트위치 링크를 줍니다.\n",inline=False)
+        #embed.add_field(name="!경험치 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 20명까지만 받을 수 있습니다.\n")
         embed.add_field(name="!랜덤 (선택1) (선택2) (선택3) ...\n",value="선택지 중 무작위로 하나를 골라줍니다.\n",inline=False)
         embed.add_field(name="!쟁탈추첨\n",value="쟁탈 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
-        embed.add_field(name="!VR추첨\n",value="발로란트 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
+        #embed.add_field(name="!출석\n",value="하루에 한 번, 10XP를 받습니다. 24시에 초기화됩니다.\n")
     await ctx.send(embed=embed)
 
 

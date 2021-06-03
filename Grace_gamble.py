@@ -34,7 +34,7 @@ async def on_ready():
     print("---------------")
     await client.change_presence(activity=discord.Game(name='>>', type=1))
 
-async def get_spreadsheet():
+async def get_worksheet():
     creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
     auth=gspread.authorize(creds)
 
@@ -119,7 +119,7 @@ def check_maintenance_state(ws):
 async def 공사(message):
     if message.channel.id not in gamble_channels+[gamble_notify]: return
     commander=author(message)
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if '운영진' in map(lambda x:x.name, commander.roles):
         res=change_maintenance_state(ws)
         if res:
@@ -132,7 +132,7 @@ async def 공사(message):
 @client.command()
 async def 출석(message):
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -148,7 +148,7 @@ async def 출석(message):
 @client.command()
 async def 확인(message):
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -162,7 +162,7 @@ async def 송금(message):
     grace=client.get_guild(359714850865414144)
 
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -193,7 +193,7 @@ async def 송금(message):
 @client.command()
 async def 동전(message):
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -241,7 +241,7 @@ async def 동전(message):
 @client.command()
 async def 순위(message):
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -259,7 +259,7 @@ async def 랭킹(message):
     grace=client.get_guild(359714850865414144)
     
     if message.channel.id not in gamble_channels: return
-    ws=await get_spreadsheet()
+    ws=await get_worksheet()
     if check_maintenance_state(ws):
         await message.channel.send("진정하시라고요.")
         return
@@ -315,7 +315,7 @@ async def periodic_ranking():
     while True:
         await asyncio.sleep((next_notify-current_time()).seconds)
 
-        ws=await get_spreadsheet()
+        ws=await get_worksheet()
         data=ws.get_all_values()[1:]
         data.sort(key=lambda x:int(x[1]), reverse=True)
 
