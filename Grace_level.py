@@ -37,7 +37,7 @@ async def 출석(message):
     ws=ws_f.get_worksheet('responses')
     cols=ws_f.get_col_order(ws)
     row_idx=ws_f.search(ws, 'mention', user.mention, cols=cols)
-    row=ws_f.get_row('responses', row_idx, cols=cols)
+    row=ws_f.get_row(ws, row_idx, cols=cols)
     if row['checkin']!=current_time().strftime("%Y%m%d"):
         message.channel.send(f'{user.mention}님의 {current_time().strftime("%Y년 %m월 %d일")} 출석체크가 완료되었습니다.')
     else:
