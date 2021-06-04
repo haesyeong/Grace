@@ -452,7 +452,7 @@ async def 내전종료(message):#TODO
     cols=ws_f.get_col_order(ws)
 
     log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (now_playing), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
-    if not is_modeator(opener_log):
+    if not is_moderator(opener_log):
         try:
             if not ws_f.give_exp(ws, open_reward, key='mention', val=opener_log.mention, cols=cols):
                 raise Exception
