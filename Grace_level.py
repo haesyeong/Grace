@@ -60,7 +60,7 @@ async def 안녕(message):
             ws_f.give_exp(ws, hello_exp, client, row_idx=row_idx, cols=cols, add_giver=user.mention)
             await message.channel.send(f'{user.mention}님이 {target}님께 인사합니다!')
         else:
-            if target==user.mention:
+            pass
 
 ############################################################
 #자동 기록(이벤트)
