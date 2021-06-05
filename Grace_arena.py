@@ -98,13 +98,13 @@ async def give_prize_money(win, lose):#TODO
     arenachannel=grace.get_channel(channels['Arena'])
     for user in win:
         try:
-            if not ws_f.give_exp(ws, win_prize, key='mention', val=user.mention, cols=cols):
+            if not ws_f.give_exp(ws, win_prize, client, key='mention', val=user.mention, cols=cols):
                 raise Exception
         except:
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
     for user in lose:
         try:
-            if not ws_f.give_exp(ws, lose_prize, key='mention', val=user.mention, cols=cols):
+            if not ws_f.give_exp(ws, lose_prize, client, key='mention', val=user.mention, cols=cols):
                 raise Exception
         except:
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
@@ -365,7 +365,7 @@ async def 목록(message):
         await message.channel.send("신청중인 아레나가 없습니다.")
         return
 
-    embed=discord.Embed(title="{} 아레나 신청자 목록".format(await get_arena_game()))
+    embed=discord.Embed(title="{} 아레나 신청자 목록".format(str(await current_game.get_time())[:-3]))
     embed.add_field(name="날짜",value=str(await current_game.get_time())[:10], inline=True)
 
     log=""

@@ -8,13 +8,14 @@ import random
 import openpyxl
 import datetime
 
+import worksheet_funcs as ws_f
+
 BETA=False
 
 intents = discord.Intents().all()
-
 client = discord.Client(intents=intents)
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
 
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
@@ -158,6 +159,7 @@ async def on_message(message):
         embed.add_field(name="멘션", value=data['mention'], inline=True)
         embed.add_field(name="최초 가입일", value=data['joined'], inline=False)
         embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
+        embed.add_field(name="레벨", value="{}({} exp)".format(ws_f.level(data['exp']), data['exp']))
 
         #if data['maintag']!='발로란트' and data['valorant'] not in banned:
         #    embed.add_field(name='발로란트', value = data['valorant'], inline=False)

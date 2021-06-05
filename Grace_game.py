@@ -454,7 +454,7 @@ async def 내전종료(message):#TODO
     log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (now_playing), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
     if not is_moderator(opener_log):
         try:
-            if not ws_f.give_exp(ws, open_reward, key='mention', val=opener_log.mention, cols=cols):
+            if not ws_f.give_exp(ws, open_reward, client, key='mention', val=opener_log.mention, cols=cols):
                 raise Exception
         except:
             await arenachannel.send("{}에게 개최 경험치 수동 지급이 필요합니다.".format(opener_log.mention))
@@ -464,7 +464,7 @@ async def 내전종료(message):#TODO
         try:
             log+='\n{}. {}'.format(cnt, user.nick.split('/')[0]+'/'+user.nick.split('/')[1])
             try:
-                if not ws_f.give_exp(ws, participate_reward, key='mention', val=user.mention, cols=cols):
+                if not ws_f.give_exp(ws, participate_reward, client, key='mention', val=user.mention, cols=cols):
                     raise Exception
             except:
                 await arenachannel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))
@@ -759,10 +759,10 @@ async def 도움말(ctx):
         embed.add_field(name="!취소\n",value="본인의 신청을 취소합니다.\n",inline=False)
     else:
         embed.add_field(name="전체 서버",value="\u200B",inline=False)
-        #embed.add_field(name="!경험치 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 20명까지만 받을 수 있습니다.\n")
         embed.add_field(name="!랜덤 (선택1) (선택2) (선택3) ...\n",value="선택지 중 무작위로 하나를 골라줍니다.\n",inline=False)
         embed.add_field(name="!쟁탈추첨\n",value="쟁탈 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
-        #embed.add_field(name="!출석\n",value="하루에 한 번, 10XP를 받습니다. 24시에 초기화됩니다.\n")
+        embed.add_field(name="!출석\n",value="하루에 한 번, 10XP를 받습니다. 24시에 초기화됩니다.\n")
+        embed.add_field(name="!안녕 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 20명까지만 받을 수 있습니다.\n")
     await ctx.send(embed=embed)
 
 
