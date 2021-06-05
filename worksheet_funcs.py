@@ -102,6 +102,7 @@ def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, up
         ws.update_cell(row_idx, col_idx, add_giver)
     old_level=level(old_exp)
     new_level=level(new_exp)
+    print(old_level, new_level)
     if old_level!=new_level:
         print("HERE1")
         return loop.run_until_complete(levelup(client, row, new_level))
