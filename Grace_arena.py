@@ -94,7 +94,7 @@ async def give_prize_money(win, lose):#TODO
     global grace
     grace=client.get_guild(359714850865414144)
     ws=ws_f.get_worksheet('responses')
-    cols=get_col_order(ws)
+    cols=ws_f.get_col_order(ws)
     arenachannel=grace.get_channel(channels['Arena'])
     for user in win:
         try:
