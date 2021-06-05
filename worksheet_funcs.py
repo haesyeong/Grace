@@ -105,7 +105,7 @@ def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, up
     print(old_level, new_level)
     if old_level!=new_level:
         print("HERE1")
-        return loop.run_until_complete(levelup(client, row, new_level))
+        return asyncio.run(levelup(client, row, new_level))
 
 async def levelup(client, row, new_level):
     try:
@@ -121,5 +121,6 @@ async def levelup(client, row, new_level):
         return False
 
 if __name__=='__main__':
-    ws=get_worksheet('responses')
-    give_exp(ws, 100, key='overwatch', val='nonenone#3447')
+    #ws=get_worksheet('responses')
+    #give_exp(ws, 100, key='overwatch', val='nonenone#3447')
+    print(level(200))
