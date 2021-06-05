@@ -83,7 +83,7 @@ def fetch(ws, key, val, *, cols=None):
     idx=search(ws, key, val)
     return get_row(ws, idx, cols=cols)
 
-def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False):
+async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False):
     global loop
     if cols==None:
         cols=get_col_order(ws)
@@ -105,7 +105,7 @@ def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, up
     print(old_level, new_level)
     if old_level!=new_level:
         print("HERE1")
-        return asyncio.run(levelup(client, row, new_level))
+        return await levelup(client, row, new_level)
 
 async def levelup(client, row, new_level):
     try:
