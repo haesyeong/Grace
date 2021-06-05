@@ -90,7 +90,7 @@ async def get_worksheet(sheet_name=sheet_name, addr=addr):
 
 ##################################################################
 #상금지급 관련
-async def give_prize_money(win, lose):#TODO
+async def log_arena(win, lose, gamenum):#TODO
     global grace
     grace=client.get_guild(359714850865414144)
     ws=ws_f.get_worksheet('responses')
@@ -98,13 +98,13 @@ async def give_prize_money(win, lose):#TODO
     arenachannel=grace.get_channel(channels['Arena'])
     for user in win:
         try:
-            if not await ws_f.give_exp(ws, win_prize, client, key='mention', val=user.mention, cols=cols):
+            if not await ws_f.give_exp(ws, win_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=True):
                 raise Exception
         except:
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
     for user in lose:
         try:
-            if not await ws_f.give_exp(ws, lose_prize, client, key='mention', val=user.mention, cols=cols):
+            if not await ws_f.give_exp(ws, lose_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=False):
                 raise Exception
         except:
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
@@ -158,96 +158,7 @@ async def change_arena_game(ws=None):
 async def get_col_index(ws):
     row=ws.row_values(1)
     return row.index('아레나')+1, row.index('아레나 패배')+1
-    
-async def update_record(ws, record, user=None, mention=None):
-    recent = await get_arena_number(ws)
-    win, loss = await get_col_index(ws)
-    
-    if user!=None:
-        row=await get_row_by_nick(ws,user)
-    else:
-        row=await get_row_by_nick(ws,mention=mention)
-    if row==-1:
-        return False
 
-    if(record == ""):
-        ws.update_cell(row, win, recent)
-    else:
-        ws.update_cell(row, win, record+","+str(recent))
-    return 1
-
-async def get_record(ws,user=None,mention=None):
-    win, loss = await get_col_index(ws)
-    if user!=None:
-        row=await get_row_by_nick(ws,user)
-    else:
-        print("2")
-        row=await get_row_by_nick(ws,mention=mention)
-        print(row)
-    if row==-1:
-        return 0
-    return ws.cell(row,win).value
-
-async def update_arena_record(team):
-    global grace
-    grace=client.get_guild(359714850865414144)
-    ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
-    arenachannel=grace.get_channel(channels['Arena'])
-    recent = await get_arena_number(ws)
-    for user in team:
-        print(user.nick.split('/')[0])
-        record=await get_record(ws, user)
-        if await update_record(ws, record, user):
-            continue
-        else:
-            await arenachannel.send("{} 우승기록 수동 기입이 필요합니다".format(user.mention))
-    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
-    ws.update_cell(1, 1, recent+1)
-
-async def update_lost_record(ws, record, user=None, mention=None):
-    win, loss = await get_col_index(ws)
-    recent = await get_arena_number(ws)
-    
-    if user!=None:
-        row=await get_row_by_nick(ws,user)
-    else:
-        row=await get_row_by_nick(ws,mention=mention)
-    if row==-1:
-        return False
-
-    if(record == ""):
-        ws.update_cell(row, loss, recent)
-    else:
-        ws.update_cell(row, loss, record+","+str(recent))
-    return 1
-
-async def get_lost_record(ws,user=None,mention=None):
-    win, loss = await get_col_index(ws)
-    if user!=None:
-        row=await get_row_by_nick(ws,user)
-    else:
-        print("2")
-        row=await get_row_by_nick(ws,mention=mention)
-        print(row)
-    if row==-1:
-        return 0
-    return ws.cell(row,loss).value
-
-async def update_arena_lost_record(team):
-    global grace
-    grace=client.get_guild(359714850865414144)
-    ws=await get_worksheet(sheet_name=win_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=174260089')
-    arenachannel=grace.get_channel(channels['Arena'])
-    recent = await get_arena_number(ws)
-    for user in team:
-        print(user.nick.split('/')[0])
-        record=await get_lost_record(ws, user)
-        if await update_lost_record(ws, record, user):
-            continue
-        else:
-            await arenachannel.send("{} 패배기록 수동 기입이 필요합니다".format(user.mention))
-    ws.update_cell(1, 1, recent+1)
-    
 async def get_all_players(ws):
     return [*map(lambda x:x[0],ws.get_all_values()[1:])]
 
@@ -546,24 +457,21 @@ async def 종료(message):
     print(team2)
     leader=grace.get_role(roles['아레나팀장'])
 
+    gamenum=(await get_arena_game())
     winner=content(message).split()[1]
     print(winner)
     if winner=='0':
         pass
     elif winner=='1':       
-        await update_arena_record(team1)
-        await give_prize_money(team1,team2)
-        await update_arena_lost_record(team2)
+        await log_arena(team1,team2,gamenum)
     elif winner=='2':
-        await update_arena_record(team2)
-        await give_prize_money(team2,team1)
-        await update_arena_lost_record(team1)
+        await log_arena(team2,team1,gamenum)
     else:
         await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
         return
     print('updates finished')
 
-    log="{} {} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10], (await get_arena_game()))
+    log="{} {} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10], gamenum)
     cnt=1
     for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])

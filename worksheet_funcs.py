@@ -14,6 +14,11 @@ channels={
     '봇실험실':486550288686120961,
 }
 
+roles={
+    '신입':457568290370486292,
+    '클랜원':359739346485772289,
+}
+
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
 
@@ -27,9 +32,6 @@ indicate_to_indice=dict(zip(indicates, indices))
 #레벨 관리
 level_to_exp=[0,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3400,3800,4200,4600,5000,5400,5800,6200,6600,7000,7800,8600,9400,10200,11000,11800,12600,13400,14200,15000,16600,18200,19800,21400,23000,24600,26200,27800,29400,31000,34200,37400,40600,43800,47000,50200,53400,56600,59800,63000,69400,75800,82200,88600,95000,101400,107800,114200,120600,127000]
 level=lambda exp: bisect(level_to_exp, exp)
-
-#asyncio event loop
-loop = asyncio.get_event_loop()
 
 def get_worksheet(ws_name):
     creds=ServiceAccountCredentials.from_json_keyfile_name("Grace-defe42f05ec3.json", scope)
@@ -83,8 +85,7 @@ def fetch(ws, key, val, *, cols=None):
     idx=search(ws, key, val)
     return get_row(ws, idx, cols=cols)
 
-async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False):
-    global loop
+async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False, arena_record=False, arena_result=None):
     if cols==None:
         cols=get_col_order(ws)
     if row_idx==None:
@@ -100,20 +101,32 @@ async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=No
     if add_giver:
         col_idx=cols.index('exp_get')+1
         ws.update_cell(row_idx, col_idx, add_giver)
+    if arena_record:
+        if arena_result:
+            col_idx=cols.index('arena')
+            row_content=row['arena']
+        else:
+            col_idx=cols.index('arena_lost')
+            row_content=row['arena_lost']
+        ws.update_cell(row_idx, col_idx, row_content+f',{arena_record}')
+        col_idx=cols.index()
     old_level=level(old_exp)
     new_level=level(new_exp)
-    print(old_level, new_level)
     if old_level!=new_level:
-        print("HERE1")
         return await levelup(client, row, new_level)
 
 async def levelup(client, row, new_level):
     try:
-        print("HERE2")
         await client.wait_until_ready()
         grace=client.get_guild(359714850865414144)
-        notifychannel=grace.get_channel(channels['봇실험실'])#'렙업알림'
         sendstr='{}님이 레벨 {}로 레벨업하셨습니다!'.format(row['mention'], new_level)
+        if new_level==10:
+            newbie=grace.get_role(roles['신입'])
+            clan=grace.get_role(roles['클랜원'])
+            member=grace.get_member(int(row['mention'][3:-1]))
+            member.add_roles(clan, atomic=True)
+            member.remove_roles(newbie, atomic=True)
+            sendstr+='\n정식 클랜원이 되신 것을 축하드립니다!'
         await notifychannel.send(sendstr)
         return True
     except Exception as e:
