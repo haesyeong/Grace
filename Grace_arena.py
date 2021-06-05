@@ -100,13 +100,15 @@ async def log_arena(win, lose, gamenum):#TODO
         try:
             if not await ws_f.give_exp(ws, win_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=True):
                 raise Exception
-        except:
+        except Exception as e:
+            print(e)
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
     for user in lose:
         try:
             if not await ws_f.give_exp(ws, lose_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=False):
                 raise Exception
-        except:
+        except Exception as e:
+            print(e)
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
             
 ##################################################################
@@ -237,7 +239,7 @@ class Internal():
 @client.command()
 async def 업데이트(message):
     global current_game
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if await Internal.check_integrity():
         current_game=Internal()
@@ -250,7 +252,7 @@ async def 업데이트(message):
 async def 확인(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
 
     if current_game is None:
@@ -270,7 +272,7 @@ async def 확인(message):
 async def 목록(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -294,7 +296,7 @@ async def 목록(message):
 async def 신청(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -320,7 +322,7 @@ async def 신청(message):
 async def 취소(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -342,7 +344,7 @@ async def 취소(message):
 async def 임의신청(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -373,7 +375,7 @@ async def 임의신청(message):
 async def 신청반려(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 내전이 없습니다.")
@@ -394,7 +396,7 @@ async def 신청반려(message):
 
 @client.command()
 async def 아레나(message):
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -433,7 +435,7 @@ async def 아레나(message):
 async def 종료(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("신청중인 아레나가 없습니다.")
@@ -457,7 +459,7 @@ async def 종료(message):
     print(team2)
     leader=grace.get_role(roles['아레나팀장'])
 
-    gamenum=(await get_arena_game())
+    gamenum=(await get_arena_number())
     winner=content(message).split()[1]
     print(winner)
     if winner=='0':
@@ -496,7 +498,7 @@ async def 안내(message):
     global current_game, grace
     grace=client.get_guild(359714850865414144)
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is None:
         await message.channel.send("아레나가 예정되어있지 않습니다.")
@@ -552,7 +554,7 @@ async def 안내(message):
 async def 개최(message):
     global current_game
 
-    if message.channel.id!=channels['Arena']:
+    if message.channel.id!=channels['Arena'] or message.channel.id!=BETA_TESTLAB:
         return
     if current_game is not None:
         await message.channel.send("이미 {}에 아레나가 예정되어 있습니다.".format(str(await current_game.get_time())[:-3]))
