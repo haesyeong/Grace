@@ -146,6 +146,10 @@ async def get_arena_number(ws=None):
     ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     return int(ws.cell(1,1).value)
 
+async def set_arena_number(num):
+    ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
+    ws.update_cell(1,1,num)
+
 async def get_arena_game(ws=None):
     ws=await get_worksheet(sheet_name=arena_record,addr='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit#gid=1380912203')
     return ws.cell(1,2).value
@@ -473,12 +477,13 @@ async def 종료(message):
         return
     print('updates finished')
 
-    log="{} {} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10], gamenum)
+    log="{} 아레나 참가자 목록\n".format(str(await current_game.get_time())[:10])
     cnt=1
     for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
         cnt+=1
-    print('')
+    
+    await set_arena_number(gamenum+1)
 
     for user in team1:
         await user.remove_roles(arena1, leader, atomic=True)

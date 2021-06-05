@@ -103,13 +103,12 @@ async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=No
         ws.update_cell(row_idx, col_idx, add_giver)
     if arena_record:
         if arena_result:
-            col_idx=cols.index('arena')
+            col_idx=cols.index('arena')+1
             row_content=row['arena']
         else:
-            col_idx=cols.index('arena_lost')
+            col_idx=cols.index('arena_lost')+1
             row_content=row['arena_lost']
         ws.update_cell(row_idx, col_idx, row_content+(',' if row_content else '')+f'{arena_record}')
-        col_idx=cols.index()
     old_level=level(old_exp)
     new_level=level(new_exp)
     if old_level!=new_level:
