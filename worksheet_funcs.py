@@ -103,11 +103,12 @@ def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, up
     old_level=level(old_exp)
     new_level=level(new_exp)
     if old_level!=new_level:
-        print("HERE")
+        print("HERE1")
         return loop.run_until_complete(levelup(client, row, new_level))
 
 async def levelup(client, row, new_level):
     try:
+        print("HERE2")
         await client.wait_until_ready()
         grace=client.get_guild(359714850865414144)
         notifychannel=grace.get_channel(channels['봇실험실'])#'렙업알림'

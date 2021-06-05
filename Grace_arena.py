@@ -365,7 +365,7 @@ async def 목록(message):
         await message.channel.send("신청중인 아레나가 없습니다.")
         return
 
-    embed=discord.Embed(title="{} 아레나 신청자 목록".format(str(await current_game.get_time())[:-3]))
+    embed=discord.Embed(title="{}시 아레나 신청자 목록".format(str(await current_game.get_time())[:-6]))
     embed.add_field(name="날짜",value=str(await current_game.get_time())[:10], inline=True)
 
     log=""
