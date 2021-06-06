@@ -82,7 +82,7 @@ def get_row(ws, idx, *, cols=None):
 def fetch(ws, key, val, *, cols=None):
     if cols==None:
         cols=get_col_order(ws)
-    idx=search(ws, key, val)
+    idx=search(ws, key, val, cols=cols)
     return get_row(ws, idx, cols=cols)
 
 async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False, arena_record=False, arena_result=None):
