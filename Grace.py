@@ -180,6 +180,8 @@ async def on_message(message):
             embed.add_field(name="우친바", value=data['friends'], inline=False)
         if data['supporters'] not in banned:
             embed.add_field(name="Grace 서포터즈", value=data['supporters'], inline=False)
+        if data['awards'] not in banned:
+            embed.add_field(name="Grace 어워즈", value=data['awards'], inline=False)
         if data['image'] not in banned:
             embed.set_image(url=data['image'])
         if data['thumbnail'] not in banned:

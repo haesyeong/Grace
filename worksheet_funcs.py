@@ -25,8 +25,8 @@ url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7r
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
 #시트 관리
-indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters', 'joined', 'exp', 'checkin', 'exp_get']
-indicates = ['멘션','커맨드','오버워치','발로란트','바로가기','한줄소개','이미지 링크','썸네일 링크','아레나','아레나 패배','리그 우승','리그 준우승','우친바','서포터즈','최초 가입일','경험치', '출석', '경험치받기']
+indices = ['mention', 'command', 'overwatch', 'valorant', 'link', 'description', 'image', 'thumbnail', 'arena', 'arena_lost', 'league_first', 'league_second', 'friends', 'supporters', 'joined', 'exp', 'checkin', 'exp_get', 'awards']
+indicates = ['멘션','커맨드','오버워치','발로란트','바로가기','한줄소개','이미지 링크','썸네일 링크','아레나','아레나 패배','리그 우승','리그 준우승','우친바','서포터즈','최초 가입일','경험치', '출석', '경험치받기', '어워즈']
 indicate_to_indice=dict(zip(indicates, indices))
 
 #레벨 관리
