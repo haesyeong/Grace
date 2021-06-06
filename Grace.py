@@ -89,7 +89,6 @@ async def on_message(message):
             await channel.send(embed=embed)
             return
 
-        nickname = spreadsheet.col_values(2)
         data = ws_f.fetch(spreadsheet, 'command', author)
 
         maintag, member=await get_member_by_gametag(data['overwatch'])
