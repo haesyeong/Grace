@@ -463,12 +463,12 @@ async def 내전종료(message):#TODO
     for user in (await current_game.get_players()):
         try:
             log+='\n{}. {}'.format(cnt, user.nick.split('/')[0]+'/'+user.nick.split('/')[1])
+            cnt+=1
             try:
                 if not await ws_f.give_exp(ws, participate_reward, client, key='mention', val=user.mention, cols=cols):
                     raise Exception
             except:
                 await arenachannel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))
-            cnt+=1
         except:
             continue
     log+='\n\n내전 신청자 총 {}명'.format(cnt-1)
