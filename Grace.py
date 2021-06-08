@@ -136,6 +136,7 @@ async def on_message(message):
         embed.add_field(name="멘션", value=data['mention'], inline=True)
         embed.add_field(name="최초 가입일", value=data['joined'], inline=False)
         embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
+        embed.add_field(name="레벨", value="{}({} exp)".format(ws_f.level(int(data['exp'])), data['exp']))
 
         #if data['maintag']!='발로란트' and data['valorant'] not in banned:
         #    embed.add_field(name='발로란트', value = data['valorant'], inline=False)

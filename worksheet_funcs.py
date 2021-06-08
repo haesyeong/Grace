@@ -126,7 +126,7 @@ async def levelup(client, row, new_level):
             await member.add_roles(clan, atomic=True)
             await member.remove_roles(newbie, atomic=True)
             sendstr+='\n정식 클랜원이 되신 것을 축하드립니다!'
-        notice=grace.get_channel(channels['봇실험실'])#'렙업알림'
+        notice=grace.get_channel(channels['렙업알림'])#'봇실험실'
         await notice.send(sendstr)
         return True
     except Exception as e:
