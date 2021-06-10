@@ -58,6 +58,7 @@ async def 안녕(message):
         cols=ws_f.get_col_order(ws)
         row_idx=ws_f.search(ws, 'mention', user.mention, cols=cols)
         row=ws_f.get_row(ws, row_idx, cols=cols)
+        print(row)
         if target==user:
             reply=await message.channel.send(f'본인에게는 사용할 수 없습니다.')
         elif ws_f.level(int(row['exp']))>=10:
