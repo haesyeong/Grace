@@ -56,7 +56,7 @@ async def 안녕(message):
     for target in targets:
         ws=ws_f.get_worksheet('responses')
         cols=ws_f.get_col_order(ws)
-        row_idx=ws_f.search(ws, 'mention', user.mention, cols=cols)
+        row_idx=ws_f.search(ws, 'mention', target, cols=cols)
         row=ws_f.get_row(ws, row_idx, cols=cols)
         print(row)
         if target==user:
