@@ -31,7 +31,7 @@ scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/au
 url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
 
 levelup_role={
-    10:(('신입', '클랜원'), ('병아리', '원숭이') '\n정식 클랜원이 되신 것을 축하드립니다!'),
+    10:(('신입', '클랜원'), ('병아리', '원숭이'), '\n정식 클랜원이 되신 것을 축하드립니다!'),
     20:(('원숭이','개구리'), ''),
     30:(('개구리','돼지'  ), ''),
     40:(('돼지'  ,'강아지'), ''),
