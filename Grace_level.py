@@ -61,6 +61,7 @@ async def 안녕(message):
         if target==user:
             reply=await message.channel.send(f'본인에게는 사용할 수 없습니다.')
         elif ws_f.level(int(row['exp']))>=10:
+            print(ws_f.level(int(row['exp']))>=10)
             reply=await message.channel.send(f'신입 클랜원에게만 사용할 수 있습니다.')
         elif user.mention in row['exp_get'].split():
             reply=await message.channel.send(f'이미 경험치를 한번 지급했습니다.')
