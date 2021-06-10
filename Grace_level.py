@@ -52,7 +52,7 @@ async def 안녕(message):
     user=author(message)
     targets=content(message).split()[1:]
     replies=[]
-    await message.delete()
+    await message.message.delete()
     for target in targets:
         ws=ws_f.get_worksheet('responses')
         cols=ws_f.get_col_order(ws)
