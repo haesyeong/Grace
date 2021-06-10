@@ -15,12 +15,30 @@ channels={
 }
 
 roles={
-    '신입':457568290370486292,
+    '신입'  :457568290370486292,
     '클랜원':359739346485772289,
+    '병아리':852538916560044113,
+    '원숭이':851849358017429564,
+    '개구리':852540353445888011,
+    '돼지'  :852540360445788191,
+    '강아지':852540361732653076,
+    '고양이':852540362572300289,
+    '토끼'  :852540363015979048,
+    '햄스터':852540363741724682,
 }
 
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 url='https://docs.google.com/spreadsheets/d/1gfSsgM_0BVqnZ02ZwRsDniU-qkRF0Wo-B7rJhYoYXqc/edit?usp=drive_web&ouid=108946956826520256706'
+
+levelup_role={
+    10:(('신입', '클랜원'), ('병아리', '원숭이') '\n정식 클랜원이 되신 것을 축하드립니다!'),
+    20:(('원숭이','개구리'), ''),
+    30:(('개구리','돼지'  ), ''),
+    40:(('돼지'  ,'강아지'), ''),
+    50:(('강아지','고양이'), ''),
+    60:(('고양이','토끼'  ), ''),
+    70:(('토끼'  ,'햄스터'), ''),
+}
 
 current_time=lambda:datetime.datetime.utcnow()+datetime.timedelta(hours=9)
 
@@ -111,21 +129,26 @@ async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=No
         ws.update_cell(row_idx, col_idx, row_content+(',' if row_content else '')+f'{arena_record}')
     old_level=level(old_exp)
     new_level=level(new_exp)
+    levelup_res=True
     if old_level!=new_level:
-        return await levelup(client, row, new_level)
+        while old_level!=new_level:
+            old_level+=1
+            levelup_res&=await levelup(client, row, old_level)
 
 async def levelup(client, row, new_level):
     try:
         await client.wait_until_ready()
         grace=client.get_guild(359714850865414144)
         sendstr='{}님이 레벨 {}로 레벨업하셨습니다!'.format(row['mention'], new_level)
-        if new_level==10:
-            newbie=grace.get_role(roles['신입'])
-            clan=grace.get_role(roles['클랜원'])
+        if new_level in levelup_role:
+            *replacement, msg=levelup_role[new_level]
             member=grace.get_member(int(row['mention'][3:-1]))
-            await member.add_roles(clan, atomic=True)
-            await member.remove_roles(newbie, atomic=True)
-            sendstr+='\n정식 클랜원이 되신 것을 축하드립니다!'
+            for old, new in replacement:
+                old=grace.get_role(roles[old])
+                new=grace.get_role(roles[new])
+                await member.add_roles(new, atomic=True)
+                await member.remove_roles(old, atomic=True)
+            sendstr+=msg
         notice=grace.get_channel(channels['렙업알림'])#'봇실험실'
         await notice.send(sendstr)
         return True
