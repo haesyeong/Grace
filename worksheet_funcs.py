@@ -136,7 +136,8 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
             await client.wait_until_ready()
             grace=client.get_guild(359714850865414144)
             logchannel=grace.get_channel(channels['exp log'])
-            await logchannel.send(f'{row['mention']}:{reason}:+{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
+            mention=row['mention']
+            await logchannel.send(f'{mention}:{reason}:+{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
         except Exception as e:
             print(e)
     if old_level!=new_level:
