@@ -454,7 +454,7 @@ async def 내전종료(message):#TODO
     log="{} {} 내전 참가자 목록\n\n개최자: {}\n".format(str(await current_game.get_time())[:-3], (now_playing), opener_log.nick.split('/')[0]+'/'+opener_log.nick.split('/')[1])
     if not is_moderator(opener_log):
         try:
-            if not await ws_f.give_exp(ws, open_reward, client, key='mention', val=opener_log.mention, cols=cols):
+            if not await ws_f.give_exp(ws, open_reward, client, '내전개최', key='mention', val=opener_log.mention, cols=cols):
                 raise Exception
         except:
             await arenachannel.send("{}에게 개최 경험치 수동 지급이 필요합니다.".format(opener_log.mention))
@@ -465,7 +465,7 @@ async def 내전종료(message):#TODO
             log+='\n{}. {}'.format(cnt, user.nick.split('/')[0]+'/'+user.nick.split('/')[1])
             cnt+=1
             try:
-                if not await ws_f.give_exp(ws, participate_reward, client, key='mention', val=user.mention, cols=cols):
+                if not await ws_f.give_exp(ws, participate_reward, client, '내전참여', key='mention', val=user.mention, cols=cols):
                     raise Exception
             except:
                 await arenachannel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))

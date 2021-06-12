@@ -42,7 +42,7 @@ async def 출석(message):
     row_idx=ws_f.search(ws, 'mention', user.mention, cols=cols)
     row=ws_f.get_row(ws, row_idx, cols=cols)
     if row['checkin']!=current_time().strftime("%Y%m%d"):
-        await ws_f.give_exp(ws, checkin_exp, client, row_idx=row_idx, cols=cols, update_date=True)
+        await ws_f.give_exp(ws, checkin_exp, client, '출석체크', row_idx=row_idx, cols=cols, update_date=True)
         await message.channel.send(f'{user.mention}님의 {current_time().strftime("%Y년 %m월 %d일")} 출석체크가 완료되었습니다.')
     else:
         await message.channel.send(f'{user.mention}님은 이미 출석체크를 하셨습니다.')
@@ -67,10 +67,10 @@ async def 안녕(message):
         elif user.mention in row['exp_get'].split():
             reply=await message.channel.send(f'이미 경험치를 한번 지급했습니다.')
         elif len(row['exp_get'].split(','))>=hello_limit:
-            await ws_f.give_exp(ws, 0, client, row_idx=row_idx, cols=cols, add_giver=user.mention)
+            await ws_f.give_exp(ws, 0, client, '', row_idx=row_idx, cols=cols, add_giver=user.mention)
             reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사합니다.')
         else:
-            await ws_f.give_exp(ws, hello_exp, client, row_idx=row_idx, cols=cols, add_giver=user.mention)
+            await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=user.mention)
             reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사하며 경험치를 줍니다.')
         replies.append(reply)
     await asyncio.sleep(0.5)

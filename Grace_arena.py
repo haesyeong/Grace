@@ -98,14 +98,14 @@ async def log_arena(win, lose, gamenum):#TODO
     arenachannel=grace.get_channel(channels['Arena'])
     for user in win:
         try:
-            if not await ws_f.give_exp(ws, win_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=True):
+            if not await ws_f.give_exp(ws, win_prize, client, '아레나 승리', key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=True):
                 raise Exception
         except Exception as e:
             print(e)
             await arenachannel.send("{}에게 상금 수동 지급이 필요합니다.".format(user.mention))
     for user in lose:
         try:
-            if not await ws_f.give_exp(ws, lose_prize, client, key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=False):
+            if not await ws_f.give_exp(ws, lose_prize, client, '아레나 패배', key='mention', val=user.mention, cols=cols, arena_record=gamenum, arena_result=False):
                 raise Exception
         except Exception as e:
             print(e)

@@ -12,6 +12,7 @@ client = discord.Client(intents=intents)
 channels={
     '렙업알림':850685514041917440,
     '봇실험실':486550288686120961,
+    'exp log' :853271433945677834,
 }
 
 roles={
@@ -103,7 +104,7 @@ def fetch(ws, key, val, *, cols=None):
     idx=search(ws, key, val, cols=cols)
     return get_row(ws, idx, cols=cols)
 
-async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False, arena_record=False, arena_result=None):
+async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None, cols=None, update_date=False, add_giver=False, arena_record=False, arena_result=None):
     if cols==None:
         cols=get_col_order(ws)
     if row_idx==None:
@@ -130,6 +131,14 @@ async def give_exp(ws, exp, client, *, key=None, val=None, row_idx=None, cols=No
     old_level=level(old_exp)
     new_level=level(new_exp)
     levelup_res=True
+    if exp!=0:
+        try:
+            await client.wait_until_ready()
+            grace=client.get_guild(359714850865414144)
+            logchannel=grace.get_channel(channels['exp log'])
+            await logchannel.send(f'{row['mention']}:{reason}:+{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
+        except Exception as e:
+            print(e)
     if old_level!=new_level:
         while old_level!=new_level:
             old_level+=1
