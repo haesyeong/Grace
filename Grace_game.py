@@ -116,12 +116,13 @@ async def get_worksheet(sheet_name=sheet_name):
         auth.login()
 
     sheet=auth.open_by_url(addr)
-    try:
-        worksheet=sheet.worksheet(sheet_name)
-    except gspread.exceptions.APIError:
-        for gamble_channel in gamble_channels:
-            await client.get_channel(gamble_channel).send("API 호출 횟수에 제한이 걸렸습니다. 잠시후 다시 시도해주세요.")
-        return -1
+    found=False
+    while not found:
+        try:
+            worksheet=sheet.worksheet(sheet_name)
+            found=True
+        except gspread.exceptions.APIError:
+            await asyncio.sleep(60)
     return worksheet
 
 async def get_all_players(ws):
@@ -262,11 +263,11 @@ class Internal():
 
     async def leave_record(self, game):
         ws=await get_worksheet(record_name[game])
-        for user in await current_game.get_players():
-            try:
-                ws.append_row([user.mention])
-            except:
-                pass
+        users = [*map(lambda x:x.mention, await current_game.get_players())]
+        try:
+            ws.append_rows(users)
+        except:
+            pass
 
 current_game=None
 
