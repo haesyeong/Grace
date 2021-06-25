@@ -140,10 +140,12 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
             await logchannel.send(f'{mention}:{reason}:+{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
         except Exception as e:
             print(e)
+            return
     if old_level!=new_level:
         while old_level!=new_level:
             old_level+=1
             levelup_res&=await levelup(client, row, old_level)
+    return True
 
 async def levelup(client, row, new_level):
     try:

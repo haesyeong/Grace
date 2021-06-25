@@ -458,7 +458,7 @@ async def 내전종료(message):#TODO
             if not await ws_f.give_exp(ws, open_reward, client, '내전개최', key='mention', val=opener_log.mention, cols=cols):
                 raise Exception
         except:
-            await arenachannel.send("{}에게 개최 경험치 수동 지급이 필요합니다.".format(opener_log.mention))
+            await message.channel.send("{}에게 개최 경험치 수동 지급이 필요합니다.".format(opener_log.mention))
         
     cnt=1
     for user in (await current_game.get_players()):
@@ -469,7 +469,7 @@ async def 내전종료(message):#TODO
                 if not await ws_f.give_exp(ws, participate_reward, client, '내전참여', key='mention', val=user.mention, cols=cols):
                     raise Exception
             except:
-                await arenachannel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))
+                await message.channel.send("{}에게 참여 경험치 수동 지급이 필요합니다.".format(user.mention))
         except:
             continue
     log+='\n\n내전 신청자 총 {}명'.format(cnt-1)
