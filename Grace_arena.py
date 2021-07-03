@@ -470,8 +470,10 @@ async def 종료(message):
         pass
     elif winner=='1':       
         await log_arena(team1,team2,gamenum)
+        await set_arena_number(gamenum+1)
     elif winner=='2':
         await log_arena(team2,team1,gamenum)
+        await set_arena_number(gamenum+1)
     else:
         await message.channel.send("아레나 우승팀을 정확하게 입력해주세요.")
         return
@@ -482,8 +484,6 @@ async def 종료(message):
     for user in team1+team2:
         log+='\n{}. {}'.format(cnt, user.nick.split('/')[0])
         cnt+=1
-    
-    await set_arena_number(gamenum+1)
 
     for user in team1:
         await user.remove_roles(arena1, leader, atomic=True)
