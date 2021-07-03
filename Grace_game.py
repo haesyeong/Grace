@@ -266,8 +266,10 @@ class Internal():
         users = [*map(lambda x:x.mention, await current_game.get_players())]
         try:
             ws.append_rows(users)
+            return True
         except Exception as e:
             print(e)
+            return False
 
 current_game=None
 
@@ -447,7 +449,8 @@ async def 내전종료(message):#TODO
         await message.channel.send("내전 개최자 또는 운영진만 내전을 종료할 수 있습니다.")
         return
 
-    await current_game.leave_record(now_playing)
+    if not await current_game.leave_record(now_playing):
+        await message.channel.send("아레나용 기록이 정상적으로 입력되지 않았습니다.")
     
     logchannel=message.message.guild.get_channel(channels['활동로그'])
 
