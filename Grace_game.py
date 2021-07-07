@@ -263,7 +263,7 @@ class Internal():
 
     async def leave_record(self, game):
         ws=await get_worksheet(record_name[game])
-        users = [*map(lambda x:x.mention, await current_game.get_players())]
+        users = await current_game.get_players()
         try:
             ws.append_rows(users)
             return True
