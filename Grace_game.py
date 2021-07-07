@@ -173,13 +173,14 @@ class Internal():
         ws=await get_worksheet()
         return get_member_from_mention(ws.cell(1,1).value)
 
-    async def get_players(self):
+    async def get_players(self, *, omit_external=False):
         ws=await get_worksheet()
         val=await get_all_players(ws)
         users=[]
         for entry in val:
             if entry.startswith('용병:'):
-                users.append(entry)
+                if not omit_external:
+                    users.append(entry)
             else:
                 user=get_member_from_mention(entry)
                 users.append(user)
@@ -263,7 +264,7 @@ class Internal():
 
     async def leave_record(self, game):
         ws=await get_worksheet(record_name[game])
-        users = await current_game.get_players()
+        users = [*map(lambda x:x.mention, await current_game.get_players())]
         try:
             ws.append_rows(users)
             return True
