@@ -73,9 +73,9 @@ async def 안녕(message):
             await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=user.mention)
             reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사하며 경험치를 줍니다.')
         replies.append(reply)
-    await asyncio.sleep(0.5)
-    for reply in replies:
-        await reply.delete()
+    #await asyncio.sleep(0.5)
+    #for reply in replies:
+    #    await reply.delete()
 
 ############################################################
 #자동 기록(이벤트)
