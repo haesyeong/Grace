@@ -119,7 +119,7 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
         ws.update_cell(row_idx, col_idx, current_time().strftime("%Y%m%d"))
     if add_giver:
         col_idx=cols.index('exp_get')+1
-        ws.update_cell(row_idx, col_idx, add_giver)
+        ws.update_cell(row_idx, col_idx, row['exp_get']+(',' if row['exp_get'] else '')+add_giver)
     if arena_record:
         if arena_result:
             col_idx=cols.index('arena')+1

@@ -51,8 +51,8 @@ async def 출석(message):
 async def 안녕(message):
     user=author(message)
     targets=content(message).split()[1:]
-    replies=[]
-    await message.message.delete()
+    #replies=[]
+    #await message.message.delete()
     for target in targets:
         ws=ws_f.get_worksheet('responses')
         cols=ws_f.get_col_order(ws)
@@ -72,7 +72,7 @@ async def 안녕(message):
         else:
             await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=user.mention)
             reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사하며 경험치를 줍니다.')
-        replies.append(reply)
+        #replies.append(reply)
     #await asyncio.sleep(0.5)
     #for reply in replies:
     #    await reply.delete()
