@@ -68,10 +68,10 @@ async def 안녕(message):
             reply=await message.channel.send(f'이미 경험치를 한번 지급했습니다.')
         elif len(row['exp_get'].split(','))>=hello_limit:
             await ws_f.give_exp(ws, 0, client, '', row_idx=row_idx, cols=cols, add_giver=user.mention)
-            reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사합니다.')
+            reply=await message.channel.send(f'{user.mention}님이 {target.nick}님께 인사합니다.')
         else:
             await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=user.mention)
-            reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사하며 경험치를 줍니다.')
+            reply=await message.channel.send(f'{user.mention}님이 {target.nick}님께 인사하며 경험치를 줍니다.')
         #replies.append(reply)
     #await asyncio.sleep(0.5)
     #for reply in replies:
