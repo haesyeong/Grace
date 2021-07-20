@@ -50,7 +50,7 @@ async def 출석(message):
 @client.command()
 async def 안녕(message):
     user=author(message)
-    targets=message.mentions
+    targets=message.message.mentions
     #replies=[]
     #await message.message.delete()
     for target in targets:
