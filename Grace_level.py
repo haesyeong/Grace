@@ -50,14 +50,13 @@ async def 출석(message):
 @client.command()
 async def 안녕(message):
     user=author(message)
-    mention='<@!'+str(user.id)+'>'
-    targets=content(message).split()[1:]
+    targets=message.mentions
     #replies=[]
     #await message.message.delete()
     for target in targets:
         ws=ws_f.get_worksheet('responses')
         cols=ws_f.get_col_order(ws)
-        row_idx=ws_f.search(ws, 'mention', target, cols=cols)
+        row_idx=ws_f.search(ws, 'mention', target.mention, cols=cols)
         row=ws_f.get_row(ws, row_idx, cols=cols)
         print(row)
         if target==user:
@@ -65,14 +64,14 @@ async def 안녕(message):
         elif ws_f.level(int(row['exp']))>=10:
             print(ws_f.level(int(row['exp'])))
             reply=await message.channel.send(f'신입 클랜원에게만 사용할 수 있습니다.')
-        elif mention in row['exp_get'].split():
+        elif user.mention in row['exp_get'].split():
             reply=await message.channel.send(f'이미 경험치를 한번 지급했습니다.')
         elif len(row['exp_get'].split(','))>=hello_limit:
-            await ws_f.give_exp(ws, 0, client, '', row_idx=row_idx, cols=cols, add_giver=mention)
-            reply=await message.channel.send(f'{mention}님이 {target}님께 인사합니다.')
+            await ws_f.give_exp(ws, 0, client, '', row_idx=row_idx, cols=cols, add_giver=user.mention)
+            reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사합니다.')
         else:
-            await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=mention)
-            reply=await message.channel.send(f'{mention}님이 {target}님께 인사하며 경험치를 줍니다.')
+            await ws_f.give_exp(ws, hello_exp, client, '안녕', row_idx=row_idx, cols=cols, add_giver=user.mention)
+            reply=await message.channel.send(f'{user.mention}님이 {target}님께 인사하며 경험치를 줍니다.')
         #replies.append(reply)
     #await asyncio.sleep(0.5)
     #for reply in replies:
