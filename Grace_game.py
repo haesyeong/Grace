@@ -769,6 +769,7 @@ async def 도움말(ctx):
         embed.add_field(name="!쟁탈추첨\n",value="쟁탈 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
         embed.add_field(name="!출석\n",value="하루에 한 번, 10XP를 받습니다. 24시에 초기화됩니다.\n")
         embed.add_field(name="!안녕 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 10명까지만 받을 수 있습니다.\n")
+        embed.add_field(name="!경험치 @사용자 지급경험치 사유\n",value="사용자에게 경험치를 지급합니다. 음수를 입력하면 경험치를 뺏습니다.",inline=False)
     await ctx.send(embed=embed)
 
 
