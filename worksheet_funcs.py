@@ -153,7 +153,7 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
 
     return levelup_res
 
-async def leveldown(clien, row, new_level):
+async def leveldown(client, row, new_level):
     try:
         await client.wait_until_ready()
         grace=client.get_guild(359714850865414144)
