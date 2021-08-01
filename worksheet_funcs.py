@@ -148,6 +148,7 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
 
     while old_level>new_level:
         old_level-=1
+        print('leveldown', old_level)
         levelup_res&=await leveldown(client, row, old_level)
 
     return levelup_res
@@ -157,8 +158,9 @@ async def leveldown(clien, row, new_level):
         await client.wait_until_ready()
         grace=client.get_guild(359714850865414144)
         sendstr='{}님이 레벨 {}로 강등되셨습니다.'.format(row['mention'], new_level)
-        if new_level in levelup_role:
-            *replacement, msg=levelup_role[new_level]
+        print(new_level+1)
+        if new_level+1 in levelup_role:
+            *replacement, msg=levelup_role[new_level+1]
             member=grace.get_member(int(row['mention'][3:-1]))
             for new, old in replacement:
                 old=grace.get_role(roles[old])
