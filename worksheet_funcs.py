@@ -137,15 +137,42 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
             grace=client.get_guild(359714850865414144)
             logchannel=grace.get_channel(channels['exp log'])
             mention=row['mention']
-            await logchannel.send(f'{mention}:{reason}:+{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
+            await logchannel.send(f'{mention}:{reason}:{exp}:{old_exp}({old_level})->{new_exp}({new_level})')
         except Exception as e:
             print(e)
             return
-    if old_level!=new_level:
-        while old_level!=new_level:
-            old_level+=1
-            levelup_res&=await levelup(client, row, old_level)
-    return True
+
+    while old_level<new_level:
+        old_level+=1
+        levelup_res&=await levelup(client, row, old_level)
+
+    while old_level>new_level:
+        old_level-=1
+        levelup_res&=await leveldown(client, row, old_level)
+
+    return levelup_res
+
+async def leveldown(clien, row, new_level):
+    try:
+        await client.wait_until_ready()
+        grace=client.get_guild(359714850865414144)
+        sendstr='{}님이 레벨 {}로 강등되셨습니다.'.format(row['mention'], new_level)
+        if new_level in levelup_role:
+            *replacement, msg=levelup_role[new_level]
+            member=grace.get_member(int(row['mention'][3:-1]))
+            for new, old in replacement:
+                old=grace.get_role(roles[old])
+                new=grace.get_role(roles[new])
+                await member.add_roles(new, atomic=True)
+                await member.remove_roles(old, atomic=True)
+            sendstr+=msg
+        notice=grace.get_channel(channels['렙업알림'])#'봇실험실'
+        await notice.send(sendstr)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
 
 async def levelup(client, row, new_level):
     try:

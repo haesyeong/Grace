@@ -64,7 +64,7 @@ async def 안녕(message):
         elif ws_f.level(int(row['exp']))>=10:
             print(ws_f.level(int(row['exp'])))
             reply=await message.channel.send(f'신입 클랜원에게만 사용할 수 있습니다.')
-        elif user.mention in row['exp_get'].split():
+        elif user.mention in row['exp_get'].split(','):
             reply=await message.channel.send(f'이미 경험치를 한번 지급했습니다.')
         elif len(row['exp_get'].split(','))>=hello_limit:
             await ws_f.give_exp(ws, 0, client, '', row_idx=row_idx, cols=cols, add_giver=user.mention)
@@ -76,6 +76,21 @@ async def 안녕(message):
     #await asyncio.sleep(0.5)
     #for reply in replies:
     #    await reply.delete()
+
+@client.command()
+async def 경험치(message):
+    _, mention, exp, reason = content(message).split(maxsplit=3)
+    user=author(message)
+    target=message.message.mentions[0]
+    if not is_moderator(user):
+        reply=await message.channel.send("운영진만 사용할 수 있는 명령어입니다.")
+        return
+    ws=ws_f.get_worksheet('responses')
+    cols=ws_f.get_col_order(ws)
+    row_idx=ws_f.search(ws, 'mention', target.mention, cols=cols)
+    await ws_f.give_exp(ws, int(exp), client, reason, row_idx=row_idx, cols=cols)
+    reply=await message.channel.send(f"{target.mention}님께 {exp}경험치 지급이 완료되었습니다.")
+
 
 ############################################################
 #자동 기록(이벤트)
