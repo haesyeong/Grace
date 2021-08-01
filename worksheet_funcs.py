@@ -148,7 +148,7 @@ async def give_exp(ws, exp, client, reason, *, key=None, val=None, row_idx=None,
 
     while old_level>new_level:
         old_level-=1
-        print('leveldown', old_level)
+        print('leveldown', old_level, new_level)
         levelup_res&=await leveldown(client, row, old_level)
 
     return levelup_res
@@ -174,7 +174,6 @@ async def leveldown(clien, row, new_level):
     except Exception as e:
         print(e)
         return False
-
 
 async def levelup(client, row, new_level):
     try:
