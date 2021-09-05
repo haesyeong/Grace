@@ -53,7 +53,7 @@ if BETA:
         channels[_]=BETA_TESTLAB
 
 def is_moderator(member):
-    return "운영진" in map(lambda x:x.name, member.roles)
+    return "운영진" in map(lambda x:x.name, member.roles) or "스태프" in map(lambda x:x.name, member.roles)
 
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
