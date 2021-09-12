@@ -47,14 +47,14 @@ async def get_worksheet(ws_name):
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
-async def get_member_by_gametag(overwatch):
+async def get_member_by_mention(overwatch):
     global grace
     grace=client.get_guild(359714850865414144)
 
     for member in grace.members:
         try:
-            if (overwatch!=None and member.nick.startswith(overwatch)):
-                return overwatch, member
+            if member.mention==mention:
+                return member
         except:
             continue
     return None, None
@@ -91,8 +91,8 @@ async def on_message(message):
 
         data = ws_f.fetch(spreadsheet, 'command', author)
 
-        maintag, member=await get_member_by_gametag(data['overwatch'])
-        print(maintag, member)
+        member=await get_member_by_mention(data['mention'])
+        print(member)
         #if maintag==data['overwatch']:
         #data['maintag']='오버워치'
         #elif maintag==data['valorant']:
@@ -132,7 +132,7 @@ async def on_message(message):
         else:
             embed = discord.Embed(title="바로가기", url=data['link'], description=data['description'], color=0x5c0bb7)
 
-        embed.set_author(name=maintag)
+        embed.set_author(name=member.nick.split('/')[0])
         embed.add_field(name="멘션", value=data['mention'], inline=True)
         embed.add_field(name="최초 가입일", value=data['joined'], inline=False)
         embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)

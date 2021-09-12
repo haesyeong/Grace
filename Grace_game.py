@@ -270,13 +270,14 @@ async def 내전개최(message):
 
     current=current_time()
     time=content(message).split()
+
+    game=content(message).split(maxsplit=1)[1]
+
     if len(time)==1:
-        game='오버워치'
         hour=default_time[0]
         minute=default_time[1]
         hour24=True
     else:
-        game='오버워치'
         time=time[1].split(':')
         hour=int(time[0])
         minute=int(time[1])
@@ -285,10 +286,6 @@ async def 내전개최(message):
             hour24=True
     time=datetime.datetime(year=current.year, month=current.month, day=current.day, hour=0, minute=0)\
          +datetime.timedelta(hours=hour, minutes=minute)
-
-    if game not in ['오버워치']:
-        await message.channel.send("진행될 게임은 오버워치 또는 발로란트만 가능합니다.")
-        return
 
     while time<current_time():
         if hour24:
@@ -734,7 +731,7 @@ async def 도움말(ctx):
         embed.add_field(name="!랜덤 (선택1) (선택2) (선택3) ...\n",value="선택지 중 무작위로 하나를 골라줍니다.\n",inline=False)
         embed.add_field(name="!쟁탈추첨\n",value="쟁탈 맵 중 하나를 무작위로 골라줍니다.\n",inline=False)
         embed.add_field(name="!출석\n",value="하루에 한 번, 10XP를 받습니다. 24시에 초기화됩니다.\n")
-        embed.add_field(name="!안녕 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 10명까지만 받을 수 있습니다.\n")
+        #embed.add_field(name="!안녕 @사용자1 @사용자2 ...\n",value="멘션한 사용자들에게 10XP를 줍니다. 한 사람에게 한번만 줄 수 있습니다. 10명까지만 받을 수 있습니다.\n")
         embed.add_field(name="!경험치 @사용자 지급경험치 사유\n",value="사용자에게 경험치를 지급합니다. 음수를 입력하면 경험치를 뺏습니다.",inline=False)
     await ctx.send(embed=embed)
 

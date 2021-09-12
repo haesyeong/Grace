@@ -46,7 +46,7 @@ async def 출석(message):
         await message.channel.send(f'{user.mention}님의 {current_time().strftime("%Y년 %m월 %d일")} 출석체크가 완료되었습니다.')
     else:
         await message.channel.send(f'{user.mention}님은 이미 출석체크를 하셨습니다.')
-
+'''
 @client.command()
 async def 안녕(message):
     user=author(message)
@@ -76,7 +76,7 @@ async def 안녕(message):
     #await asyncio.sleep(0.5)
     #for reply in replies:
     #    await reply.delete()
-
+'''
 @client.command()
 async def 경험치(message):
     _, mention, exp, reason = content(message).split(maxsplit=3)
