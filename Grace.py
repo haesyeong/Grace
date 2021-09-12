@@ -186,8 +186,9 @@ async def on_member_join(member):
     if BETA: return
 
     fmt = '<@&617396702005035024>\n{0.mention}님이 {1.name}에 입장하였습니다.'
+
     channel = member.guild.get_channel(516122942896078868)
-    role = member.guild.get_role(510731224654938112)
+    role = member.guild.get_role(510497018213564426)#외부인:510731224654938112
     await member.add_roles(role)
     await channel.send(fmt.format(member, member.guild))
 
