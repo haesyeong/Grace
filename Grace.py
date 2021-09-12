@@ -47,7 +47,7 @@ async def get_worksheet(ws_name):
 def has_role(member, role):
     return role in map(lambda x:x.name, member.roles)
 
-async def get_member_by_mention(overwatch):
+async def get_member_by_mention(mention):
     global grace
     grace=client.get_guild(359714850865414144)
 
@@ -57,7 +57,7 @@ async def get_member_by_mention(overwatch):
                 return member
         except:
             continue
-    return None, None
+    return None
 
 @client.event
 async def on_message(message):
