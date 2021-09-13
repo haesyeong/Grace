@@ -270,7 +270,7 @@ async def 내전개최(message):
     opener=author(message)
 
     current=current_time()
-    time=content(message).split()
+    time=content(message).split()[2:]
 
     game=content(message).split(maxsplit=1)[1]
 
@@ -279,7 +279,7 @@ async def 내전개최(message):
         minute=default_time[1]
         hour24=True
     else:
-        time=time[1].split(':')
+        time=time[0].split(':')
         hour=int(time[0])
         minute=int(time[1])
         hour24=False
