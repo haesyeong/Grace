@@ -233,6 +233,7 @@ class Internal():
         ws.resize(rows=5, cols=1)
 
     async def leave_record(self, game):
+        return True
         ws=await get_worksheet(record_name[game])
         users = [*map(lambda x:[x.mention], await current_game.get_players())]
         try:
