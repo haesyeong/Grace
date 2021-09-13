@@ -541,12 +541,14 @@ async def 신청(message):
         return
 
     player=author(message)
+    '''
     game=await current_game.get_game()
     game_rolename={'오버워치':'OW','발로란트':'VR'}[game]
 
     if not has_role(player, game_rolename):
          await message.channel.send("{}님은 {} 신청이 불가능합니다.".format(player.mention, game))
          return
+    '''
 
     if await current_game.is_additional_opened()==False:
         if (datetime.timedelta(minutes=-((await current_game.get_delta())-1))<current_time()-(await current_game.get_time())<datetime.timedelta(hours=1)):
