@@ -272,7 +272,7 @@ async def 내전개최(message):
     current=current_time()
     time=content(message).split()[2:]
 
-    game=content(message).split(maxsplit=1)[1]
+    game=content(message).split()[1]
 
     if len(time)==1:
         hour=default_time[0]
