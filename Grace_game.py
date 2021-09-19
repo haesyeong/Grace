@@ -274,7 +274,7 @@ async def 내전개최(message):
 
     game=content(message).split()[1]
 
-    if len(time)==1:
+    if len(time)==2:
         hour=default_time[0]
         minute=default_time[1]
         hour24=True
