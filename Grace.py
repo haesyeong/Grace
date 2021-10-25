@@ -133,6 +133,7 @@ async def on_message(message):
             embed = discord.Embed(title="바로가기", url=data['link'], description=data['description'], color=0x5c0bb7)
 
         embed.set_author(name=member.nick.split('/')[0])
+        embed.add_field(name="주 플레이 게임", value=data['maingame'], inline=True)
         embed.add_field(name="멘션", value=data['mention'], inline=True)
         embed.add_field(name="최초 가입일", value=data['joined'], inline=False)
         embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
