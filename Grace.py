@@ -133,13 +133,13 @@ async def on_message(message):
             embed = discord.Embed(title="바로가기", url=data['link'], description=data['description'], color=0x5c0bb7)
 
         embed.set_author(name=member.nick.split('/')[0])
-        embed.add_field(name="멘션", value=data['mention'], inline=False)
-        embed.add_field(name="최초 가입일", value=data['joined'], inline=False)
+        embed.add_field(name="멘션", value=data['mention'], inline=True)
+        embed.add_field(name="최초 가입일", value=data['joined'], inline=True)
 
-        embed.add_field(name="주 플레이 게임", value=data['maingame'], inline=True)
+        embed.add_field(name="주 플레이 게임", value=data['maingame'], inline=False)
 
-        embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=False)
-        embed.add_field(name="레벨", value="{}({} exp)".format(ws_f.level(int(data['exp'])), data['exp']), inline=False)
+        embed.add_field(name="직책", value=data['roleimage'] + data['role'], inline=True)
+        embed.add_field(name="레벨", value="{}({} exp)".format(ws_f.level(int(data['exp'])), data['exp']), inline=True)
 
         #if data['maintag']!='발로란트' and data['valorant'] not in banned:
         #    embed.add_field(name='발로란트', value = data['valorant'], inline=False)
